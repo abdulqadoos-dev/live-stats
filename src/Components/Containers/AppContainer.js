@@ -10,7 +10,7 @@ const AppContainer = (props) => {
 }
 const mapStateToProps = state => {
     return {
-        count: state.counter.count,
+        ...state,
     }
 }
 

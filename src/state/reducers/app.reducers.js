@@ -1,7 +1,7 @@
 import {DECREMENT, INCREMENT} from "../constants/app.constants";
 
 const INITIAL_STATE = {
-    count: 0,
+    todo: 0,
 };
 
 const app = (state = INITIAL_STATE, action) => {

@@ -1,11 +1,11 @@
 import React from "react"
+import LoginContainer from "../Containers/Auth/LoginContainer";
 
 export default function AppView(props) {
-    return(
-        <div className="container bg-amber-700">
-            <div>Count: {props.count}</div>
-            <button onClick={() => props.increaseCounter()}>Increase Count</button>
-            <button onClick={() => props.decreaseCounter()}>Decrease Count</button>
-        </div>
+    console.log(props, "state");
+    return (
+        <main className="container mx-auto bg-gray-50 h-screen">
+            <LoginContainer/>
+        </main>
     )
 }

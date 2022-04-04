@@ -19,8 +19,8 @@ export default function LoginView() {
                     <DarkButton label="Login" className="my-2"/>
                 </section>
                 <section className="text-white text-center">
-                    <p className="mb-3">Forget your password?</p>
-                    <p>Don't have an account? <a href="#" className="font-bold">Sign Up</a></p>
+                    <p className="mb-3 hover:underline"><a href="#">Forget your password?</a></p>
+                    <p>Don't have an account? <a href="#" className="font-bold hover:underline">Sign Up</a></p>
                 </section>
             </section>
         </BackgroundImage>

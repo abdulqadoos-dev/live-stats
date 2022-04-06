@@ -1,11 +1,11 @@
 import React from "react";
 import {connect} from "react-redux"
-import LoginView from "../../Views/Auth/LoginView";
 import {increaseCounter} from "../../../state/actions/app.actions";
+import ForgetPasswordView from "../../Views/Auth/ForgetPasswordView";
 
-const LoginContainer = (props) => {
+const ForgetPasswordContainer = (props) => {
     return (
-        <LoginView {...props}/>
+        <ForgetPasswordView {...props}/>
     )
 }
 const mapStateToProps = state => {
@@ -20,4 +20,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ForgetPasswordContainer)

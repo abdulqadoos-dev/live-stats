@@ -1,10 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackGroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
+import {Link} from "react-router-dom";
+import {LOGIN_PATH} from "../../../Services/Constans";
 
 export default function SignupView() {
+
+    useEffect(() => {
+        console.log("SIGNUP VIEW RENDERS")
+    },[])
 
     return (
         <BackgroundImage backgroundImage={AuthBackGroundImage}>
@@ -21,9 +27,10 @@ export default function SignupView() {
                     <DarkButton label="Sign Up" className="my-2"/>
                 </section>
                 <section className="text-white text-center">
-                    <p>Have an account? <a href="#" className="font-bold">Sign In</a></p>
+                    <p>Have an account? <Link to={LOGIN_PATH} className="font-bold">Sign In</Link></p>
                 </section>
             </section>
         </BackgroundImage>
     )
 }
+

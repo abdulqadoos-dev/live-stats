@@ -1,10 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackgroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
+import {FORGET_PASSWORD_PATH, SIGNUP_PATH} from "../../../Services/Constans";
+import {Link} from "react-router-dom";
 
 export default function LoginView() {
+
+    useEffect(() => {
+        console.log("LOGIN VIEW RENDERS")
+    },[])
 
     return (
         <BackgroundImage backgroundImage={AuthBackgroundImage}>
@@ -19,8 +25,8 @@ export default function LoginView() {
                     <DarkButton label="Login" className="my-2"/>
                 </section>
                 <section className="text-white text-center">
-                    <p className="mb-3 hover:underline"><a href="#">Forget your password?</a></p>
-                    <p>Don't have an account? <a href="#" className="font-bold hover:underline">Sign Up</a></p>
+                    <p className="mb-3 hover:underline"><Link to={FORGET_PASSWORD_PATH}>Forget your password?</Link></p>
+                    <p>Don't have an account? <Link to={SIGNUP_PATH} className="font-bold hover:underline">Sign Up</Link></p>
                 </section>
             </section>
         </BackgroundImage>

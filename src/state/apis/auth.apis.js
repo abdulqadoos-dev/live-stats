@@ -36,10 +36,9 @@ export const signup = () => {
     
     var config = {
       method: 'post',
-      url: 'localhost:5000/signup',
+      url: 'http://localhost:5000/signup',
       headers: { 
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       },
       data : data
     };

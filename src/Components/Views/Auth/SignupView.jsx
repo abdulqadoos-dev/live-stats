@@ -5,10 +5,12 @@ import AuthBackGroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
 import {Link} from "react-router-dom";
 import {LOGIN_PATH} from "../../../Services/Constans";
+import { signup } from "../../../state/apis/auth.apis";
 
 export default function SignupView() {
 
     useEffect(() => {
+       
         console.log("SIGNUP VIEW RENDERS")
     },[])
 
@@ -24,7 +26,7 @@ export default function SignupView() {
                     <input className="px-4 py-3" type="email" placeholder="Email"/>
                     <input className="px-4 py-3" type="password" placeholder="Password"/>
                     <input className="px-4 py-3 rounded-b-md" type="password" placeholder="Confirm Password"/>
-                    <DarkButton label="Sign Up" className="my-2"/>
+                    <DarkButton label="Sign Up" clickEvent={signup} className="my-2"/>
                 </section>
                 <section className="text-white text-center">
                     <p>Have an account? <Link to={LOGIN_PATH} className="font-bold">Sign In</Link></p>

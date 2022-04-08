@@ -2,6 +2,7 @@ import {DECREMENT, INCREMENT} from "../constants/app.constants";
 
 const INITIAL_STATE = {
     todo: 0,
+    count:0
 };
 
 const app = (state = INITIAL_STATE, action) => {

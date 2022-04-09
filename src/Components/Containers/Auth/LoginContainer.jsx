@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux"
 import LoginView from "../../Views/Auth/LoginView";
+import {loginRequest} from "../../../state/actions/authActions";
 
 const LoginContainer = (props) => {
     return (
@@ -15,7 +16,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        test : console.log('test')
+        loginRequest: formData => dispatch(loginRequest(formData)),
     }
 }
 

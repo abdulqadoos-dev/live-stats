@@ -1,4 +1,4 @@
-import { EMAIL_VERIFICATION_VIEW, SIGNUP_FAILD, SIGNUP_START, SIGNUP_SUCCESS, VERIFY_EMAIL, SET_VIEW, DEFAULT_VIEW, VERIFICATION_START, VERIFICATION_SUCCESS, VERIFICATION_FAILD } from "../constants/authConstants";
+import { EMAIL_VERIFICATION_VIEW, SIGNUP_FAILD, SIGNUP_START, SIGNUP_SUCCESS, VERIFY_EMAIL, SET_VIEW, DEFAULT_VIEW, VERIFICATION_START, VERIFICATION_SUCCESS, VERIFICATION_FAILD, LOGIN_SUCCESS, LOGIN_FAILD, LOGIN_START } from "../constants/authConstants";
 
 import * as authApi from '../../Services/Apis/authApi';
 import { VALIDATION_FAILD_CODE } from "../constants/Constans";
@@ -31,31 +31,6 @@ export const signupFaild = (error) => {
    }
 }
 
-export const verificationStart = () => {
-   return {
-      type: VERIFICATION_START
-   }
-}
-
-export const verificationSuccess = () => {
-   return {
-      type: VERIFICATION_SUCCESS
-   }
-}
-
-export const verificationFaild = () => {
-   return {
-      type: VERIFICATION_FAILD
-   }
-}
-
-export const signupValidationFaild = (validationResult) => {
-   return {
-      type: SIGNUP_FAILD,
-      validationResult
-   }
-}
-
 
 export const signupRequest = (formData) => {
    return (dispatch) => {
@@ -82,18 +57,44 @@ export const signupRequest = (formData) => {
 
 
 
+export const verificationStart = () => {
+   return {
+      type: VERIFICATION_START
+   }
+}
+
+export const verificationSuccess = () => {
+   return {
+      type: VERIFICATION_SUCCESS
+   }
+}
+
+export const verificationFaild = () => {
+   return {
+      type: VERIFICATION_FAILD
+   }
+}
+
+export const signupValidationFaild = (validationResult) => {
+   return {
+      type: SIGNUP_FAILD,
+      validationResult
+   }
+}
+
+
+
 export const verificationRequest = (formData) => {
    return (dispatch) => {
 
-      // console.log(formData, "hre...")
       dispatch(signupStart());
 
       const promise = authApi.verifyOtp(formData);
 
       promise
          .then((result) => {
-            // dispatch(verificationSuccess());
-            // dispatch(setView(DEFAULT_VIEW));
+            dispatch(verificationSuccess());
+            dispatch(setView(DEFAULT_VIEW));
             console.log(result);
          })
          .catch((error) => {
@@ -106,3 +107,46 @@ export const verificationRequest = (formData) => {
 }
 
 
+
+export const loginStart = () => {
+   return {
+      type: LOGIN_START
+   }
+}
+
+
+export const loginSuccess = (result) => {
+   return {
+      type: LOGIN_SUCCESS,
+      result
+   }
+}
+
+export const loginFaild = (error) => {
+   return {
+      type: LOGIN_FAILD,
+      error
+   }
+}
+
+
+export const loginRequest = (formData) => {
+   return (dispatch) => {
+
+      dispatch(loginStart());
+
+      const promise = authApi.login(formData);
+
+      promise
+         .then((result) => {
+            dispatch(loginSuccess(result.data.data));
+            console.log(result.data.data, LOGIN_SUCCESS);
+         })
+         .catch((error) => {
+            dispatch(loginFaild(error))
+            console.log(formData,error, LOGIN_FAILD)
+         });
+
+      return promise;
+   }
+}

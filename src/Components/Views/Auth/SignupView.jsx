@@ -11,11 +11,11 @@ import 'react-phone-number-input/style.css'
 
 import { DEFAULT_VIEW, EMAIL_VERIFICATION_VIEW } from "../../../state/constants/authConstants";
 
-export default function SignupView({ authUser,signupRequest, signupValidations, signupForm, isLoadingSignup, activeView, verificationRequest,verification }) {
+export default function SignupView({ authUser,signupRequest, validations, signupForm, isLoading, activeView, verificationRequest,verification }) {
 
-    useEffect(() => {
-        console.log("SIGNUP VIEW RENDERS")
-    }, [])
+    // useEffect(() => {
+    //     console.log("SIGNUP VIEW RENDERS")
+    // }, [])
 
     const [formData, setFormData] = useState({})
 
@@ -24,11 +24,11 @@ export default function SignupView({ authUser,signupRequest, signupValidations, 
         setFormData({ ...formData, [target.name]: target.value })
     }
 
-    console.log(authUser,verification, "check state");
-    // console.log({ signupRequest, signupValidations, signupForm, isLoadingSignup });
+    // console.log(authUser,verification, "check state");
+    // console.log({ signupRequest, validations, signupForm, isLoading });
 
     const _handelFormSubmit = () => {
-        // signupRequest(formData);
+        signupRequest(formData);
         console.log("form submitted...");
     }
 
@@ -49,19 +49,19 @@ export default function SignupView({ authUser,signupRequest, signupValidations, 
 
                 {activeView === DEFAULT_VIEW && (
                     <div className="flex flex-col gap-1 lg:gap-0.5">
-                        <input className={`px-4 py-3 rounded-t-md ${signupValidations && signupValidations.key === "name" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" name="name" placeholder="Name" onChange={_handelInputChange} />
-                        <input className={`px-4 py-3 ${signupValidations && signupValidations.key === "phone" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" placeholder="Phone" name="phone" onChange={_handelInputChange} />
-                        <input className={`px-4 py-3 ${signupValidations && signupValidations.key === "email" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="email" placeholder="Email" name="email" onChange={_handelInputChange} />
-                        <input className={`px-4 py-3 ${signupValidations && signupValidations.key === "password" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="password" placeholder="Password" name="password" onChange={_handelInputChange} />
-                        <input className={`px-4 py-3 rounded-b-md  ${signupValidations && signupValidations.key === "password" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="password" name="confirmPassword" placeholder="Confirm Password" onChange={_handelInputChange} />
-                        <DarkButton label="Sign Up" isLoading={isLoadingSignup} clickEvent={_handelFormSubmit} className="my-2" />
+                        <input className={`px-4 py-3 rounded-t-md ${validations && validations.key === "name" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" name="name" placeholder="Name" onChange={_handelInputChange} />
+                        <input className={`px-4 py-3 ${validations && validations.key === "phone" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" placeholder="Phone" name="phone" onChange={_handelInputChange} />
+                        <input className={`px-4 py-3 ${validations && validations.key === "email" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="email" placeholder="Email" name="email" onChange={_handelInputChange} />
+                        <input className={`px-4 py-3 ${validations && validations.key === "password" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="password" placeholder="Password" name="password" onChange={_handelInputChange} />
+                        <input className={`px-4 py-3 rounded-b-md  ${validations && validations.key === "password" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="password" name="confirmPassword" placeholder="Confirm Password" onChange={_handelInputChange} />
+                        <DarkButton label="Sign Up" isLoading={isLoading} clickEvent={_handelFormSubmit} className="my-2" />
                     </div>
                 )}
 
                 {activeView === EMAIL_VERIFICATION_VIEW && (
                     <div className="flex flex-col gap-1 lg:gap-0.5">
                         <input className={`px-4 py-3 rounded-md ${!verification ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" name="otp" placeholder="Verification code" onChange={_handelInputChange} />
-                        <DarkButton label="Verify" isLoading={isLoadingSignup} clickEvent={_handelVerificationSubmit} className="my-2" />
+                        <DarkButton label="Verify" isLoading={isLoading} clickEvent={_handelVerificationSubmit} className="my-2" />
                     </div>
                 )}
 

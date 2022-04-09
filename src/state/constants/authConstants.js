@@ -1,5 +1,4 @@
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
 
+export const SIGNUP_START = "SIGNUP_START";
 export const SIGNUP_FAILD = "SIGNUP_FAILD";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";

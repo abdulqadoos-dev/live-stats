@@ -11,10 +11,12 @@ import {
     LOGIN_PATH,
     PAGE_NOT_FOUND,
     SIGNUP_PATH
-} from "../../Services/Constans";
+} from "../../state/constants/Constans";
 
 
 export default function AppView(props) {
+
+    console.log(props);
 
     useEffect(() => {
         console.log("APP VIEW RENDERS")

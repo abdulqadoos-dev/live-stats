@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 
 import SignupView from "../../Views/Auth/SignupView";
 
-import {signupRequest} from "../../../state/actions/appActions";
+import {signupRequest} from "../../../state/actions/authActions";
 
 const SignupContainer = (props) => {
     return (
@@ -12,7 +12,7 @@ const SignupContainer = (props) => {
 }
 const mapStateToProps = state => {
     return {
-        ...state.app,
+        ...state.auth,
     }
 }
 

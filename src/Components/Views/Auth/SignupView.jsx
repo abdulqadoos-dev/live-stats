@@ -1,28 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackGroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
 import { Link } from "react-router-dom";
-import { LOGIN_PATH } from "../../../Services/Constans";
-import { signup } from "../../../Services/Apis/auth";
+import { LOGIN_PATH } from "../../../state/constants/Constans";
+import { signup } from "../../../Services/Apis/authApi";
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
-export default function SignupView(props) {
+export default function SignupView({ signupRequest, signupValidations, signupForm, isLoadingSignup }) {
 
     useEffect(() => {
         console.log("SIGNUP VIEW RENDERS")
     }, [])
 
+    const [formData, setFormData] = useState({})
+
     const _handelInputChange = (event, name = null) => {
-        const target = name ? event.target : event;
-        console.log(target);
+        const target = event.target;
+        setFormData({ ...formData, [target.name]: target.value })
     }
 
+    console.log({ signupRequest, signupValidations, signupForm, isLoadingSignup });
+
     const _handelFormSubmit = () => {
-        props.increaseCounter();
-        console.log(props, "form submitted...");
+        signupRequest(formData);
+        console.log("form submitted...");
     }
 
     return (
@@ -33,12 +37,13 @@ export default function SignupView(props) {
                     <img src={Logo} className="w-56 lg:w-64" alt="" />
                 </section>
                 <section className="flex flex-col gap-1 lg:gap-0.5">
-                    <input className="px-4 py-3 rounded-t-md" type="text" name="name" placeholder="Name" onChange={_handelInputChange} />
-                    <input className="px-4 py-3" type="text" placeholder="Phone" name="phone" onChange={_handelInputChange} />
-                    <input className="px-4 py-3" type="email" placeholder="Email" name="email" onChange={_handelInputChange} />
-                    <input className="px-4 py-3" type="password" placeholder="Password" name="password" onChange={_handelInputChange} />
-                    <input className="px-4 py-3 rounded-b-md" type="password" name="confirmPassword" placeholder="Confirm Password" onChange={_handelInputChange} />
-                    <DarkButton label="Sign Up" clickEvent={_handelFormSubmit} className="my-2" />
+                    <input className={`px-4 py-3 rounded-t-md ${signupValidations && signupValidations.key === "name" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" name="name" placeholder="Name" onChange={_handelInputChange} />
+                    <input className={`px-4 py-3 ${signupValidations && signupValidations.key === "phone" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" placeholder="Phone" name="phone" onChange={_handelInputChange} />
+                    <input className={`px-4 py-3 ${signupValidations && signupValidations.key === "email" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="email" placeholder="Email" name="email" onChange={_handelInputChange} />
+                    <input className={`px-4 py-3 ${signupValidations && signupValidations.key === "password" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="password" placeholder="Password" name="password" onChange={_handelInputChange} />
+                    <input className={`px-4 py-3 rounded-b-md  ${signupValidations && signupValidations.key === "password" ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="password" name="confirmPassword" placeholder="Confirm Password" onChange={_handelInputChange} />
+                    <DarkButton label="Sign Up" isLoading={isLoadingSignup} clickEvent={_handelFormSubmit} className="my-2" />
+
                 </section>
                 <section className="text-white text-center">
                     <p>Have an account? <Link to={LOGIN_PATH} className="font-bold">Sign In</Link></p>

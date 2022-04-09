@@ -4,7 +4,7 @@ import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackgroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
 import {Link} from "react-router-dom";
-import {LOGIN_PATH} from "../../../Services/Constans";
+import {LOGIN_PATH} from "../../../state/constants/Constans";
 
 export default function ForgetPasswordView() {
     useEffect(() => {

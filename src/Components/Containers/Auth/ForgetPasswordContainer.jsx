@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux"
-import {increaseCounter} from "../../../state/actions/app.actions";
+
+import {testAction} from "../../../state/actions/appActions";
 import ForgetPasswordView from "../../Views/Auth/ForgetPasswordView";
 
 const ForgetPasswordContainer = (props) => {
@@ -16,7 +17,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        increaseCounter: () => dispatch(increaseCounter()),
+        testAction : () => dispatch(testAction())
     }
 }
 

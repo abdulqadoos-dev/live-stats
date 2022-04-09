@@ -1,7 +1,6 @@
 import React from "react";
 import {connect} from "react-redux"
 import LoginView from "../../Views/Auth/LoginView";
-import {increaseCounter} from "../../../state/actions/app.actions";
 
 const LoginContainer = (props) => {
     return (
@@ -16,7 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        increaseCounter: () => dispatch(increaseCounter()),
+        test : console.log('test')
     }
 }
 

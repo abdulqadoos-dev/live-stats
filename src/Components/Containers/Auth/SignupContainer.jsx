@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 
 import SignupView from "../../Views/Auth/SignupView";
 
-import {signupRequest} from "../../../state/actions/authActions";
+import {signupRequest,verificationRequest} from "../../../state/actions/authActions";
 
 const SignupContainer = (props) => {
     return (
@@ -19,6 +19,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         signupRequest: formData => dispatch(signupRequest(formData)),
+        verificationRequest: formData => dispatch(verificationRequest(formData)),
     }
 }
 

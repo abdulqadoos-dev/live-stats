@@ -11,3 +11,11 @@ export const login = data => {
 export const verifyOtp = data => {
    return api.post('/verify-otp', data)
 }
+
+export const forgetPassword = data => {
+   return api.post('/forget-password', data)
+}
+
+export const resetPassword = data => {
+   return api.post('/reset-password', data)
+}

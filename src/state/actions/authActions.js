@@ -1,4 +1,11 @@
-import { EMAIL_VERIFICATION_VIEW, SIGNUP_FAILD, SIGNUP_START, SIGNUP_SUCCESS, VERIFY_EMAIL, SET_VIEW, DEFAULT_VIEW, VERIFICATION_START, VERIFICATION_SUCCESS, VERIFICATION_FAILD, LOGIN_SUCCESS, LOGIN_FAILD, LOGIN_START } from "../constants/authConstants";
+import {
+   OTP_VERIFICATION_VIEW, SIGNUP_FAILD,
+   SIGNUP_SUCCESS, SET_VIEW, DEFAULT_VIEW,
+   VERIFICATION_SUCCESS, VERIFICATION_FAILD,
+   REQUEST_START,
+   LOGIN_SUCCESS, LOGIN_FAILD, FORGET_PASSWORD_START,
+   FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD
+} from "../constants/authConstants";
 
 import * as authApi from '../../Services/Apis/authApi';
 import { VALIDATION_FAILD_CODE } from "../constants/Constans";
@@ -10,12 +17,12 @@ export const setView = (view) => {
    }
 }
 
-export const signupStart = () => {
+
+export const requestStart = () => {
    return {
-      type: SIGNUP_START
+      type: REQUEST_START
    }
 }
-
 
 export const signupSuccess = (result) => {
    return {
@@ -35,14 +42,15 @@ export const signupFaild = (error) => {
 export const signupRequest = (formData) => {
    return (dispatch) => {
 
-      dispatch(signupStart());
+      dispatch(requestStart());
+
 
       const promise = authApi.signup(formData);
 
       promise
          .then((result) => {
             dispatch(signupSuccess(result.data.data));
-            dispatch(setView(EMAIL_VERIFICATION_VIEW));
+            dispatch(setView(OTP_VERIFICATION_VIEW));
             console.log(result.data.data, SIGNUP_SUCCESS);
          })
          .catch((error) => {
@@ -57,11 +65,7 @@ export const signupRequest = (formData) => {
 
 
 
-export const verificationStart = () => {
-   return {
-      type: VERIFICATION_START
-   }
-}
+
 
 export const verificationSuccess = () => {
    return {
@@ -84,17 +88,18 @@ export const signupValidationFaild = (validationResult) => {
 
 
 
-export const verificationRequest = (formData) => {
+export const verificationRequest = (formData, activeView = DEFAULT_VIEW) => {
    return (dispatch) => {
 
-      dispatch(signupStart());
+      dispatch(requestStart());
+
 
       const promise = authApi.verifyOtp(formData);
 
       promise
          .then((result) => {
             dispatch(verificationSuccess());
-            dispatch(setView(DEFAULT_VIEW));
+            dispatch(setView(activeView));
             console.log(result);
          })
          .catch((error) => {
@@ -107,12 +112,6 @@ export const verificationRequest = (formData) => {
 }
 
 
-
-export const loginStart = () => {
-   return {
-      type: LOGIN_START
-   }
-}
 
 
 export const loginSuccess = (result) => {
@@ -133,7 +132,8 @@ export const loginFaild = (error) => {
 export const loginRequest = (formData) => {
    return (dispatch) => {
 
-      dispatch(loginStart());
+      dispatch(requestStart());
+
 
       const promise = authApi.login(formData);
 
@@ -144,7 +144,91 @@ export const loginRequest = (formData) => {
          })
          .catch((error) => {
             dispatch(loginFaild(error))
-            console.log(formData,error, LOGIN_FAILD)
+            console.log(formData, error, LOGIN_FAILD)
+         });
+
+      return promise;
+   }
+}
+
+
+
+
+export const changePasswordSuccess = (result) => {
+   return {
+      type: CHANGE_PASSWORD_SUCCESS,
+      result
+   }
+}
+
+export const changePasswordFaild = (error) => {
+   return {
+      type: CHANGE_PASSWORD_FAILD,
+      error
+   }
+}
+
+export const forgetPasswordRequest = (formData) => {
+   return (dispatch) => {
+
+      dispatch(requestStart());
+
+      const promise = authApi.forgetPassword(formData);
+
+      promise
+         .then((result) => {
+            dispatch(forgetPasswordSuccess(result.data.data));
+            dispatch(setView(OTP_VERIFICATION_VIEW));
+            console.log(result.data.data, FORGET_PASSWORD_SUCCESS);
+         })
+         .catch((error) => {
+            dispatch(forgetPasswordFaild({ validationResult: error.message }))
+            console.log({ formData }, error.message, FORGET_PASSWORD_FAILD)
+         });
+
+      return promise;
+   }
+}
+
+
+export const forgetPasswordStart = () => {
+   return {
+      type: FORGET_PASSWORD_START
+   }
+}
+
+
+export const forgetPasswordSuccess = (result) => {
+   return {
+      type: FORGET_PASSWORD_SUCCESS,
+      result
+   }
+}
+
+export const forgetPasswordFaild = (error) => {
+   return {
+      type: FORGET_PASSWORD_FAILD,
+      error
+   }
+}
+
+
+
+export const  changePasswordRequest = (formData) => {
+   return (dispatch) => {
+
+      dispatch(requestStart());
+
+      const promise = authApi.forgetPassword(formData);
+
+      promise
+         .then((result) => {
+            dispatch(changePasswordSuccess(result.data.data));
+            console.log(result.data.data, CHANGE_PASSWORD_SUCCESS);
+         })
+         .catch((error) => {
+            dispatch(changePasswordFaild({ validationResult: error.message }))
+            console.log({ formData }, error.message, CHANGE_PASSWORD_FAILD)
          });
 
       return promise;

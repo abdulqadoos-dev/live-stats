@@ -1,4 +1,4 @@
-import { DEFAULT_VIEW, SET_VIEW, SIGNUP_FAILD, SIGNUP_START, SIGNUP_SUCCESS, VERIFICATION_START, VERIFICATION_SUCCESS, VERIFICATION_FAILD, LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILD } from "../constants/authConstants";
+import { DEFAULT_VIEW, SET_VIEW, SIGNUP_FAILD, SIGNUP_START, SIGNUP_SUCCESS, VERIFICATION_START, VERIFICATION_SUCCESS, VERIFICATION_FAILD, LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILD, FORGET_PASSWORD_START, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, REQUEST_START, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD } from "../constants/authConstants";
 
 const INITIAL_STATE = {
     authUser: null,
@@ -20,10 +20,12 @@ const auth = (state = INITIAL_STATE, action) => {
                 activeView: action.view
             }
 
-        case SIGNUP_START:
+        case REQUEST_START:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                validations: null,
+                verification: true
             }
 
         case SIGNUP_SUCCESS:
@@ -41,12 +43,6 @@ const auth = (state = INITIAL_STATE, action) => {
             };
 
 
-        case VERIFICATION_START:
-            return {
-                ...state,
-                isLoading: true
-            }
-
         case VERIFICATION_FAILD:
             return {
                 ...state,
@@ -60,11 +56,7 @@ const auth = (state = INITIAL_STATE, action) => {
                 isLoading: false,
             };
 
-        case LOGIN_START:
-            return {
-                ...state,
-                isLoading: true
-            }
+
 
         case LOGIN_SUCCESS:
             return {
@@ -78,6 +70,37 @@ const auth = (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoading: false,
                 validations: action.validationResult,
+            };
+
+
+        case FORGET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                validations: null,
+                authUser: action.result,
+            };
+
+        case FORGET_PASSWORD_FAILD:
+            return {
+                ...state,
+                isLoading: false,
+                validations: action.error.validationResult,
+            };
+
+        case CHANGE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                validations: null,
+                authUser: action.result,
+            };
+
+        case CHANGE_PASSWORD_FAILD:
+            return {
+                ...state,
+                isLoading: false,
+                validations: action.error.validationResult,
             };
 
         default: return state;

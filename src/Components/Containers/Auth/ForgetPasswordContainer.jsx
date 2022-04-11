@@ -1,23 +1,25 @@
 import React from "react";
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 
-import {testAction} from "../../../state/actions/appActions";
+import { forgetPasswordRequest, verificationRequest, changePasswordRequest } from "../../../state/actions/authActions";
 import ForgetPasswordView from "../../Views/Auth/ForgetPasswordView";
 
 const ForgetPasswordContainer = (props) => {
     return (
-        <ForgetPasswordView {...props}/>
+        <ForgetPasswordView {...props} />
     )
 }
 const mapStateToProps = state => {
     return {
-        ...state.app,
+        ...state.auth,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        testAction : () => dispatch(testAction())
+        forgetPasswordRequest: (formData) => dispatch(forgetPasswordRequest(formData)),
+        verificationRequest: (formData, activeView) => dispatch(verificationRequest(formData, activeView)),
+        changePasswordRequest: (formData) => dispatch(changePasswordRequest(formData)),
     }
 }
 

@@ -9,7 +9,7 @@ import { signup } from "../../../Services/Apis/authApi";
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
-import { DEFAULT_VIEW, EMAIL_VERIFICATION_VIEW } from "../../../state/constants/authConstants";
+import { DEFAULT_VIEW, OTP_VERIFICATION_VIEW } from "../../../state/constants/authConstants";
 
 export default function SignupView({ authUser,signupRequest, validations, signupForm, isLoading, activeView, verificationRequest,verification }) {
 
@@ -34,7 +34,6 @@ export default function SignupView({ authUser,signupRequest, validations, signup
 
     const _handelVerificationSubmit = () => {
         let payload = {...formData,user_id : authUser.id};
-        // let payload = {code,user_id : authUser.id};
         verificationRequest(payload);
         console.log("verification submitted...");
     }
@@ -58,7 +57,7 @@ export default function SignupView({ authUser,signupRequest, validations, signup
                     </div>
                 )}
 
-                {activeView === EMAIL_VERIFICATION_VIEW && (
+                {activeView === OTP_VERIFICATION_VIEW && (
                     <div className="flex flex-col gap-1 lg:gap-0.5">
                         <input className={`px-4 py-3 rounded-md ${!verification ? 'bg-rose-200 placeholder:text-rose-500' : ''}`} type="text" name="otp" placeholder="Verification code" onChange={_handelInputChange} />
                         <DarkButton label="Verify" isLoading={isLoading} clickEvent={_handelVerificationSubmit} className="my-2" />

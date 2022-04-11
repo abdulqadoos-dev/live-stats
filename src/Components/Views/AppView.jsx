@@ -16,11 +16,8 @@ import {
 
 export default function AppView(props) {
 
-    console.log(props);
+    // console.log(props);
 
-    useEffect(() => {
-        console.log("APP VIEW RENDERS")
-    }, [])
 
     return (
         <main>

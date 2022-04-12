@@ -16,7 +16,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loginRequest: formData => dispatch(loginRequest(formData)),
+        loginRequest: (formData,navigate) => dispatch(loginRequest(formData,navigate)),
     }
 }
 

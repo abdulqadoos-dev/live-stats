@@ -8,7 +8,9 @@ import {
 } from "../constants/authConstants";
 
 import * as authApi from '../../Services/Apis/authApi';
-import { VALIDATION_FAILD_CODE } from "../constants/Constans";
+import { BASE_PATH, LOGIN_PATH, VALIDATION_FAILD_CODE } from "../constants/Constans";
+
+
 
 export const setView = (view) => {
    return {
@@ -40,6 +42,7 @@ export const signupFaild = (error) => {
 
 
 export const signupRequest = (formData) => {
+
    return (dispatch) => {
 
       dispatch(requestStart());
@@ -88,7 +91,7 @@ export const signupValidationFaild = (validationResult) => {
 
 
 
-export const verificationRequest = (formData, activeView = DEFAULT_VIEW) => {
+export const verificationRequest = (formData, navigate = null, activeView = DEFAULT_VIEW) => {
    return (dispatch) => {
 
       dispatch(requestStart());
@@ -100,11 +103,10 @@ export const verificationRequest = (formData, activeView = DEFAULT_VIEW) => {
          .then((result) => {
             dispatch(verificationSuccess());
             dispatch(setView(activeView));
-            console.log(result);
+            navigate && navigate(BASE_PATH);
          })
          .catch((error) => {
             dispatch(verificationFaild())
-            console.log(error)
          });
 
       return promise;
@@ -129,17 +131,17 @@ export const loginFaild = (error) => {
 }
 
 
-export const loginRequest = (formData) => {
+export const loginRequest = (formData, navigate) => {
    return (dispatch) => {
 
       dispatch(requestStart());
-
 
       const promise = authApi.login(formData);
 
       promise
          .then((result) => {
             dispatch(loginSuccess(result.data.data));
+            navigate(BASE_PATH);
             console.log(result.data.data, LOGIN_SUCCESS);
          })
          .catch((error) => {
@@ -153,20 +155,21 @@ export const loginRequest = (formData) => {
 
 
 
-
-export const changePasswordSuccess = (result) => {
+export const forgetPasswordSuccess = (result) => {
    return {
-      type: CHANGE_PASSWORD_SUCCESS,
+      type: FORGET_PASSWORD_SUCCESS,
       result
    }
 }
 
-export const changePasswordFaild = (error) => {
+export const forgetPasswordFaild = (error) => {
    return {
-      type: CHANGE_PASSWORD_FAILD,
+      type: FORGET_PASSWORD_FAILD,
       error
    }
 }
+
+
 
 export const forgetPasswordRequest = (formData) => {
    return (dispatch) => {
@@ -191,40 +194,36 @@ export const forgetPasswordRequest = (formData) => {
 }
 
 
-export const forgetPasswordStart = () => {
-   return {
-      type: FORGET_PASSWORD_START
-   }
-}
 
 
-export const forgetPasswordSuccess = (result) => {
+
+export const changePasswordSuccess = (result) => {
    return {
-      type: FORGET_PASSWORD_SUCCESS,
+      type: CHANGE_PASSWORD_SUCCESS,
       result
    }
 }
 
-export const forgetPasswordFaild = (error) => {
+export const changePasswordFaild = (error) => {
    return {
-      type: FORGET_PASSWORD_FAILD,
+      type: CHANGE_PASSWORD_FAILD,
       error
    }
 }
 
 
-
-export const  changePasswordRequest = (formData) => {
+export const changePasswordRequest = (formData,navigate) => {
    return (dispatch) => {
 
       dispatch(requestStart());
 
-      const promise = authApi.forgetPassword(formData);
+      const promise = authApi.resetPassword(formData);
 
       promise
          .then((result) => {
             dispatch(changePasswordSuccess(result.data.data));
             console.log(result.data.data, CHANGE_PASSWORD_SUCCESS);
+            navigate(LOGIN_PATH)
          })
          .catch((error) => {
             dispatch(changePasswordFaild({ validationResult: error.message }))

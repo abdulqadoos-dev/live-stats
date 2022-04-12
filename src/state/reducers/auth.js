@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     signupForm: null,
     validations: null,
     verification: true,
+    signature: null,
     activeView: DEFAULT_VIEW
 };
 

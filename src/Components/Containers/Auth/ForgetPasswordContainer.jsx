@@ -18,8 +18,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         forgetPasswordRequest: (formData) => dispatch(forgetPasswordRequest(formData)),
-        verificationRequest: (formData, activeView) => dispatch(verificationRequest(formData, activeView)),
-        changePasswordRequest: (formData) => dispatch(changePasswordRequest(formData)),
+        verificationRequest: (formData, navigate, activeView) => dispatch(verificationRequest(formData, navigate, activeView)),
+        changePasswordRequest: (formData,navigate) => dispatch(changePasswordRequest(formData,navigate)),
     }
 }
 

@@ -15,10 +15,7 @@ import {
 
 
 export default function AppView(props) {
-
-    // console.log(props);
-
-
+    console.log(props.auth, "AUTH STATE");
     return (
         <main>
             <BrowserRouter>

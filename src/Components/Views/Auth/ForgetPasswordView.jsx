@@ -5,21 +5,22 @@ import AuthBackgroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
 import { Link } from "react-router-dom";
 import { LOGIN_PATH } from "../../../state/constants/Constans";
-import { DEFAULT_VIEW, OTP_VERIFICATION_VIEW, RESET_PASSWORD_VIEW } from "../../../state/constants/authConstants";
+import { DEFAULT_VIEW, OTP_VERIFICATION_VIEW, RESET_PASSWORD_VIEW, CONFIRM_PASSWORD } from "../../../state/constants/authConstants";
+import { useNavigate } from "react-router-dom";
+import { _matchPasswords } from "../../../Services/Helper"
 
-export default function ForgetPasswordView({ forgetPasswordRequest, activeView, validations, isLoading, verificationRequest, authUser, verification,changePasswordRequest }) {
-    // useEffect(() => {
-    //     console.log("FORGET PASSWORD VIEW RENDERS")
-    // }, [])
+export default function ForgetPasswordView({ forgetPasswordRequest, activeView, validations, isLoading, verificationRequest, authUser, verification, changePasswordRequest }) {
 
     const [formData, setFormData] = useState({})
+    const [passwordMatched, setPasswordMatched] = useState(null)
+
+    const navigate = useNavigate();
 
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
         setFormData({ ...formData, [target.name]: target.value })
     }
 
-    console.log({ validations });
 
     const _handelSubmitEmail = () => {
         forgetPasswordRequest(formData);
@@ -28,13 +29,13 @@ export default function ForgetPasswordView({ forgetPasswordRequest, activeView, 
 
     const _handelVerificationSubmit = () => {
         let payload = { ...formData, user_id: authUser.id };
-        verificationRequest(payload, RESET_PASSWORD_VIEW);
+        verificationRequest(payload, null, RESET_PASSWORD_VIEW);
         console.log("verification submitted...");
     }
 
     const _handelChangePasswordSubmit = () => {
-        let payload = { ...formData, signature: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMiwiaWF0IjoxNjQ5NTQzMTYzLCJleHAiOjE2NDk1NTAzNjN9.O1U1Sk21N-tMohmd1bHEnsMPrsbuKKOzQOQOtOo6AOQ" };
-        changePasswordRequest(payload);
+        let payload = { ...formData, signature: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0NSwiaWF0IjoxNjQ5Nzg2MTA4LCJleHAiOjE2NDk3OTMzMDh9.qwPPAO8ZR5Qb62cXSmU2j9pXKXRtZyn4Pz2M02abUls" };
+        changePasswordRequest(payload, navigate);
     }
 
     return (
@@ -71,8 +72,8 @@ export default function ForgetPasswordView({ forgetPasswordRequest, activeView, 
                 {activeView === RESET_PASSWORD_VIEW && (
                     <>
                         <div className="flex flex-col gap-1 lg:gap-0.5">
-                            <input className={`px-4 py-3 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`} type="password" name="password" placeholder="New Password" />
-                            <input className={`px-4 py-3 rounded-b-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`} type="password" placeholder="Confirm Password" />
+                            <input className={`px-4 py-3 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`} type="password" name="password" placeholder="New Password" onChange={_handelInputChange} />
+                            <input className={`px-4 py-3 rounded-b-md ${passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`} type="password" name={CONFIRM_PASSWORD} placeholder="Confirm Password" onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)} />
                             <DarkButton label="Change Password" isLoading={isLoading} clickEvent={_handelChangePasswordSubmit} className="my-2" />
                         </div>
 

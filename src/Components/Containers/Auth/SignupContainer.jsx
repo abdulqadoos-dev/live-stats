@@ -18,8 +18,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signupRequest: formData => dispatch(signupRequest(formData)),
-        verificationRequest: formData => dispatch(verificationRequest(formData)),
+        signupRequest: (formData) => dispatch(signupRequest(formData)),
+        verificationRequest: (formData,redirect) => dispatch(verificationRequest(formData,redirect)),
     }
 }
 

@@ -4,38 +4,31 @@ import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackGroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
 import { Link } from "react-router-dom";
-import { LOGIN_PATH } from "../../../state/constants/Constans";
-import { signup } from "../../../Services/Apis/authApi";
-import PhoneInput from 'react-phone-number-input'
+import { BASE_PATH, LOGIN_PATH } from "../../../state/constants/Constans";
 import 'react-phone-number-input/style.css'
+import { useNavigate } from "react-router-dom";
 
 import { DEFAULT_VIEW, OTP_VERIFICATION_VIEW } from "../../../state/constants/authConstants";
 
-export default function SignupView({ authUser,signupRequest, validations, signupForm, isLoading, activeView, verificationRequest,verification }) {
-
-    // useEffect(() => {
-    //     console.log("SIGNUP VIEW RENDERS")
-    // }, [])
+export default function SignupView({ authUser, signupRequest, validations, signupForm, isLoading, activeView, verificationRequest, verification }) {
 
     const [formData, setFormData] = useState({})
+    const [passwordMatched, setSetPasswordMatched] = useState(null)
+
+    const navigate = useNavigate();
 
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
         setFormData({ ...formData, [target.name]: target.value })
     }
 
-    // console.log(authUser,verification, "check state");
-    // console.log({ signupRequest, validations, signupForm, isLoading });
-
     const _handelFormSubmit = () => {
         signupRequest(formData);
-        console.log("form submitted...");
     }
 
     const _handelVerificationSubmit = () => {
-        let payload = {...formData,user_id : authUser.id};
-        verificationRequest(payload);
-        console.log("verification submitted...");
+        let payload = { ...formData, user_id: authUser.id };
+        verificationRequest(payload, navigate);
     }
 
     return (

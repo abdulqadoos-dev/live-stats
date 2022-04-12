@@ -4,11 +4,13 @@ import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackgroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
 import { FORGET_PASSWORD_PATH, SIGNUP_PATH } from "../../../state/constants/Constans";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginView({ isLoading, validations, loginRequest }) {
 
     const [formData, setFormData] = useState({})
+
+    const navigate = useNavigate();
 
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
@@ -16,7 +18,7 @@ export default function LoginView({ isLoading, validations, loginRequest }) {
     }
 
     const _handelFormSubmit = async () => {
-        loginRequest(formData);
+        loginRequest(formData,navigate);
         console.log("form submitted...");
     }
 

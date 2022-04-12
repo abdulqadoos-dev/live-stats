@@ -52,9 +52,11 @@ const auth = (state = INITIAL_STATE, action) => {
             };
 
         case VERIFICATION_SUCCESS:
+            console.log(action,"action")
             return {
                 ...state,
                 isLoading: false,
+                signature: action.token
             };
 
 
@@ -95,6 +97,7 @@ const auth = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 validations: null,
                 authUser: action.result,
+                activeView: DEFAULT_VIEW
             };
 
         case CHANGE_PASSWORD_FAILD:

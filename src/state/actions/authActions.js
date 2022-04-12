@@ -70,9 +70,10 @@ export const signupRequest = (formData) => {
 
 
 
-export const verificationSuccess = () => {
+export const verificationSuccess = (response) => {
    return {
-      type: VERIFICATION_SUCCESS
+      type: VERIFICATION_SUCCESS,
+      ...response
    }
 }
 
@@ -101,7 +102,7 @@ export const verificationRequest = (formData, navigate = null, activeView = DEFA
 
       promise
          .then((result) => {
-            dispatch(verificationSuccess());
+            dispatch(verificationSuccess(result.data.data));
             dispatch(setView(activeView));
             navigate && navigate(BASE_PATH);
          })

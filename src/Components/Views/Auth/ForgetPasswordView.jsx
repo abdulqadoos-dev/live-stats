@@ -9,7 +9,7 @@ import { DEFAULT_VIEW, OTP_VERIFICATION_VIEW, RESET_PASSWORD_VIEW, CONFIRM_PASSW
 import { useNavigate } from "react-router-dom";
 import { _matchPasswords } from "../../../Services/Helper"
 
-export default function ForgetPasswordView({ forgetPasswordRequest, activeView, validations, isLoading, verificationRequest, authUser, verification, changePasswordRequest }) {
+export default function ForgetPasswordView({ signature, forgetPasswordRequest, activeView, validations, isLoading, verificationRequest, authUser, verification, changePasswordRequest }) {
 
     const [formData, setFormData] = useState({})
     const [passwordMatched, setPasswordMatched] = useState(null)
@@ -34,7 +34,8 @@ export default function ForgetPasswordView({ forgetPasswordRequest, activeView, 
     }
 
     const _handelChangePasswordSubmit = () => {
-        let payload = { ...formData, signature: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0NSwiaWF0IjoxNjQ5Nzg2MTA4LCJleHAiOjE2NDk3OTMzMDh9.qwPPAO8ZR5Qb62cXSmU2j9pXKXRtZyn4Pz2M02abUls" };
+        console.log({signature}, "here.................")
+        let payload = { ...formData, signature: signature };
         changePasswordRequest(payload, navigate);
     }
 
@@ -74,7 +75,7 @@ export default function ForgetPasswordView({ forgetPasswordRequest, activeView, 
                         <div className="flex flex-col gap-1 lg:gap-0.5">
                             <input className={`px-4 py-3 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`} type="password" name="password" placeholder="New Password" onChange={_handelInputChange} />
                             <input className={`px-4 py-3 rounded-b-md ${passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`} type="password" name={CONFIRM_PASSWORD} placeholder="Confirm Password" onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)} />
-                            <DarkButton label="Change Password" isLoading={isLoading} clickEvent={_handelChangePasswordSubmit} className="my-2" />
+                            <DarkButton label="Change Password" disabled={passwordMatched}  isLoading={isLoading } clickEvent={_handelChangePasswordSubmit} className="my-2" />
                         </div>
 
                         <div className="text-white text-center">

@@ -36,7 +36,6 @@ export default function LoginView({isLoading, validations, error, loginRequest})
                 <section className="flex flex-col gap-1 lg:gap-0.5">
 
                     <Alert
-                        isError={!!error}
                         message={error}
                         className="border-rose-500"
                     />

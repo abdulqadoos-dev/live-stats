@@ -47,7 +47,7 @@ export default function SignupView(
         verificationRequest(payload, navigate);
     }
 
-    console.log({validations}, {error},"form view");
+    // console.log({validations}, {error},"form view");
 
     return (
         <BackgroundImage backgroundImage={AuthBackGroundImage}>
@@ -60,8 +60,8 @@ export default function SignupView(
                 {activeView === DEFAULT_VIEW && (
                     <div className="flex flex-col gap-1 lg:gap-0.5">
                         <Alert
-                            isError={!!error}
                             message={error}
+                            className="border-rose-500"
                         />
 
                         <input
@@ -136,9 +136,12 @@ export default function SignupView(
                 {activeView === OTP_VERIFICATION_VIEW && (
                     <div className="flex flex-col gap-1 lg:gap-0.5">
                         <Alert
-                            isError={!!message}
                             message={message}
-                            className={"border-green-500"}
+                            className="border-green-500"
+                        />
+                        <Alert
+                            message={error}
+                            className={"border-rose-500"}
                         />
                         <input
                             className={`px-4 py-3 rounded-md ${!verification ? '' : ''}`}
@@ -146,6 +149,9 @@ export default function SignupView(
                             name="otp"
                             placeholder="Verification code"
                             onChange={_handelInputChange}
+                        />
+                        <ValidationMessage
+                            message={validations?.otp}
                         />
 
                         <DarkButton

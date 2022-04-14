@@ -66,19 +66,20 @@ const auth = (state = INITIAL_STATE, action) => {
             };
 
 
-        case VERIFICATION_FAILD:
-            return {
-                ...state,
-                isLoading: false,
-                verification: false
-            };
+
         case VERIFICATION_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 signature: action.token
             };
-
+        case VERIFICATION_FAILD:
+            return {
+                ...state,
+                isLoading: false,
+                error: action?.error || null,
+                validations: action?.validationResults || null,
+            };
 
         case LOGIN_SUCCESS:
             return {
@@ -102,15 +103,18 @@ const auth = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
+                authUser: action.user,
                 validations: null,
-                authUser: action.result,
+                message: action?.message || null
             };
 
         case FORGET_PASSWORD_FAILD:
             return {
                 ...state,
                 isLoading: false,
-                validations: action.error.validationResult,
+                authUser: null,
+                error: action?.error || null,
+                validations: action?.validationResults || null,
             };
 
         case CHANGE_PASSWORD_SUCCESS:

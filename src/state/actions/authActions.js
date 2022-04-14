@@ -72,16 +72,10 @@ export const verificationSuccess = (response) => {
     }
 }
 
-export const verificationFaild = () => {
+export const verificationFailed = (error) => {
     return {
-        type: VERIFICATION_FAILD
-    }
-}
-
-export const signupValidationFaild = (validationResult) => {
-    return {
-        type: SIGNUP_FAILD,
-        validationResult
+        type: VERIFICATION_FAILD,
+        ...error
     }
 }
 
@@ -90,7 +84,6 @@ export const verificationRequest = (formData, navigate = null, activeView = DEFA
     return (dispatch) => {
 
         dispatch(requestStart());
-
 
         const promise = authApi.verifyOtp(formData);
 
@@ -101,7 +94,8 @@ export const verificationRequest = (formData, navigate = null, activeView = DEFA
                 navigate && navigate(LOGIN_PATH);
             })
             .catch((error) => {
-                dispatch(verificationFaild())
+                error.status === STATUS_CODE_400 ? dispatch(verificationFailed(error.data)) : dispatch(verificationFailed({error: "opt failed try again!"}))
+                console.log(error, VERIFICATION_FAILD)
             });
 
         return promise;
@@ -133,12 +127,12 @@ export const loginRequest = (formData, navigate) => {
 
         promise
             .then((result) => {
-                dispatch(loginSuccess(result.data.data));
+                dispatch(loginSuccess(result.data));
                 navigate(BASE_PATH);
-                console.log(result.data.data, LOGIN_SUCCESS);
+                console.log(result, LOGIN_SUCCESS);
             })
             .catch((error) => {
-                error.status === STATUS_CODE_400 ? dispatch(loginFailed(error.data)) : dispatch(loginFailed({error: "Invalid credintials"}));
+                error.status === STATUS_CODE_400 ? dispatch(loginFailed(error.data)) : dispatch(loginFailed({error: "Invalid credentials"}));
                 console.log(formData, error, LOGIN_FAILD)
             });
 
@@ -150,14 +144,14 @@ export const loginRequest = (formData, navigate) => {
 export const forgetPasswordSuccess = (result) => {
     return {
         type: FORGET_PASSWORD_SUCCESS,
-        result
+        ...result
     }
 }
 
 export const forgetPasswordFailed = (error) => {
     return {
         type: FORGET_PASSWORD_FAILD,
-        error
+        ...error
     }
 }
 
@@ -171,13 +165,13 @@ export const forgetPasswordRequest = (formData) => {
 
         promise
             .then((result) => {
-                dispatch(forgetPasswordSuccess(result.data.data));
+                dispatch(forgetPasswordSuccess(result.data));
                 dispatch(setView(OTP_VERIFICATION_VIEW));
-                console.log(result.data.data, FORGET_PASSWORD_SUCCESS);
+                console.log(result, FORGET_PASSWORD_SUCCESS);
             })
             .catch((error) => {
-                dispatch(forgetPasswordFailed({validationResult: error.message}))
-                console.log({formData}, error.message, FORGET_PASSWORD_FAILD)
+                error.status === STATUS_CODE_400 ? dispatch(forgetPasswordFailed(error.data)) : dispatch(forgetPasswordFailed({error: "Request Failed Try again!"}));
+                console.log(formData, error, FORGET_PASSWORD_FAILD)
             });
 
         return promise;

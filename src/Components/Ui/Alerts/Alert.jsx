@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Alert({isError, className, message}) {
+export default function Alert({className, message}) {
     return (
-        isError ? (
+        message ? (
             <div
-                className={`bg-white text-gray-600 px-4 py-4 font-bold rounded-tr-md rounded-md border-l-4 text-sm px-2 mb-1 ${className}`} >
+                className={`bg-white text-gray-600 text-sm font-bold py-4 px-4 mb-1 rounded-md border-l-4 ${className}`}>
                 {message}
             </div>
         ) : null

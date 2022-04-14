@@ -8,3 +8,4 @@ export const REQUEST_FAILD = "REQUEST FAILD"
 export const REQUEST_SUCCESS = "REQUEST SUCCESS"
 
 export const VALIDATION_FAILD_CODE = 400
+export const STATUS_CODE_400 = 400

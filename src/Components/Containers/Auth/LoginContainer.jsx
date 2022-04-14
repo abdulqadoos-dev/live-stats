@@ -10,7 +10,7 @@ const LoginContainer = (props) => {
 }
 const mapStateToProps = state => {
     return {
-        ...state.app,
+        ...state.auth,
     }
 }
 

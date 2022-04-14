@@ -12,15 +12,16 @@ api.interceptors.request.use((request) => {
 });
 
 api.interceptors.response.use((response) => {
-   if (response.status === 401) {
-      // window.location.reload();
-   }
+
+   // if (response.status === 401) {
+   //    // window.location.reload();
+   // }
    return response;
 }, (error) => {
-   if (error.response.status === 401) {
-      // window.location.reload();
-   }
-   throw { ...error.response.data };
+   // if (error.response.status === 401) {
+   //    // window.location.reload();
+   // }
+   throw { ...error.response };
 });
 
 export default api;

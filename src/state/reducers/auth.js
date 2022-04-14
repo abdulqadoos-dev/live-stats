@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     validations: null,
     verification: true,
     signature: null,
+    error : null,
     activeView: DEFAULT_VIEW
 };
 
@@ -52,7 +53,6 @@ const auth = (state = INITIAL_STATE, action) => {
             };
 
         case VERIFICATION_SUCCESS:
-            console.log(action,"action")
             return {
                 ...state,
                 isLoading: false,
@@ -66,13 +66,16 @@ const auth = (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoading: false,
                 authUser: action.result,
+                validations: null
             };
-
         case LOGIN_FAILD:
+            console.log(action);
             return {
                 ...state,
                 isLoading: false,
-                validations: action.validationResult,
+                authUser: null,
+                error : action?.error || null,
+                validations: action?.validationResults || null,
             };
 
 

@@ -3,12 +3,12 @@ import {
    SIGNUP_SUCCESS, SET_VIEW, DEFAULT_VIEW,
    VERIFICATION_SUCCESS, VERIFICATION_FAILD,
    REQUEST_START,
-   LOGIN_SUCCESS, LOGIN_FAILD, FORGET_PASSWORD_START,
+   LOGIN_SUCCESS, LOGIN_FAILD,
    FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD
 } from "../constants/authConstants";
 
 import * as authApi from '../../Services/Apis/authApi';
-import { BASE_PATH, LOGIN_PATH, VALIDATION_FAILD_CODE } from "../constants/Constans";
+import { BASE_PATH, LOGIN_PATH, STATUS_CODE_400, VALIDATION_FAILD_CODE } from "../constants/Constans";
 
 
 
@@ -127,7 +127,7 @@ export const loginSuccess = (result) => {
 export const loginFaild = (error) => {
    return {
       type: LOGIN_FAILD,
-      error
+      ...error
    }
 }
 
@@ -146,7 +146,7 @@ export const loginRequest = (formData, navigate) => {
             console.log(result.data.data, LOGIN_SUCCESS);
          })
          .catch((error) => {
-            dispatch(loginFaild(error))
+            error.status === STATUS_CODE_400 ? dispatch(loginFaild(error.data)) : dispatch(loginFaild({error : "Invalid credintials"}));
             console.log(formData, error, LOGIN_FAILD)
          });
 

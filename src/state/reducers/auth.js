@@ -1,4 +1,18 @@
-import { DEFAULT_VIEW, SET_VIEW, SIGNUP_FAILD, SIGNUP_START, SIGNUP_SUCCESS, VERIFICATION_START, VERIFICATION_SUCCESS, VERIFICATION_FAILD, LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILD, FORGET_PASSWORD_START, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, REQUEST_START, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD } from "../constants/authConstants";
+import {
+    DEFAULT_VIEW,
+    SET_VIEW,
+    SIGNUP_FAILD,
+    SIGNUP_SUCCESS,
+    VERIFICATION_SUCCESS,
+    VERIFICATION_FAILD,
+    LOGIN_SUCCESS,
+    LOGIN_FAILD,
+    FORGET_PASSWORD_SUCCESS,
+    FORGET_PASSWORD_FAILD,
+    REQUEST_START,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_FAILD
+} from "../constants/authConstants";
 
 const INITIAL_STATE = {
     authUser: null,
@@ -7,7 +21,8 @@ const INITIAL_STATE = {
     validations: null,
     verification: true,
     signature: null,
-    error : null,
+    error: null,
+    message: null,
     activeView: DEFAULT_VIEW
 };
 
@@ -21,27 +36,33 @@ const auth = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 activeView: action.view
             }
-
         case REQUEST_START:
             return {
                 ...state,
                 isLoading: true,
                 validations: null,
-                verification: true
+                verification: true,
+                error: null,
+                message: null
             }
+
 
         case SIGNUP_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                authUser: action.result,
+                authUser: action.user,
+                validations: null,
+                message: action?.message || null
             };
 
         case SIGNUP_FAILD:
             return {
                 ...state,
                 isLoading: false,
-                validations: action.validationResult,
+                authUser: null,
+                error: action?.error || null,
+                validations: action?.validationResults || null,
             };
 
 
@@ -51,7 +72,6 @@ const auth = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 verification: false
             };
-
         case VERIFICATION_SUCCESS:
             return {
                 ...state,
@@ -60,21 +80,20 @@ const auth = (state = INITIAL_STATE, action) => {
             };
 
 
-
         case LOGIN_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 authUser: action.result,
-                validations: null
+                validations: null,
+                message: action?.message || null
             };
         case LOGIN_FAILD:
-            console.log(action);
             return {
                 ...state,
                 isLoading: false,
                 authUser: null,
-                error : action?.error || null,
+                error: action?.error || null,
                 validations: action?.validationResults || null,
             };
 
@@ -110,7 +129,8 @@ const auth = (state = INITIAL_STATE, action) => {
                 validations: action.error.validationResult,
             };
 
-        default: return state;
+        default:
+            return state;
     }
 
 };

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackgroundImage from "../../../Media/login-background.jpg"
 import Logo from "../../../Media/Logo@3x.png"
-import { FORGET_PASSWORD_PATH, SIGNUP_PATH } from "../../../state/constants/Constans";
-import { Link, useNavigate } from "react-router-dom";
+import {FORGET_PASSWORD_PATH, SIGNUP_PATH} from "../../../state/constants/Constans";
+import {Link, useNavigate} from "react-router-dom";
+import Alert from "../../Ui/Alerts/Alert";
+import ValidationMessage from "../../Ui/Form/ValidationMessage";
 
-export default function LoginView({ isLoading, validations, error,loginRequest }) {
+export default function LoginView({isLoading, validations, error, loginRequest}) {
 
     const [formData, setFormData] = useState({})
 
@@ -14,7 +16,7 @@ export default function LoginView({ isLoading, validations, error,loginRequest }
 
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
-        setFormData({ ...formData, [target.name]: target.value })
+        setFormData({...formData, [target.name]: target.value})
     }
 
     const _handelFormSubmit = async () => {
@@ -29,10 +31,15 @@ export default function LoginView({ isLoading, validations, error,loginRequest }
             <section
                 className="grid grid-cols-1 gap-5 h-screen content-center justify-items-center">
                 <section>
-                    <img src={Logo} className="w-56 lg:w-64" alt="" />
+                    <img src={Logo} className="w-56 lg:w-64" alt=""/>
                 </section>
                 <section className="flex flex-col gap-1 lg:gap-0.5">
-                   {error && (<div className="bg-white px-4 py-3 rounded-tr-md rounded-br-md border-l-4 text-md border-rose-500 px-2  text-rose-500 mb-1 ">{error}</div>)} 
+
+                    <Alert
+                        isError={!!error}
+                        message={error}
+                    />
+
                     <input
                         type="email"
                         name="email"
@@ -40,8 +47,10 @@ export default function LoginView({ isLoading, validations, error,loginRequest }
                         className={`px-4 py-3 rounded-t-md ${validations?.email && 'border-l-4 border-rose-500 '}`}
                         onChange={_handelInputChange}
                     />
-                    <span className="bg-white border-l-4 text-sm border-rose-500 px-2 text-rose-500 capitalize">{validations?.email && validations.email }</span>
-                   
+                    <ValidationMessage
+                        message={validations?.email}
+                    />
+
                     <input
                         type="password"
                         name="password"
@@ -49,8 +58,9 @@ export default function LoginView({ isLoading, validations, error,loginRequest }
                         className={`px-4 py-3  ${validations?.password ? 'border-l-4 border-rose-500 rounded-none' : 'rounded-b-md'}`}
                         onChange={_handelInputChange}
                     />
-                    <span className="bg-white border-l-4 text-sm border-rose-500 px-2  text-rose-500 rounded-b-md capitalize">{validations?.password && validations.password }</span>
-                    {/* bg-rose-200 */}
+                    <ValidationMessage
+                        message={validations?.password}
+                    />
 
                     <DarkButton
                         label="Login"

@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux"
 import LoginView from "../../Views/Auth/LoginView";
-import {increaseCounter} from "../../../state/actions/app.actions";
+import {loginRequest} from "../../../state/actions/authActions";
+import {Link, useNavigate} from "react-router-dom";
 
 const LoginContainer = (props) => {
     return (
@@ -10,13 +11,13 @@ const LoginContainer = (props) => {
 }
 const mapStateToProps = state => {
     return {
-        ...state.app,
+        ...state.auth,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        increaseCounter: () => dispatch(increaseCounter()),
+        loginRequest: (formData,navigate) => dispatch(loginRequest(formData,navigate)),
     }
 }
 

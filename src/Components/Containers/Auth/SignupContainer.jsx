@@ -1,7 +1,9 @@
 import React from "react";
 import {connect} from "react-redux"
-import {increaseCounter} from "../../../state/actions/app.actions";
+
 import SignupView from "../../Views/Auth/SignupView";
+
+import {signupRequest,verificationRequest} from "../../../state/actions/authActions";
 
 const SignupContainer = (props) => {
     return (
@@ -10,13 +12,14 @@ const SignupContainer = (props) => {
 }
 const mapStateToProps = state => {
     return {
-        ...state.app,
+        ...state.auth,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        increaseCounter: () => dispatch(increaseCounter()),
+        signupRequest: (formData) => dispatch(signupRequest(formData)),
+        verificationRequest: (formData,redirect) => dispatch(verificationRequest(formData,redirect)),
     }
 }
 

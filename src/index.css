@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.PhoneInputCountry {
+   padding: 11px 20px;
+   margin-right: 2px !important;
+   background-color: #fff;
+}
+.PhoneInputInput{
+   padding: 11px;
+}

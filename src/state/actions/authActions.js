@@ -7,7 +7,7 @@ import {
     FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD, LOGOUT_SUCCESS
 } from "../constants/authConstants";
 
-import * as authApi from '../../Services/Apis/authApi';
+import * as authApi from '../../apis/authApi';
 import {
     BASE_PATH, LOCAL_STORAGE_AUTH_USER,
     LOGIN_PATH,

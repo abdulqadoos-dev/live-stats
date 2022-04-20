@@ -1,15 +1,8 @@
 import React from "react";
-import {LOGIN_PATH} from "../../Services/Constans";
-import {Outlet, Navigate} from "react-router";
+import {Navigate} from "react-router";
+import {LOGIN_PATH} from "../../state/constants/Constans";
 
-
-const isAuthenticated = () => {
-    const user = {loggedIn: false}
-    return user.loggedIn;
-}
-
-
-const ProtectedRoutes = () => {
-    return isAuthenticated() ?  <Outlet/> : <Navigate to={LOGIN_PATH}/>
+const ProtectedRoutes = ({isLoggedIn, children}) => {
+    return isLoggedIn ? children : <Navigate to={LOGIN_PATH}/>
 }
 export default ProtectedRoutes;

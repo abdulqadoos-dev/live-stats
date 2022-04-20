@@ -11,7 +11,8 @@ import {
     FORGET_PASSWORD_FAILD,
     REQUEST_START,
     CHANGE_PASSWORD_SUCCESS,
-    CHANGE_PASSWORD_FAILD
+    CHANGE_PASSWORD_FAILD,
+    LOGOUT_SUCCESS
 } from "../constants/authConstants";
 
 const INITIAL_STATE = {
@@ -64,7 +65,6 @@ const auth = (state = INITIAL_STATE, action) => {
                 error: action?.error || null,
                 validations: action?.validationResults || null,
             };
-
 
 
         case VERIFICATION_SUCCESS:
@@ -133,6 +133,13 @@ const auth = (state = INITIAL_STATE, action) => {
                 authUser: null,
                 error: action?.error || null,
                 validations: action?.validationResults || null,
+            };
+
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                INITIAL_STATE,
+                isLoading: false
             };
 
         default:

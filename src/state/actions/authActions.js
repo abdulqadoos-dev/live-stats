@@ -4,15 +4,14 @@ import {
     VERIFICATION_SUCCESS, VERIFICATION_FAILD,
     REQUEST_START,
     LOGIN_SUCCESS, LOGIN_FAILD,
-    FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD
+    FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD, LOGOUT_SUCCESS
 } from "../constants/authConstants";
 
 import * as authApi from '../../Services/Apis/authApi';
 import {
-    BASE_PATH,
-    FORBIDDEN_CODE_403,
+    BASE_PATH, LOCAL_STORAGE_AUTH_USER,
     LOGIN_PATH,
-    STATUS_CODE_400, STATUS_CODE_403, VALIDATION_FAILD_CODE,
+    STATUS_CODE_400,
 } from "../constants/Constans";
 
 
@@ -134,6 +133,7 @@ export const loginRequest = (formData, navigate) => {
             .then((result) => {
                 dispatch(loginSuccess(result.data));
                 navigate(BASE_PATH);
+                window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
                 console.log(result, LOGIN_SUCCESS);
             })
             .catch((error) => {
@@ -214,12 +214,28 @@ export const changePasswordRequest = (formData, navigate) => {
             })
             .catch((error) => {
                 dispatch(changePasswordFailed(error.data))
-                // error.status === STATUS_CODE_403 ? dispatch(changePasswordFailed(error.data))
-                //     : error.status === STATUS_CODE_400 && dispatch(changePasswordFailed(error.data))
-                // dispatch(changePasswordFailed({validationResult: error.message}))
                 console.log({formData}, error, CHANGE_PASSWORD_FAILD)
             });
 
         return promise;
     }
 }
+
+
+export const logoutSuccess = () => {
+    return {
+        type: LOGOUT_SUCCESS,
+    }
+}
+
+
+export const logout = (navigate) => {
+    return (dispatch) => {
+        dispatch(requestStart());
+        window.localStorage.removeItem(LOCAL_STORAGE_AUTH_USER);
+        dispatch(logoutSuccess());
+        navigate(LOGIN_PATH)
+    }
+}
+
+

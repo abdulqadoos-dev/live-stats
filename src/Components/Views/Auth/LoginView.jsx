@@ -33,7 +33,7 @@ export default function LoginView({isLoading, validations, error, loginRequest})
                 <section>
                     <img src={Logo} className="w-56 lg:w-64" alt=""/>
                 </section>
-                <section className="flex flex-col gap-1 lg:gap-0.5">
+                <section className="flex flex-col gap-1 lg:gap-0.5 w-64">
 
                     <Alert
                         message={error}

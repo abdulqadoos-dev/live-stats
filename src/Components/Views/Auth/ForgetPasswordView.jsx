@@ -54,16 +54,25 @@ export default function ForgetPasswordView(
         changePasswordRequest(payload, navigate);
     }
 
-    // console.log({message})
+    console.log({signature})
 
     return (
         <BackgroundImage backgroundImage={AuthBackgroundImage}>
             <section className="grid grid-cols-1 gap-5 h-screen content-center justify-items-center">
                 <img src={Logo} className="w-56 lg:w-64" alt=""/>
-
+                <div className="flex flex-col w-64">
+                    <Alert
+                        message={message}
+                        className={"border-green-500"}
+                    />
+                    <Alert
+                        message={error}
+                        className={"border-rose-500"}
+                    />
+                </div>
                 {activeView === DEFAULT_VIEW && (
                     <>
-                        <div className="flex flex-col gap-1 lg:gap-0.5">
+                        <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
 
                             <input
                                 type="email"
@@ -95,16 +104,8 @@ export default function ForgetPasswordView(
 
                 {activeView === OTP_VERIFICATION_VIEW && (
                     <>
-                        <div className="flex flex-col gap-1 lg:gap-0.5">
+                        <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
 
-                            <Alert
-                                message={message}
-                                className={"border-green-500"}
-                            />
-                            <Alert
-                                message={error}
-                                className={"border-rose-500"}
-                            />
 
                             <input
                                 className={`px-4 py-3 rounded-md`}
@@ -126,7 +127,8 @@ export default function ForgetPasswordView(
                         </div>
 
                         <div className="text-white text-center">
-                            <p>Don't receive an email? <Link to={FORGET_PASSWORD_PATH} className="font-bold">Try Again</Link></p>
+                            <p>Don't receive an email? <Link to={FORGET_PASSWORD_PATH} className="font-bold">Try
+                                Again</Link></p>
                         </div>
 
                     </>
@@ -134,15 +136,17 @@ export default function ForgetPasswordView(
 
                 {activeView === RESET_PASSWORD_VIEW && (
                     <>
-                        <div className="flex flex-col gap-1 lg:gap-0.5">
+                        <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
                             <input
                                 className={`px-4 py-3 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`}
                                 type="password" name="password" placeholder="New Password"
                                 onChange={_handelInputChange}/>
+
                             <input
                                 className={`px-4 py-3 rounded-b-md ${passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`}
                                 type="password" name={CONFIRM_PASSWORD} placeholder="Confirm Password"
                                 onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)}/>
+
                             <DarkButton label="Change Password" disabled={passwordMatched} isLoading={isLoading}
                                         clickEvent={_handelChangePasswordSubmit} className="my-2"/>
                         </div>

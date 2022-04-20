@@ -8,7 +8,12 @@ import {
 } from "../constants/authConstants";
 
 import * as authApi from '../../Services/Apis/authApi';
-import {BASE_PATH, LOGIN_PATH, STATUS_CODE_400, VALIDATION_FAILD_CODE} from "../constants/Constans";
+import {
+    BASE_PATH,
+    FORBIDDEN_CODE_403,
+    LOGIN_PATH,
+    STATUS_CODE_400, STATUS_CODE_403, VALIDATION_FAILD_CODE,
+} from "../constants/Constans";
 
 
 export const setView = (view) => {
@@ -189,7 +194,7 @@ export const changePasswordSuccess = (result) => {
 export const changePasswordFailed = (error) => {
     return {
         type: CHANGE_PASSWORD_FAILD,
-        error
+        ...error
     }
 }
 
@@ -208,8 +213,11 @@ export const changePasswordRequest = (formData, navigate) => {
                 navigate(LOGIN_PATH)
             })
             .catch((error) => {
-                dispatch(changePasswordFailed({validationResult: error.message}))
-                console.log({formData}, error.message, CHANGE_PASSWORD_FAILD)
+                dispatch(changePasswordFailed(error.data))
+                // error.status === STATUS_CODE_403 ? dispatch(changePasswordFailed(error.data))
+                //     : error.status === STATUS_CODE_400 && dispatch(changePasswordFailed(error.data))
+                // dispatch(changePasswordFailed({validationResult: error.message}))
+                console.log({formData}, error, CHANGE_PASSWORD_FAILD)
             });
 
         return promise;

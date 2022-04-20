@@ -52,13 +52,13 @@ export default function SignupView(
     return (
         <BackgroundImage backgroundImage={AuthBackGroundImage}>
             <section
-                className="grid grid-cols-1 gap-5 h-screen content-center justify-items-center">
+                className="grid grid-cols-1 gap-5 h-screen content-center justify-items-center ">
                 <div>
                     <img src={Logo} className="w-56 lg:w-64" alt=""/>
                 </div>
 
                 {activeView === DEFAULT_VIEW && (
-                    <div className="flex flex-col gap-1 lg:gap-0.5">
+                    <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
                         <Alert
                             message={error}
                             className="border-rose-500"
@@ -134,7 +134,7 @@ export default function SignupView(
                 )}
 
                 {activeView === OTP_VERIFICATION_VIEW && (
-                    <div className="flex flex-col gap-1 lg:gap-0.5">
+                    <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
                         <Alert
                             message={message}
                             className="border-green-500"

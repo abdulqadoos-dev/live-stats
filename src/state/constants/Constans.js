@@ -7,3 +7,4 @@ export const FORGET_PASSWORD_PATH = "/forget-password"
 
 export const VALIDATION_FAILD_CODE = 400
 export const STATUS_CODE_400 = 400
+export const STATUS_CODE_403 = 403

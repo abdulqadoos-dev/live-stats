@@ -130,7 +130,9 @@ const auth = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
-                validations: action.error.validationResult,
+                authUser: null,
+                error: action?.error || null,
+                validations: action?.validationResults || null,
             };
 
         default:

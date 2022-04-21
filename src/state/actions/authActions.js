@@ -10,7 +10,7 @@ import {
 import * as authApi from '../../apis/authApi';
 import {
     BASE_PATH, LOCAL_STORAGE_AUTH_USER,
-    LOGIN_PATH,
+    LOGIN_PATH, SETUP_PROFILE_PATH,
     STATUS_CODE_400,
 } from "../constants/Constans";
 
@@ -132,8 +132,8 @@ export const loginRequest = (formData, navigate) => {
         promise
             .then((result) => {
                 dispatch(loginSuccess(result.data));
-                navigate(BASE_PATH);
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
+                result?.data?.user?.profile ? navigate(BASE_PATH) : navigate(SETUP_PROFILE_PATH);
                 console.log(result, LOGIN_SUCCESS);
             })
             .catch((error) => {

@@ -6,14 +6,17 @@ import {BrowserRouter, Link} from "react-router-dom";
 import {Routes, Route} from "react-router";
 import {
     BASE_PATH,
-    FORGET_PASSWORD_PATH, LOCAL_STORAGE_AUTH_USER,
-    LOGIN_PATH, LOGOUT_PATH,
+    SIGNUP_PATH,
     PAGE_NOT_FOUND,
-    SIGNUP_PATH
+    SETUP_PROFILE_PATH,
+    FORGET_PASSWORD_PATH,
+    LOCAL_STORAGE_AUTH_USER,
+    LOGIN_PATH, LOGOUT_PATH
 } from "../../state/constants/Constans";
 import ProtectedRoutes from "../Includes/ProtectedRoutes";
 import AuthRoutes from "../Includes/AuthRoutes";
 import LogoutContainer from "../Containers/Auth/LogoutContainer";
+import SetupProfileContainer from "../Containers/Profile/SetupProfileContainer";
 
 
 export default function AppView(props) {
@@ -34,6 +37,13 @@ export default function AppView(props) {
                                 <Link to={LOGOUT_PATH}> -- Login Out -- </Link>
                             </ProtectedRoutes>
                         }/>
+
+                        <Route path={SETUP_PROFILE_PATH} element={
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                               <SetupProfileContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
 
                         <Route path={LOGIN_PATH} element={
                             <AuthRoutes isLoggedIn={isLoggedIn}>

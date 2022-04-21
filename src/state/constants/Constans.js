@@ -1,12 +1,13 @@
 export const BASE_PATH = "/"
-export const DASHBOARD_PATH = "/dashboard"
 export const LOGIN_PATH = "/login"
 export const LOGOUT_PATH = "/logout"
 export const PAGE_NOT_FOUND = "*"
 export const SIGNUP_PATH = "/signup"
 export const FORGET_PASSWORD_PATH = "/forget-password"
 
-export const VALIDATION_FAILD_CODE = 400
+// Profile routes
+export const SETUP_PROFILE_PATH = "/setup-profile"
+
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403
 export const LOCAL_STORAGE_AUTH_USER = "authUser";

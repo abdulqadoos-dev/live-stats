@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import BackgroundImage from "../../Ui/BackgroundImage";
 import AuthBackgroundImage from "../../../Media/login-background.jpg"
@@ -72,7 +72,8 @@ export default function LoginView({isLoading, validations, error, loginRequest})
                 </section>
                 <section className="text-white text-center">
                     <p className="mb-3 hover:underline"><Link to={FORGET_PASSWORD_PATH}>Forget your password?</Link></p>
-                    <p>Don't have an account? <Link to={SIGNUP_PATH} className="font-bold hover:underline">Sign Up</Link></p>
+                    <p>Don't have an account? <Link to={SIGNUP_PATH} className="font-bold hover:underline">Sign
+                        Up</Link></p>
                 </section>
             </section>
         </BackgroundImage>

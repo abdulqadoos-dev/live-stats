@@ -3,7 +3,7 @@ import React from "react";
 export default function ProfileSetupWrapper({children}) {
     return (
         <>
-            <div className="bg-zinc-800 h-screen w-screen flex items-center justify-center">
+            <div className="bg-secondary h-screen w-screen font-default grid content-center justify-items-center">
                 {children}
             </div>
         </>

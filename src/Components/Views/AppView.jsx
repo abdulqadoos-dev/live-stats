@@ -39,7 +39,8 @@ export default function AppView(props) {
                         }/>
 
                         <Route path={SETUP_PROFILE_PATH} element={
-                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
                                <SetupProfileContainer/>
                             </ProtectedRoutes>
                         }/>

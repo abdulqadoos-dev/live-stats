@@ -11,12 +11,13 @@ import {
     SETUP_PROFILE_PATH,
     FORGET_PASSWORD_PATH,
     LOCAL_STORAGE_AUTH_USER,
-    LOGIN_PATH, LOGOUT_PATH
+    LOGIN_PATH, LOGOUT_PATH, BUILD_YOUR_PROFILE_PATH
 } from "../../state/constants/Constans";
 import ProtectedRoutes from "../Includes/ProtectedRoutes";
 import AuthRoutes from "../Includes/AuthRoutes";
 import LogoutContainer from "../Containers/Auth/LogoutContainer";
 import SetupProfileContainer from "../Containers/Profile/SetupProfileContainer";
+import BuildProfileView from "./Profile/BuildProfileView";
 
 
 export default function AppView(props) {
@@ -41,7 +42,14 @@ export default function AppView(props) {
                         <Route path={SETUP_PROFILE_PATH} element={
                             // <ProtectedRoutes isLoggedIn={isLoggedIn}>
                             <ProtectedRoutes isLoggedIn={true}>
-                               <SetupProfileContainer/>
+                                <SetupProfileContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+                        <Route path={BUILD_YOUR_PROFILE_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <BuildProfileView/>
                             </ProtectedRoutes>
                         }/>
 

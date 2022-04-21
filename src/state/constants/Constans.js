@@ -7,6 +7,7 @@ export const FORGET_PASSWORD_PATH = "/forget-password"
 
 // Profile routes
 export const SETUP_PROFILE_PATH = "/setup-profile"
+export const BUILD_YOUR_PROFILE_PATH = "/build-your-profile"
 
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403

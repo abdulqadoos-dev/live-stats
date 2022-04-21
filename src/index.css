@@ -26,11 +26,17 @@
     stroke: #fff;
 }
 
+.build-profile-tile svg {
+    width: 180px;
+    height: 180px;
+}
+
 @media screen and (max-width: 480px) {
     .profile-setup-tile {
         width: 150px;
         height: 250px;
     }
+
     .profile-setup-tile svg {
         width: 60px;
         height: 60px;

@@ -11,7 +11,13 @@ import {
     SETUP_PROFILE_PATH,
     FORGET_PASSWORD_PATH,
     LOCAL_STORAGE_AUTH_USER,
-    LOGIN_PATH, LOGOUT_PATH, BUILD_YOUR_PROFILE_PATH, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH, CREATING_FEED_PATH
+    LOGIN_PATH,
+    LOGOUT_PATH,
+    BUILD_YOUR_PROFILE_PATH,
+    LOCATION_DETAILS_PATH,
+    SELECT_SPORT_PATH,
+    CREATING_FEED_PATH,
+    SCHOOL_AND_SPORT_PATH
 } from "../../state/constants/Constans";
 import ProtectedRoutes from "../Includes/ProtectedRoutes";
 import AuthRoutes from "../Includes/AuthRoutes";
@@ -21,6 +27,7 @@ import BuildProfileView from "./Profile/BuildProfileView";
 import LocationDetailsContainer from "../Containers/Profile/LocationDetailsContainer";
 import SelectSportContainer from "../Containers/Profile/SelectSportContainer";
 import CreatingFeedView from "./Profile/CreatingFeedView";
+import SchoolAndSportContainer from "../Containers/Profile/SchoolAndSportContainer";
 
 
 export default function AppView(props) {
@@ -38,7 +45,7 @@ export default function AppView(props) {
                         <Route index element={
                             <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <h1>Home</h1>
-                                <Link to={LOGOUT_PATH}> -- Login Out -- </Link>
+                                <Link to={LOGOUT_PATH}> -- LogOut -- </Link>
                             </ProtectedRoutes>
                         }/>
 
@@ -52,7 +59,7 @@ export default function AppView(props) {
                         <Route path={BUILD_YOUR_PROFILE_PATH} element={
                             // <ProtectedRoutes isLoggedIn={isLoggedIn}>
                             <ProtectedRoutes isLoggedIn={true}>
-                                <BuildProfileView/>
+                                <BuildProfileView isFanView={true}/>
                             </ProtectedRoutes>
                         }/>
 
@@ -60,6 +67,14 @@ export default function AppView(props) {
                             // <ProtectedRoutes isLoggedIn={isLoggedIn}>
                             <ProtectedRoutes isLoggedIn={true}>
                                 <LocationDetailsContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+
+                        <Route path={SCHOOL_AND_SPORT_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <SchoolAndSportContainer/>
                             </ProtectedRoutes>
                         }/>
 

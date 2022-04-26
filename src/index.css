@@ -8,45 +8,29 @@
 @tailwind utilities;
 
 
-.profile-setup-tile {
-    width: 300px;
-    height: 350px;
-}
-
-.profile-setup-tile svg {
-    stroke: #424242;
-    stroke-width: 0.6px;
-}
-
-.profile-setup-tile:hover svg {
-    stroke: #fff;
-}
-
-.profile-setup-tile.active svg {
-    stroke: #fff;
-}
-
-.build-profile-tile svg {
-    width: 180px;
-    height: 180px;
-}
-
-@media screen and (max-width: 480px) {
-    .profile-setup-tile {
-        width: 150px;
-        height: 250px;
-    }
-
-    .profile-setup-tile svg {
-        width: 60px;
-        height: 60px;
-        stroke-width: 0.6px;
-    }
-}
-
 @layer components {
     .select-sport-svg svg{
         @apply stroke-secondary stroke-1 w-14 h-14 lg:w-20 lg:h-20
+    }
+
+    .build-profile-svg svg{
+        @apply stroke-white w-40 h-40
+    }
+
+    .profile-setup-tile {
+        @apply h-48 w-40 lg:h-96 lg:w-80
+    }
+
+    .profile-setup-tile:hover svg{
+        @apply stroke-white
+    }
+
+    .profile-setup-tile.active svg{
+        @apply stroke-white
+    }
+
+    .profile-setup-tile svg{
+        @apply stroke-secondary w-20 h-20 lg:w-32 lg:h-32
     }
 }
 

@@ -9,7 +9,7 @@ import {BUILD_YOUR_PROFILE_PATH} from "../../../state/constants/Constans";
 
 export default function SetupProfileView() {
 
-    const [active, setActive] = useState(null)
+    const [active, setActive] = useState("fan")
     const navigate = useNavigate();
     return (
         <>

@@ -1,13 +1,52 @@
+@font-face {
+    font-family: "stratum";
+    src: url("/src/fonts/stratumno1-regular.ttf");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
-.PhoneInputCountry {
-   padding: 11px 20px;
-   margin-right: 2px !important;
-   background-color: #fff;
+.profile-setup-tile {
+    width: 300px;
+    height: 350px;
 }
-.PhoneInputInput{
-   padding: 11px;
+
+.profile-setup-tile svg {
+    stroke: #424242;
+    stroke-width: 0.6px;
 }
+
+.profile-setup-tile:hover svg {
+    stroke: #fff;
+}
+
+.profile-setup-tile.active svg {
+    stroke: #fff;
+}
+
+.build-profile-tile svg {
+    width: 180px;
+    height: 180px;
+}
+
+@media screen and (max-width: 480px) {
+    .profile-setup-tile {
+        width: 150px;
+        height: 250px;
+    }
+
+    .profile-setup-tile svg {
+        width: 60px;
+        height: 60px;
+        stroke-width: 0.6px;
+    }
+}
+
+@layer components {
+    .select-sport-svg svg{
+        @apply stroke-secondary stroke-1 w-14 h-14 lg:w-20 lg:h-20
+    }
+}
+

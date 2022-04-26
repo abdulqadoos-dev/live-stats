@@ -6,14 +6,21 @@ import {BrowserRouter, Link} from "react-router-dom";
 import {Routes, Route} from "react-router";
 import {
     BASE_PATH,
-    FORGET_PASSWORD_PATH, LOCAL_STORAGE_AUTH_USER,
-    LOGIN_PATH, LOGOUT_PATH,
+    SIGNUP_PATH,
     PAGE_NOT_FOUND,
-    SIGNUP_PATH
+    SETUP_PROFILE_PATH,
+    FORGET_PASSWORD_PATH,
+    LOCAL_STORAGE_AUTH_USER,
+    LOGIN_PATH, LOGOUT_PATH, BUILD_YOUR_PROFILE_PATH, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH, CREATING_FEED_PATH
 } from "../../state/constants/Constans";
 import ProtectedRoutes from "../Includes/ProtectedRoutes";
 import AuthRoutes from "../Includes/AuthRoutes";
 import LogoutContainer from "../Containers/Auth/LogoutContainer";
+import SetupProfileContainer from "../Containers/Profile/SetupProfileContainer";
+import BuildProfileView from "./Profile/BuildProfileView";
+import LocationDetailsContainer from "../Containers/Profile/LocationDetailsContainer";
+import SelectSportContainer from "../Containers/Profile/SelectSportContainer";
+import CreatingFeedView from "./Profile/CreatingFeedView";
 
 
 export default function AppView(props) {
@@ -34,6 +41,42 @@ export default function AppView(props) {
                                 <Link to={LOGOUT_PATH}> -- Login Out -- </Link>
                             </ProtectedRoutes>
                         }/>
+
+                        <Route path={SETUP_PROFILE_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <SetupProfileContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+                        <Route path={BUILD_YOUR_PROFILE_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <BuildProfileView/>
+                            </ProtectedRoutes>
+                        }/>
+
+                        <Route path={LOCATION_DETAILS_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <LocationDetailsContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+                        <Route path={SELECT_SPORT_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <SelectSportContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+                        <Route path={CREATING_FEED_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <CreatingFeedView/>
+                            </ProtectedRoutes>
+                        }/>
+
 
                         <Route path={LOGIN_PATH} element={
                             <AuthRoutes isLoggedIn={isLoggedIn}>

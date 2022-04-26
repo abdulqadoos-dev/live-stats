@@ -8,6 +8,9 @@ export const FORGET_PASSWORD_PATH = "/forget-password"
 // Profile routes
 export const SETUP_PROFILE_PATH = "/setup-profile"
 export const BUILD_YOUR_PROFILE_PATH = "/build-your-profile"
+export const LOCATION_DETAILS_PATH = "/location-details"
+export const SELECT_SPORT_PATH = "/select-sport"
+export const CREATING_FEED_PATH = "/creating-your-feed"
 
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403

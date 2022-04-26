@@ -38,7 +38,7 @@ export default function SetupProfileView() {
                     {active && (
                         <PrimaryButton
                             label="Next"
-                            className="font-medium w-52 mt-4 md:w-64 md:mt-8 md:text-lg"
+                            className="font-medium mt-4 w-64 md:mt-8 md:text-lg"
                             clickEvent={() => navigate(BUILD_YOUR_PROFILE_PATH)}
                         />
                     )}

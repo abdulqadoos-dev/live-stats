@@ -44,3 +44,9 @@
     }
 }
 
+@layer components {
+    .select-sport-svg svg{
+        @apply stroke-secondary stroke-1 w-14 h-14 lg:w-20 lg:h-20
+    }
+}
+

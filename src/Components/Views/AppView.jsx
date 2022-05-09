@@ -33,6 +33,7 @@ import SchoolAndSportContainer from "../Containers/Profile/SchoolAndSportContain
 export default function AppView(props) {
 
     // console.log({isLoggedIn}, props.auth, "AUTH STATE");
+    // console.info(props.profile.formData.location, "STATE");
     console.info(props, "STATE");
     // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 

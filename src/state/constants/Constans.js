@@ -21,3 +21,4 @@ export const FAN_ROLE_ID = 1;
 export const TEAM_ROLE_ID = 2;
 
 export const REQUEST_START = "REQUEST_START"
+export const VALIDATION_RESULTS = "VALIDATION_RESULTS"

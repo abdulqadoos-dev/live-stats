@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import Alert from "../../Ui/Alerts/Alert";
 import ValidationMessage from "../../Ui/Form/ValidationMessage";
 import {useNavigate} from "react-router-dom";
-import {LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../state/constants/Constans";
+import {FAN_ROLE_ID, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../state/constants/Constans";
 
 export default function LocationDetailsView({isLoading, validations, error, formData, setProfileForm}) {
 
@@ -12,8 +12,19 @@ export default function LocationDetailsView({isLoading, validations, error, form
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        setProfileForm({
+            formData: {
+                ...formData,
+                location: null
+            }
+        })
+    }, [])
+
+
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
+        console.log(formData)
         setProfileForm({
             formData: {
                 ...formData, location: {

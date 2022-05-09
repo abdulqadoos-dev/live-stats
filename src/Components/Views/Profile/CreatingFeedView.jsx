@@ -3,9 +3,14 @@ import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import {useNavigate} from "react-router-dom";
 import creatingFeed from "../../../Media/icons/creating-feed.svg";
 import {ReactSVG} from "react-svg";
+import {BASE_PATH} from "../../../state/constants/Constans";
 
 export default function CreatingFeedView() {
     const navigate = useNavigate();
+
+    setTimeout(() => {
+        navigate(BASE_PATH)
+    },3000)
 
     return (
         <>

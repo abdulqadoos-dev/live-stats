@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux"
-import {loginRequest} from "../../../state/actions/authActions";
 import LocationDetailsView from "../../Views/Profile/LocationDetailsView";
+import {setProfileForm} from "../../../state/actions/profileActions";
 
 const LocationDetailsContainer = (props) => {
     return (
@@ -11,12 +11,13 @@ const LocationDetailsContainer = (props) => {
 const mapStateToProps = state => {
     return {
         ...state.auth,
+        ...state.profile
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        loginRequest: (formData, navigate) => dispatch(loginRequest(formData, navigate)),
+        setProfileForm: formData => dispatch(setProfileForm(formData)),
     }
 }
 

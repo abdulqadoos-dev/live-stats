@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux';
 
-import appReducers from "./reducers/app";
-import authReducers from "./reducers/auth";
+import app from "./reducers/app";
+import auth from "./reducers/auth";
+import profile from "./reducers/profile";
 
 const reducers = combineReducers({
-    app: appReducers,
-    auth: authReducers,
+    app,
+    auth,
+    profile
 });
 
 export default reducers;

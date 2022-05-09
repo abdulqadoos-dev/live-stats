@@ -1,7 +1,6 @@
 import React from "react";
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
-import {CREATING_FEED_PATH, LOCATION_DETAILS_PATH} from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 import SportIcon from "../../Ui/SportIcon";
 import americanball from "../../../Media/icons/americanball.svg";
@@ -11,7 +10,8 @@ import football from "../../../Media/icons/football.svg";
 import tennisball from "../../../Media/icons/tennisball.svg";
 import vollyball from "../../../Media/icons/vollyball.svg";
 
-export default function SelectSportView() {
+export default function SelectSportView({formData, createFanProfileRequest}) {
+
     const navigate = useNavigate();
 
     return (
@@ -23,15 +23,18 @@ export default function SelectSportView() {
                     <div className="grid grid-cols-4 gap-1 lg:gap-3 items-center">
                         <SportIcon
                             src={bowlingball}
+                            isDisabled={true}
                             className="mr-1"
                         />
 
                         <div className="grid gap-4 lg:gap-5 mr-1">
                             <SportIcon
                                 src={football}
+                                isDisabled={true}
                             />
                             <SportIcon
                                 src={americanball}
+                                isDisabled={true}
                             />
                         </div>
 
@@ -42,11 +45,13 @@ export default function SelectSportView() {
                             />
                             <SportIcon
                                 src={vollyball}
+                                isDisabled={true}
                             />
                         </div>
 
                         <SportIcon
                             src={tennisball}
+                            isDisabled={true}
                             className="ml-1"
                         />
                     </div>
@@ -58,8 +63,8 @@ export default function SelectSportView() {
 
                     <PrimaryButton
                         label="Next"
-                        className="font-medium w-64  md:text-lg"
-                        clickEvent={() => navigate(CREATING_FEED_PATH)}
+                        className="font-medium w-64 md:text-lg"
+                        clickEvent={() => createFanProfileRequest(formData, navigate)}
                     />
 
                 </main>

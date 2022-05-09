@@ -1,4 +1,5 @@
 import { DECREMENT, INCREMENT } from "../constants/appConstants";
+import {REQUEST_START} from "../constants/Constans";
 
 
 export const testAction = () => {
@@ -16,3 +17,6 @@ export const decreaseCounter = () => {
         type: DECREMENT,
     };
 };
+
+
+export const requestStart = () => ({type: REQUEST_START});

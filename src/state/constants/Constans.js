@@ -16,3 +16,8 @@ export const CREATING_FEED_PATH = "/creating-your-feed"
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403
 export const LOCAL_STORAGE_AUTH_USER = "authUser";
+
+export const FAN_ROLE_ID = 1;
+export const TEAM_ROLE_ID = 2;
+
+export const REQUEST_START = "REQUEST_START"

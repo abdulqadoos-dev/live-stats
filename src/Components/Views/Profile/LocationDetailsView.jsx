@@ -6,20 +6,21 @@ import ValidationMessage from "../../Ui/Form/ValidationMessage";
 import {useNavigate} from "react-router-dom";
 import {LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../state/constants/Constans";
 
-export default function LocationDetailsView({isLoading, validations, error, saveLocationRequest}) {
+export default function LocationDetailsView({isLoading, validations, error, formData, setProfileForm}) {
 
-    const [formData, setFormData] = useState({})
+    // const [formData, setFormData] = useState({})
 
     const navigate = useNavigate();
 
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
-        setFormData({...formData, [target.name]: target.value})
-    }
-
-    const _handelFormSubmit = async () => {
-        saveLocationRequest(formData, navigate);
-        console.log("form submitted...");
+        setProfileForm({
+            formData: {
+                ...formData, location: {
+                    [target.name]: target.value
+                }
+            }
+        })
     }
 
     return (
@@ -68,19 +69,11 @@ export default function LocationDetailsView({isLoading, validations, error, save
                         />
 
                         <div>
-                            <p className="w-64 text-center font-sans my-10 font-light text-white	">
-                                Knowing your location helps you be in the know about what's happening locally and in surrounding areas.
+                            <p className="w-64 text-center font-sans my-10 font-light text-white">
+                                Knowing your location helps you be in the know about what's happening locally and in
+                                surrounding areas.
                             </p>
                         </div>
-
-
-                        {/*<PrimaryButton*/}
-                        {/*    label="Next"*/}
-                        {/*    isLoading={isLoading}*/}
-                        {/*    clickEvent={_handelFormSubmit}*/}
-                        {/*    className="font-medium w-52  md:w-64  md:text-lg"*/}
-                        {/*/>*/}
-
 
                         <PrimaryButton
                             label="Next"

@@ -13,6 +13,7 @@ import {
     LOGIN_PATH, SETUP_PROFILE_PATH,
     STATUS_CODE_400,
 } from "../constants/Constans";
+import {requestStart} from "./appActions";
 
 
 export const setView = (view) => {
@@ -22,12 +23,6 @@ export const setView = (view) => {
     }
 }
 
-
-export const requestStart = () => {
-    return {
-        type: REQUEST_START
-    }
-}
 
 export const signupSuccess = (message) => {
     return {
@@ -99,7 +94,6 @@ export const verificationRequest = (formData, navigate = null, activeView = DEFA
             })
             .catch((error) => {
                 error.status === STATUS_CODE_400 ? dispatch(verificationFailed(error.data)) : dispatch(verificationFailed({error: "opt failed try again!"}))
-                console.log(error, VERIFICATION_FAILD)
             });
 
         return promise;

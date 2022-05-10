@@ -13,6 +13,9 @@ export const SELECT_SPORT_PATH = "/select-sport"
 export const SCHOOL_AND_SPORT_PATH = "/school-and-sport"
 export const CREATING_FEED_PATH = "/creating-your-feed"
 
+// Roster routes
+export const UPLOAD_ROSTERS = "/upload-rosters"
+
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403
 export const LOCAL_STORAGE_AUTH_USER = "authUser";

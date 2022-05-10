@@ -15,7 +15,7 @@ import {
     SCHOOL_AND_SPORT_PATH,
     LOCATION_DETAILS_PATH,
     LOCAL_STORAGE_AUTH_USER,
-    BUILD_YOUR_PROFILE_PATH
+    BUILD_YOUR_PROFILE_PATH, UPLOAD_ROSTERS
 } from "../../state/constants/Constans";
 
 import AuthRoutes from "../Includes/AuthRoutes";
@@ -31,6 +31,7 @@ import BuildProfileContainer from "../Containers/Profile/BuildProfileContainer";
 import ForgetPasswordContainer from "../Containers/Auth/ForgetPasswordContainer";
 import SchoolAndSportContainer from "../Containers/Profile/SchoolAndSportContainer";
 import LocationDetailsContainer from "../Containers/Profile/LocationDetailsContainer";
+import UploadRosterContainer from "../Containers/Rosters/UploadRostersContainer";
 
 
 export default function AppView(props) {
@@ -96,6 +97,14 @@ export default function AppView(props) {
                             // <ProtectedRoutes isLoggedIn={isLoggedIn}>
                             <ProtectedRoutes isLoggedIn={true}>
                                 <CreatingFeedView/>
+                            </ProtectedRoutes>
+                        }/>
+
+
+                        <Route path={UPLOAD_ROSTERS} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <UploadRosterContainer/>
                             </ProtectedRoutes>
                         }/>
 

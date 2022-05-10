@@ -8,7 +8,6 @@ import {FAN_ROLE_ID, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../st
 
 export default function LocationDetailsView({isLoading, validations, error, formData, setProfileForm}) {
 
-    // const [formData, setFormData] = useState({})
 
     const navigate = useNavigate();
 

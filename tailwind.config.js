@@ -6,7 +6,8 @@ module.exports = {
         extend: {
             colors: {
                 primary: "#00BBF5",
-                secondary: "#424242"
+                secondary: "#424242",
+                "secondary-light": "#707070"
             },
             fontFamily: {
                 default: ['stratum']

@@ -1,40 +1,43 @@
-import React, {useEffect} from "react"
-import LoginContainer from "../Containers/Auth/LoginContainer";
-import SignupContainer from "../Containers/Auth/SignupContainer";
-import ForgetPasswordContainer from "../Containers/Auth/ForgetPasswordContainer";
-import {BrowserRouter, Link} from "react-router-dom";
+import React from "react"
 import {Routes, Route} from "react-router";
+import {BrowserRouter, Link} from "react-router-dom";
+
 import {
     BASE_PATH,
-    SIGNUP_PATH,
-    PAGE_NOT_FOUND,
-    SETUP_PROFILE_PATH,
-    FORGET_PASSWORD_PATH,
-    LOCAL_STORAGE_AUTH_USER,
     LOGIN_PATH,
+    SIGNUP_PATH,
     LOGOUT_PATH,
-    BUILD_YOUR_PROFILE_PATH,
-    LOCATION_DETAILS_PATH,
+    PAGE_NOT_FOUND,
     SELECT_SPORT_PATH,
+    SETUP_PROFILE_PATH,
     CREATING_FEED_PATH,
-    SCHOOL_AND_SPORT_PATH
+    FORGET_PASSWORD_PATH,
+    SCHOOL_AND_SPORT_PATH,
+    LOCATION_DETAILS_PATH,
+    LOCAL_STORAGE_AUTH_USER,
+    BUILD_YOUR_PROFILE_PATH
 } from "../../state/constants/Constans";
-import ProtectedRoutes from "../Includes/ProtectedRoutes";
+
 import AuthRoutes from "../Includes/AuthRoutes";
-import LogoutContainer from "../Containers/Auth/LogoutContainer";
-import SetupProfileContainer from "../Containers/Profile/SetupProfileContainer";
-import BuildProfileView from "./Profile/BuildProfileView";
-import LocationDetailsContainer from "../Containers/Profile/LocationDetailsContainer";
-import SelectSportContainer from "../Containers/Profile/SelectSportContainer";
 import CreatingFeedView from "./Profile/CreatingFeedView";
+import ProtectedRoutes from "../Includes/ProtectedRoutes";
+
+import LoginContainer from "../Containers/Auth/LoginContainer";
+import LogoutContainer from "../Containers/Auth/LogoutContainer";
+import SignupContainer from "../Containers/Auth/SignupContainer";
+import SelectSportContainer from "../Containers/Profile/SelectSportContainer";
+import SetupProfileContainer from "../Containers/Profile/SetupProfileContainer";
+import BuildProfileContainer from "../Containers/Profile/BuildProfileContainer";
+import ForgetPasswordContainer from "../Containers/Auth/ForgetPasswordContainer";
 import SchoolAndSportContainer from "../Containers/Profile/SchoolAndSportContainer";
+import LocationDetailsContainer from "../Containers/Profile/LocationDetailsContainer";
 
 
 export default function AppView(props) {
 
     // console.log({isLoggedIn}, props.auth, "AUTH STATE");
     // console.info(props.profile.formData.location, "STATE");
-    console.info(props, "STATE");
+    // console.info(props, "STATE");
     // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 
     const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
@@ -49,7 +52,7 @@ export default function AppView(props) {
                         <Route index element={
                             <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <h1>Home</h1>
-                                <Link to={LOGOUT_PATH}> -- LogOut -- </Link>
+                                <button><Link to={LOGOUT_PATH}> -- LogOut -- </Link></button>
                             </ProtectedRoutes>
                         }/>
 
@@ -63,7 +66,7 @@ export default function AppView(props) {
                         <Route path={BUILD_YOUR_PROFILE_PATH} element={
                             // <ProtectedRoutes isLoggedIn={isLoggedIn}>
                             <ProtectedRoutes isLoggedIn={true}>
-                                <BuildProfileView isFanView={true}/>
+                                <BuildProfileContainer/>
                             </ProtectedRoutes>
                         }/>
 

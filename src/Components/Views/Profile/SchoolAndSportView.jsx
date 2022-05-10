@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import Alert from "../../Ui/Alerts/Alert";
@@ -6,20 +6,29 @@ import ValidationMessage from "../../Ui/Form/ValidationMessage";
 import {useNavigate} from "react-router-dom";
 import {CREATING_FEED_PATH, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../state/constants/Constans";
 
-export default function SchoolAndSportView({isLoading, validations, error, saveLocationRequest}) {
-
-    const [formData, setFormData] = useState({})
+export default function SchoolAndSportView({isLoading, validations, error, formData, setProfileForm}) {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        setProfileForm({
+            formData: {
+                ...formData,
+                location: null
+            }
+        })
+    }, [])
+
+
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
-        setFormData({...formData, [target.name]: target.value})
-    }
-
-    const _handelFormSubmit = async () => {
-        saveLocationRequest(formData, navigate);
-        console.log("form submitted...");
+        setProfileForm({
+            formData: {
+                ...formData, location: {
+                    [target.name]: target.value
+                }
+            }
+        })
     }
 
     return (

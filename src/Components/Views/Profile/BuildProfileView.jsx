@@ -8,10 +8,15 @@ import team from "../../../Media/icons/team.svg";
 
 import {ReactSVG} from "react-svg";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
-import { LOCATION_DETAILS_PATH} from "../../../state/constants/Constans";
+import {
+    FAN_ROLE_ID,
+    LOCATION_DETAILS_PATH,
+    SCHOOL_AND_SPORT_PATH
+} from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 
-export default function BuildProfileView({isFanView}) {
+export default function BuildProfileView({formData}) {
+
     const navigate = useNavigate();
 
     return (
@@ -21,7 +26,7 @@ export default function BuildProfileView({isFanView}) {
                     <h1 className="text-3xl md:text-4xl text-white mb-10 md:mb-10">Let's build your profile</h1>
                     <div
                         className="grid content-center justify-items-center text-white build-profile-svg">
-                        <ReactSVG src={isFanView ? fan : team}/>
+                        <ReactSVG src={formData?.roleId === FAN_ROLE_ID ? fan : team}/>
                          <p className="w-80 text-center font-sans my-10 font-light">Your profile helps create a customized experience
                             with your favorite teams, local news, and much more! Your profile can always be updated
                             later.</p>
@@ -30,7 +35,7 @@ export default function BuildProfileView({isFanView}) {
                     <PrimaryButton
                         label="Next"
                         className="font-medium w-64  md:text-lg"
-                        clickEvent={() => navigate(LOCATION_DETAILS_PATH)}
+                        clickEvent={() => formData?.roleId === FAN_ROLE_ID ? navigate(LOCATION_DETAILS_PATH): navigate(SCHOOL_AND_SPORT_PATH)}
                     />
 
                 </main>

@@ -24,7 +24,6 @@ export default function LocationDetailsView({isLoading, validations, error, form
 
     const _handelInputChange = (event, name = null) => {
         const target = event.target;
-        console.log(formData)
         setProfileForm({
             formData: {
                 ...formData, location: {

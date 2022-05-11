@@ -5,8 +5,9 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: "#00BBF5",
-                secondary: "#424242",
+                "light": "#F8F8F8",
+                "primary": "#00BBF5",
+                "secondary": "#424242",
                 "secondary-light": "#707070"
             },
             fontFamily: {
@@ -14,10 +15,10 @@ module.exports = {
             },
         },
     },
-    variants:{
-      extend: {
-          backgroundColor : ['active'],
-      }
+    variants: {
+        extend: {
+            backgroundColor: ['active'],
+        }
     },
 
     plugins: [],

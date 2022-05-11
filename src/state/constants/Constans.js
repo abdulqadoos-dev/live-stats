@@ -15,6 +15,7 @@ export const CREATING_FEED_PATH = "/creating-your-feed"
 
 // Roster routes
 export const UPLOAD_ROSTERS = "/upload-rosters"
+export const ROSTERS_PATH = "/rosters"
 
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403

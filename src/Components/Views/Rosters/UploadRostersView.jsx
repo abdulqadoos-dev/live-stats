@@ -7,6 +7,7 @@ import {BASE_PATH} from "../../../state/constants/Constans";
 import {Input} from "postcss";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import * as XLSX from 'xlsx';
+import {rosterSchema} from "../../../state/constants/rosterSchema";
 
 export default function UploadRostersView() {
     const navigate = useNavigate();
@@ -51,6 +52,28 @@ export default function UploadRostersView() {
         }
     }
 
+    const _handleChange = (e, index) => {
+        const value = e.target.value;
+        const name = e.target.name;
+        const data = {...rosters[index]};
+        data[name] = value;
+        const _roster = [...rosters]
+        _roster.splice(index, 1, data)
+        setRosters(_roster)
+    }
+
+    const _addRoster = () => {
+        const data = rosters.slice();
+        data.push(rosterSchema)
+        setRosters(data)
+    }
+
+    const _removeRoster = (index) => {
+        const data = rosters.slice();
+        data.splice(index, 1)
+        setRosters(data)
+    }
+
     return (
         <>
             <ProfileSetupWrapper>
@@ -72,26 +95,31 @@ export default function UploadRostersView() {
                             <input
                                 type="text"
                                 value="Player Name"
+                                readOnly={true}
                                 className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-64"
                             />
                             <input
                                 type="text"
                                 value="Number"
+                                readOnly={true}
                                 className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
                             />
                             <input
                                 type="text"
                                 value="Height"
+                                readOnly={true}
                                 className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
                             />
                             <input
                                 type="text"
                                 value="Weight"
+                                readOnly={true}
                                 className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
                             />
                             <input
                                 type="text"
                                 value="Position"
+                                readOnly={true}
                                 className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
                             />
                         </div>
@@ -102,32 +130,45 @@ export default function UploadRostersView() {
                                     <input
                                         type="text"
                                         value={roster.name}
+                                        name='name'
+                                        onChange={(e)=>_handleChange(e,i)}
                                         className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-64"
                                     />
 
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={roster.number}
+                                        name='number'
+                                        onChange={(e)=>_handleChange(e,i)}
                                         className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
                                     />
 
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={roster.height}
+                                        name='height'
+                                        onChange={(e)=>_handleChange(e,i)}
                                         className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
                                     />
 
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={roster.weight}
+                                        name='weight'
+                                        onChange={(e)=>_handleChange(e,i)}
                                         className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
                                     />
 
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={roster.position}
+                                        name='position'
+                                        onChange={(e)=>_handleChange(e,i)}
                                         className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
                                     />
+                                <span style={{color: '#ffffff', backgroundColor:'red', padding: '0 5px', margin:'0 0 0 10px', borderRadius: '10px', cursor: 'pointer'}}
+                                    onClick={()=>_removeRoster(i)}
+                                >x</span>
                                 </div>
                             )
                                 :
@@ -135,6 +176,9 @@ export default function UploadRostersView() {
                                     <p>no record found</p>
                                 </div>
                         }
+                        <div className="border-b border-secondary">
+                            <span style={{cursor:'pointer', color:'#fff'}} onClick={_addRoster}>+ Player</span>
+                        </div>
                     </div>
 
                     <p className="mb-5 opacity-80 font-light text-white font-sans text-lg w-[400px] text-center">

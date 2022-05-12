@@ -17,6 +17,10 @@ export const CREATING_FEED_PATH = "/creating-your-feed"
 export const UPLOAD_ROSTERS = "/upload-rosters"
 export const ROSTERS_PATH = "/rosters"
 
+// Team routes
+
+export const TEAMS_PATH = "/teams"
+
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403
 export const LOCAL_STORAGE_AUTH_USER = "authUser";

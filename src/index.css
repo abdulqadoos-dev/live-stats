@@ -9,11 +9,11 @@
 
 
 @layer components {
-    .select-sport-svg svg{
+    .select-sport-svg svg {
         @apply stroke-secondary stroke-1 w-14 h-14 lg:w-20 lg:h-20
     }
 
-    .build-profile-svg svg{
+    .build-profile-svg svg {
         @apply stroke-white w-40 h-40
     }
 
@@ -21,16 +21,49 @@
         @apply h-48 w-40 lg:h-96 lg:w-80
     }
 
-    .profile-setup-tile:hover svg{
+    .profile-setup-tile:hover svg {
         @apply stroke-white
     }
 
-    .profile-setup-tile.active svg{
+    .profile-setup-tile.active svg {
         @apply stroke-white
     }
 
-    .profile-setup-tile svg{
+    .profile-setup-tile svg {
         @apply stroke-secondary w-20 h-20 lg:w-32 lg:h-32
     }
+
+    .button-default-svg svg {
+        @apply stroke-white fill-white w-5 h-5
+    }
+
+
+    .breadcrumbs svg {
+        @apply stroke-secondary  w-4 h-4 mt-1 mx-1
+    }
+
+    .menu-bar-svg svg {
+        @apply stroke-white  w-8 h-8 hover:stroke-white focus:stroke-white
+    }
+
+
+    .main-navigation li a {
+        @apply block px-10 py-4 text-white text-xl md:my-3 lg:text-2xl bg-primary hover:bg-secondary-light  focus:ring-0
+    }
+
+
+    .main-navigation li:first-child a {
+        @apply sm:rounded-l
+    }
+
+    .main-navigation li:last-child a {
+        @apply sm:rounded-r
+    }
+
+    .footer-navigation svg{
+        @apply stroke-white  w-10 h-10 mx-auto stroke-1
+    }
+
+
 }
 

@@ -15,7 +15,7 @@ import {
     SCHOOL_AND_SPORT_PATH,
     LOCATION_DETAILS_PATH,
     LOCAL_STORAGE_AUTH_USER,
-    BUILD_YOUR_PROFILE_PATH, UPLOAD_ROSTERS
+    BUILD_YOUR_PROFILE_PATH, UPLOAD_ROSTERS, ROSTERS_PATH, TEAMS_PATH
 } from "../../state/constants/Constans";
 
 import AuthRoutes from "../Includes/AuthRoutes";
@@ -32,6 +32,8 @@ import ForgetPasswordContainer from "../Containers/Auth/ForgetPasswordContainer"
 import SchoolAndSportContainer from "../Containers/Profile/SchoolAndSportContainer";
 import LocationDetailsContainer from "../Containers/Profile/LocationDetailsContainer";
 import UploadRosterContainer from "../Containers/Rosters/UploadRostersContainer";
+import RostersContainer from "../Containers/Rosters/RostersContainer";
+import TeamsContainer from "../Containers/Teams/TeamsContainers";
 
 
 export default function AppView(props) {
@@ -56,6 +58,24 @@ export default function AppView(props) {
                                 <button><Link to={LOGOUT_PATH}> -- LogOut -- </Link></button>
                             </ProtectedRoutes>
                         }/>
+
+                        {/* ---  Rosters Routes --- */}
+                        <Route path={ROSTERS_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <RostersContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+
+                        {/* ---  Teams Routes --- */}
+                        <Route path={TEAMS_PATH} element={
+                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                            <ProtectedRoutes isLoggedIn={true}>
+                                <TeamsContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
 
                         <Route path={SETUP_PROFILE_PATH} element={
                             // <ProtectedRoutes isLoggedIn={isLoggedIn}>

@@ -10,7 +10,7 @@ import * as authApi from '../../apis/authApi';
 import {
     BASE_PATH, LOCAL_STORAGE_AUTH_USER,
     LOGIN_PATH, SETUP_PROFILE_PATH,
-    STATUS_CODE_400,
+    STATUS_CODE_400, TEAMS_PATH,
 } from "../constants/Constans";
 import {requestStart} from "./appActions";
 
@@ -126,7 +126,7 @@ export const loginRequest = (formData, navigate) => {
             .then((result) => {
                 dispatch(loginSuccess(result.data));
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
-                result?.data?.user?.profile ? navigate(BASE_PATH) : navigate(SETUP_PROFILE_PATH);
+                result?.data?.user?.profile ? navigate(TEAMS_PATH) : navigate(SETUP_PROFILE_PATH);
             })
             .catch((error) => {
                 error.status === STATUS_CODE_400 ? dispatch(loginFailed(error.data)) : dispatch(loginFailed({error: "Invalid credentials"}));

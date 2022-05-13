@@ -149,7 +149,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                         />
 
                                         <input
-                                            type="number"
+                                            type="text"
                                             value={roster.number}
                                             name='number'
                                             onChange={(e) => _handleChange(e, i)}
@@ -157,7 +157,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                         />
 
                                         <input
-                                            type="number"
+                                            type="text"
                                             value={roster.height}
                                             name='height'
                                             onChange={(e) => _handleChange(e, i)}
@@ -165,7 +165,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                         />
 
                                         <input
-                                            type="number"
+                                            type="text"
                                             value={roster.weight}
                                             name='weight'
                                             onChange={(e) => _handleChange(e, i)}
@@ -173,7 +173,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                         />
 
                                         <input
-                                            type="number"
+                                            type="text"
                                             value={roster.position}
                                             name='position'
                                             onChange={(e) => _handleChange(e, i)}

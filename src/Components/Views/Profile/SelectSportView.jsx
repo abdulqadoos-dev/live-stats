@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import {useNavigate} from "react-router-dom";
@@ -9,10 +9,27 @@ import bowlingball from "../../../Media/icons/bowlingball.svg";
 import football from "../../../Media/icons/football.svg";
 import tennisball from "../../../Media/icons/tennisball.svg";
 import vollyball from "../../../Media/icons/vollyball.svg";
+import {FAN_ROLE_ID, SETUP_PROFILE_PATH} from "../../../state/constants/Constans";
 
-export default function SelectSportView({formData, createFanProfileRequest}) {
+export default function SelectSportView({formData, setProfileForm, createFanProfileRequest}) {
 
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (!formData) navigate(SETUP_PROFILE_PATH)
+    }, [])
+
+
+    useEffect(() => {
+        setProfileForm({
+            formData: {
+                ...formData,
+                sportId: 1
+            }
+        })
+    }, [])
+
 
     return (
         <>

@@ -64,6 +64,13 @@
         @apply stroke-white  w-10 h-10 mx-auto stroke-1
     }
 
+    .remove-roster-icon{
+        @apply bg-red-700 rounded-full w-6 h-6 inline-flex items-center justify-center ml-1 cursor-pointer
+    }
+    .remove-roster-icon svg{
+        @apply stroke-white h-5 w-5
+    }
+
 
 }
 

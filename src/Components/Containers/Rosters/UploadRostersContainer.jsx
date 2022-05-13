@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux"
-import {setProfileForm} from "../../../state/actions/profileActions";
+import {createTeamProfileRequest, setProfileForm} from "../../../state/actions/profileActions";
 import UploadRostersView from "../../Views/Rosters/UploadRostersView";
 
 const UploadRosterContainer = (props) => {
@@ -17,7 +17,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setProfileForm: formData => dispatch(setProfileForm(formData)),
+        setProfileForm: (formData, navigate) => dispatch(setProfileForm(formData, navigate)),
+        createTeamProfileRequest: (formData, navigate) => dispatch(createTeamProfileRequest(formData, navigate)),
     }
 }
 

@@ -1,4 +1,9 @@
-import {CREATE_FAN_PROFILE_FAILED, CREATE_FAN_PROFILE_SUCCESS, SET_PROFILE_FORM} from "../constants/profileConstants";
+import {
+    CREATE_FAN_PROFILE_FAILED,
+    CREATE_FAN_PROFILE_SUCCESS,
+    CREATE_TEAM_PROFILE_FAILED,
+    SET_PROFILE_FORM
+} from "../constants/profileConstants";
 import {REQUEST_START, VALIDATION_RESULTS} from "../constants/Constans";
 
 const INITIAL_STATE = {
@@ -19,12 +24,21 @@ const profile = (state = INITIAL_STATE, action) => {
             return {...state, formData: action.formData}
         case CREATE_FAN_PROFILE_SUCCESS:
             return {...state, isLoading: false, validations: null}
+
         case CREATE_FAN_PROFILE_FAILED:
             return {
                 ...state,
                 isLoading: false,
                 validations: action?.validationResults || null,
             }
+
+        case CREATE_TEAM_PROFILE_FAILED:
+            return {
+                ...state,
+                isLoading: false,
+                validations: action?.validationResults || null,
+            }
+
         case VALIDATION_RESULTS:
             return {
                 ...state,

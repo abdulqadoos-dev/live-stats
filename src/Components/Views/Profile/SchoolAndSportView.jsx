@@ -4,17 +4,25 @@ import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import Alert from "../../Ui/Alerts/Alert";
 import ValidationMessage from "../../Ui/Form/ValidationMessage";
 import {useNavigate} from "react-router-dom";
-import {CREATING_FEED_PATH, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../state/constants/Constans";
+import {
+    SETUP_PROFILE_PATH, UPLOAD_ROSTERS
+} from "../../../state/constants/Constans";
 
 export default function SchoolAndSportView({isLoading, validations, error, formData, setProfileForm}) {
 
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!formData) navigate(SETUP_PROFILE_PATH)
+    }, [])
+
+
+    useEffect(() => {
         setProfileForm({
             formData: {
                 ...formData,
-                location: null
+                sportId: 1,
+                gender: "male"
             }
         })
     }, [])
@@ -24,9 +32,8 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
         const target = event.target;
         setProfileForm({
             formData: {
-                ...formData, location: {
-                    [target.name]: target.value
-                }
+                ...formData,
+                [target.name]: target.value
             }
         })
     }
@@ -68,9 +75,11 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
                         <input
                             type="text"
                             name="sport"
-                            placeholder="Sport"
+                            readOnly
+                            placeholder="Basket ball"
+                            value="Basket ball"
                             className={`px-4 py-3  ${validations?.sport && ''}`}
-                            onChange={_handelInputChange}
+                            // onChange={_handelInputChange}
                         />
                         <ValidationMessage
                             message={validations?.sport}
@@ -79,9 +88,9 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
 
                         <input
                             type="number"
-                            name="code"
+                            name="liveStatCode"
                             placeholder="Live stat code"
-                            className={`px-4 py-3  ${validations?.code ? 'rounded-none' : 'rounded-b-md'}`}
+                            className={`px-4 py-3  ${validations?.liveStatCode ? 'rounded-none' : 'rounded-b-md'}`}
                             onChange={_handelInputChange}
                         />
                         <ValidationMessage
@@ -106,8 +115,8 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
 
                         <PrimaryButton
                             label="Next"
-                            className="font-medium w-64  md:text-lg"
-                            clickEvent={() => navigate(CREATING_FEED_PATH)}
+                            className="font-medium w-64 md:text-lg"
+                            clickEvent={() => navigate(UPLOAD_ROSTERS)}
                         />
 
                     </section>

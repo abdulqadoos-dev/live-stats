@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux"
 import SelectSportView from "../../Views/Profile/SelectSportView";
-import {createFanProfileRequest} from "../../../state/actions/profileActions";
+import {createFanProfileRequest, setProfileForm} from "../../../state/actions/profileActions";
 
 const SelectSportContainer = (props) => {
     return (
@@ -18,6 +18,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         createFanProfileRequest: (formData, navigate) => dispatch(createFanProfileRequest(formData, navigate)),
+        setProfileForm: (formData, navigate) => dispatch(setProfileForm(formData, navigate)),
     }
 }
 

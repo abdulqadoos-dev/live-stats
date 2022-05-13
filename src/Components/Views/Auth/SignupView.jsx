@@ -28,7 +28,7 @@ export default function SignupView(
     }
 ) {
 
-    const [formData, setFormData] = useState({})
+    const [formData, setFormData] = useState({isAgree: true})
     const [passwordMatched, setPasswordMatched] = useState(null)
 
     const navigate = useNavigate();

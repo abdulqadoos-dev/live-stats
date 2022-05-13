@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import fanMain from "../../../Media/icons/fan-main.svg";
 import teamMain from "../../../Media/icons/team-main.svg";
@@ -10,14 +10,21 @@ import {ReactSVG} from "react-svg";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import {
     FAN_ROLE_ID,
+    SETUP_PROFILE_PATH,
     LOCATION_DETAILS_PATH,
     SCHOOL_AND_SPORT_PATH
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 
-export default function BuildProfileView({formData}) {
+export default function BuildProfileView(props) {
 
     const navigate = useNavigate();
+    const {formData} = props;
+
+    useEffect(() => {
+        if (!formData) navigate(SETUP_PROFILE_PATH)
+    }, [])
+
 
     return (
         <>
@@ -27,7 +34,8 @@ export default function BuildProfileView({formData}) {
                     <div
                         className="grid content-center justify-items-center text-white build-profile-svg">
                         <ReactSVG src={formData?.roleId === FAN_ROLE_ID ? fan : team}/>
-                         <p className="w-80 text-center font-sans my-10 font-light">Your profile helps create a customized experience
+                        <p className="w-80 text-center font-sans my-10 font-light">Your profile helps create a
+                            customized experience
                             with your favorite teams, local news, and much more! Your profile can always be updated
                             later.</p>
                     </div>
@@ -35,7 +43,7 @@ export default function BuildProfileView({formData}) {
                     <PrimaryButton
                         label="Next"
                         className="font-medium w-64  md:text-lg"
-                        clickEvent={() => formData?.roleId === FAN_ROLE_ID ? navigate(LOCATION_DETAILS_PATH): navigate(SCHOOL_AND_SPORT_PATH)}
+                        clickEvent={() => formData?.roleId === FAN_ROLE_ID ? navigate(LOCATION_DETAILS_PATH) : navigate(SCHOOL_AND_SPORT_PATH)}
                     />
 
                 </main>

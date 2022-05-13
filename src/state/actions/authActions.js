@@ -2,7 +2,6 @@ import {
     OTP_VERIFICATION_VIEW, SIGNUP_FAILD,
     SIGNUP_SUCCESS, SET_VIEW, DEFAULT_VIEW,
     VERIFICATION_SUCCESS, VERIFICATION_FAILD,
-    REQUEST_START,
     LOGIN_SUCCESS, LOGIN_FAILD,
     FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD, LOGOUT_SUCCESS
 } from "../constants/authConstants";
@@ -128,11 +127,9 @@ export const loginRequest = (formData, navigate) => {
                 dispatch(loginSuccess(result.data));
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
                 result?.data?.user?.profile ? navigate(BASE_PATH) : navigate(SETUP_PROFILE_PATH);
-                console.log(result, LOGIN_SUCCESS);
             })
             .catch((error) => {
                 error.status === STATUS_CODE_400 ? dispatch(loginFailed(error.data)) : dispatch(loginFailed({error: "Invalid credentials"}));
-                console.log(formData, error, LOGIN_FAILD)
             });
 
         return promise;

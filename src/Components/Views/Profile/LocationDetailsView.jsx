@@ -4,12 +4,22 @@ import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import Alert from "../../Ui/Alerts/Alert";
 import ValidationMessage from "../../Ui/Form/ValidationMessage";
 import {useNavigate} from "react-router-dom";
-import {FAN_ROLE_ID, LOCATION_DETAILS_PATH, SELECT_SPORT_PATH} from "../../../state/constants/Constans";
+import {
+    FAN_ROLE_ID,
+    LOCATION_DETAILS_PATH,
+    SELECT_SPORT_PATH,
+    SETUP_PROFILE_PATH
+} from "../../../state/constants/Constans";
 
 export default function LocationDetailsView({isLoading, validations, error, formData, setProfileForm}) {
 
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!formData) navigate(SETUP_PROFILE_PATH)
+    }, [])
+
 
     useEffect(() => {
         setProfileForm({
@@ -31,6 +41,9 @@ export default function LocationDetailsView({isLoading, validations, error, form
             }
         })
     }
+
+
+
 
     return (
         <>

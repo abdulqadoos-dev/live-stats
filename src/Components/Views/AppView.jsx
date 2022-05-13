@@ -39,7 +39,7 @@ import TeamsContainer from "../Containers/Teams/TeamsContainers";
 export default function AppView(props) {
 
     // console.log({isLoggedIn}, props.auth, "AUTH STATE");
-    // console.info(props.profile.formData.location, "STATE");
+    console.info(props.profile.formData, "STATE");
     // console.info(props, "STATE");
     // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 
@@ -61,8 +61,7 @@ export default function AppView(props) {
 
                         {/* ---  Rosters Routes --- */}
                         <Route path={ROSTERS_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <RostersContainer/>
                             </ProtectedRoutes>
                         }/>
@@ -70,60 +69,52 @@ export default function AppView(props) {
 
                         {/* ---  Teams Routes --- */}
                         <Route path={TEAMS_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <TeamsContainer/>
                             </ProtectedRoutes>
                         }/>
 
 
                         <Route path={SETUP_PROFILE_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <SetupProfileContainer/>
                             </ProtectedRoutes>
                         }/>
 
                         <Route path={BUILD_YOUR_PROFILE_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <BuildProfileContainer/>
                             </ProtectedRoutes>
                         }/>
 
                         <Route path={LOCATION_DETAILS_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <LocationDetailsContainer/>
                             </ProtectedRoutes>
                         }/>
 
 
                         <Route path={SCHOOL_AND_SPORT_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <SchoolAndSportContainer/>
                             </ProtectedRoutes>
                         }/>
 
                         <Route path={SELECT_SPORT_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <SelectSportContainer/>
                             </ProtectedRoutes>
                         }/>
 
                         <Route path={CREATING_FEED_PATH} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <CreatingFeedView/>
                             </ProtectedRoutes>
                         }/>
 
 
                         <Route path={UPLOAD_ROSTERS} element={
-                            // <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                            <ProtectedRoutes isLoggedIn={true}>
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <UploadRosterContainer/>
                             </ProtectedRoutes>
                         }/>

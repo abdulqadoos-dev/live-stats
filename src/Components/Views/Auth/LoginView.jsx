@@ -21,7 +21,6 @@ export default function LoginView({isLoading, validations, error, loginRequest})
 
     const _handelFormSubmit = async () => {
         loginRequest(formData, navigate);
-        console.log("form submitted...");
     }
 
     // console.log({error},{validations}, "error");

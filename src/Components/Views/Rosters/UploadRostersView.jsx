@@ -36,16 +36,16 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                             roster.name = ws[rows].v
                         }
                         if (row[0] === 'B') {
-                            roster.number = ws[rows].v
+                            roster.number = (ws[rows].v).toString()
                         }
                         if (row[0] === 'C') {
-                            roster.height = ws[rows].v
+                            roster.height = (ws[rows].v).toString()
                         }
                         if (row[0] === 'D') {
-                            roster.weight = ws[rows].v
+                            roster.weight = (ws[rows].v).toString()
                         }
                         if (row[0] === 'E') {
-                            roster.position = ws[rows].v
+                            roster.position = (ws[rows].v).toString()
                             rosters.push(roster)
                             roster = {}
                         }

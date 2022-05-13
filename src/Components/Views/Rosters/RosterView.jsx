@@ -5,17 +5,26 @@ import PageHeader from "../../Ui/PageHeader";
 import Breadcrumbs from "../../Ui/Breadcrumbs";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
-import {LOCAL_STORAGE_AUTH_USER, ROSTERS_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
+import {
+    FAN_ROLE_ID,
+    LOCAL_STORAGE_AUTH_USER,
+    ROSTERS_PATH,
+    TEAMS_PATH
+} from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 
 const RosterView = ({getRostersRequest, rosters}) => {
 
-    // const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+    const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        getRostersRequest(navigate)
+        if (authUser.user.roleId === FAN_ROLE_ID) navigate(TEAMS_PATH)
+    }, [])
+
+    useEffect(() => {
+        getRostersRequest(authUser.user.profile.id, navigate)
     }, [])
 
     return (
@@ -46,8 +55,8 @@ const RosterView = ({getRostersRequest, rosters}) => {
 
                     <section className="w-full col-span-2">
 
-                        {rosters?.length && rosters.map(roster => (
-                            <div className="flex gap-5 items-center border-b pb-2 mb-3">
+                        {rosters?.length ? rosters.map(roster => (
+                            <div className="flex gap-5 items-center border-b pb-2 mb-3" key={roster.id}>
                                 <div className="rounded-full h-20 w-20 bg-light"></div>
                                 <h4 className="text-2xl  font-semibold text-secondary">{roster.name}</h4>
                                 <div className="flex h-[24px]  text-lg font-semibold text-secondary-light">
@@ -57,7 +66,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
                                     <p className="px-2">{roster.weight}</p>
                                 </div>
                             </div>
-                        ))}
+                        )) : null}
 
                     </section>
 

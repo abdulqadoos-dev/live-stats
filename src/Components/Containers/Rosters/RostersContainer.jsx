@@ -16,7 +16,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getRostersRequest: navigate => dispatch(getRostersRequest(navigate)),
+        getRostersRequest: (profileId,navigate) => dispatch(getRostersRequest(profileId,navigate)),
     }
 }
 

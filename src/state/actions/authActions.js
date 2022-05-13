@@ -124,6 +124,7 @@ export const loginRequest = (formData, navigate) => {
 
         promise
             .then((result) => {
+                // console.log(result, "after login......")
                 dispatch(loginSuccess(result.data));
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
                 result?.data?.user?.profile ? navigate(TEAMS_PATH) : navigate(SETUP_PROFILE_PATH);

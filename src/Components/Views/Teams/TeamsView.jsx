@@ -67,8 +67,8 @@ const TeamsView = () => {
                     heading="Teams"
                     navItems={
                         [
-                            {label: "Rosters", url: ROSTERS_PATH},
                             {label: "Teams", url: TEAMS_PATH},
+                            {label: "Rosters", url: ROSTERS_PATH},
                         ]
                     }
                 />

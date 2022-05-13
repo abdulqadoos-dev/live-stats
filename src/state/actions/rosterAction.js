@@ -13,13 +13,13 @@ export const setRosterForm = formData => {
 }
 
 
-export const getRostersRequest = (navigate) => {
+export const getRostersRequest = (profileId,navigate) => {
 
     return (dispatch) => {
 
         dispatch(requestStart());
 
-        const promise = rosterApi.getRosters()
+        const promise = rosterApi.getRosters(profileId)
 
         promise.then((result) => {
             console.log(result);

@@ -8,14 +8,14 @@ import {
     SETUP_PROFILE_PATH,
     STATUS_CODE_400
 } from "../constants/Constans";
+
 import {
     CREATE_FAN_PROFILE_FAILED,
     CREATE_FAN_PROFILE_SUCCESS, CREATE_TEAM_PROFILE_FAILED,
     CREATE_TEAM_PROFILE_SUCCESS,
     SET_PROFILE_FORM
 } from "../constants/profileConstants";
-import {forgetPasswordFailed} from "./authActions";
-import {createTeamProfile} from "../../apis/profileApi";
+
 
 export const setProfileForm = formData => {
     return (dispatch) => {

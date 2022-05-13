@@ -10,6 +10,9 @@ import score from "../../../Media/icons/score.svg";
 import heart from "../../../Media/icons/heart.svg";
 import fan from "../../../Media/icons/fan.svg";
 import DarkButton from "../../Ui/Buttons/DarkButton";
+import PageMainNavigation from "../../Ui/PageMainNavigation";
+import {ROSTERS_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
+import Footer from "../../Ui/Footer";
 
 const TeamsView = () => {
 
@@ -59,27 +62,17 @@ const TeamsView = () => {
                         <li className="text-secondary-light">Data</li>
                     </ol>
                 </nav>
-                <nav className="bg-white">
-                    <div className="container flex flex-wrap justify-between items-center mx-auto">
 
-                        <h1 className="text-4xl lg:text-5xl font-bold text-secondary">Boys Basketball</h1>
+                <PageMainNavigation
+                    heading="Teams"
+                    navItems={
+                        [
+                            {label: "Rosters", url: ROSTERS_PATH},
+                            {label: "Teams", url: TEAMS_PATH},
+                        ]
+                    }
+                />
 
-                        <button
-                            className="p-1 bg-primary  rounded md:hidden hover:bg-secondary-light focus:outline-none focus:ring-0 menu-bar-svg">
-                            <ReactSVG src={menuBars}/>
-                        </button>
-
-                        <div className="w-full md:w-auto" id="main-navigation">
-                            <ul className="flex flex-col mt-4 gap-0.5 md:flex-row md:mt-0 md:text-sm md:font-medium main-navigation">
-                                <li><a href="#" aria-current="page">Roster</a></li>
-                                <li><a href="#" aria-current="page">Schedule</a></li>
-                                <li><a href="#" aria-current="page">Stats</a></li>
-                                <li><a href="#" aria-current="page">Standings</a></li>
-                                <li><a href="#" aria-current="page">Team Info</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
 
                 <div className="grid lg:grid-cols-2 my-5 gap-10">
 
@@ -150,25 +143,7 @@ const TeamsView = () => {
             </div>
 
 
-            <div className="flex justify-around py-2 bg-secondary text-white text-sm  font-sans footer-navigation sticky bottom-0 w-full">
-                <div>
-                    <ReactSVG src={home}/>
-                    MY TEAM
-                </div>
-                <div>
-                    <ReactSVG src={score}/>
-                    SCORES
-                </div>
-                <div>
-                    <ReactSVG src={heart}/>
-                    FAVORITES
-                </div>
-                <div>
-                    <ReactSVG src={fan}/>
-                    PROFILE
-                </div>
-
-            </div>
+            <Footer/>
 
         </Wrapper>
     )

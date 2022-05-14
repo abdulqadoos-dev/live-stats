@@ -15,7 +15,7 @@ import {
     SCHOOL_AND_SPORT_PATH,
     LOCATION_DETAILS_PATH,
     LOCAL_STORAGE_AUTH_USER,
-    BUILD_YOUR_PROFILE_PATH, UPLOAD_ROSTERS, ROSTERS_PATH, TEAMS_PATH
+    BUILD_YOUR_PROFILE_PATH, UPLOAD_ROSTERS, ROSTERS_PATH, TEAMS_PATH, ROSTERS_EDIT_PATH
 } from "../../state/constants/Constans";
 
 import AuthRoutes from "../Includes/AuthRoutes";
@@ -34,6 +34,7 @@ import LocationDetailsContainer from "../Containers/Profile/LocationDetailsConta
 import UploadRosterContainer from "../Containers/Rosters/UploadRostersContainer";
 import RostersContainer from "../Containers/Rosters/RostersContainer";
 import TeamsContainer from "../Containers/Teams/TeamsContainers";
+import RosterEditContainer from "../Containers/Rosters/RostersEditContainer";
 
 
 export default function AppView(props) {
@@ -63,6 +64,13 @@ export default function AppView(props) {
                         <Route path={ROSTERS_PATH} element={
                             <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <RostersContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+                        <Route path={ROSTERS_EDIT_PATH} element={
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                                {/*roster edit container*/}
+                                <RosterEditContainer />
                             </ProtectedRoutes>
                         }/>
 

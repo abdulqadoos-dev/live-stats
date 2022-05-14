@@ -7,11 +7,12 @@ import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
 import {
     FAN_ROLE_ID,
-    LOCAL_STORAGE_AUTH_USER,
+    LOCAL_STORAGE_AUTH_USER, ROSTERS_EDIT_PATH,
     ROSTERS_PATH,
     TEAMS_PATH
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const RosterView = ({getRostersRequest, rosters}) => {
 
@@ -75,8 +76,8 @@ const RosterView = ({getRostersRequest, rosters}) => {
                         <DarkButton
                             label="Edit Roster"
                             className="w-full text-2xl py-5"
+                            clickEvent={()=>navigate(ROSTERS_EDIT_PATH)}
                         />
-
                     </section>
                 </main>
             </section>

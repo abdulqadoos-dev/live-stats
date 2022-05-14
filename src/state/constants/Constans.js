@@ -16,6 +16,7 @@ export const CREATING_FEED_PATH = "/creating-your-feed"
 // Roster routes
 export const UPLOAD_ROSTERS = "/upload-rosters"
 export const ROSTERS_PATH = "/rosters"
+export const ROSTERS_EDIT_PATH = "/rosters/edit"
 
 // Team routes
 

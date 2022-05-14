@@ -22,9 +22,7 @@ export const getRostersRequest = (profileId,navigate) => {
         const promise = rosterApi.getRosters(profileId)
 
         promise.then((result) => {
-            console.log(result);
             dispatch({type: GETTING_ROSTERS_SUCCESS, ...result.data})
-            // navigate(CREATING_FEED_PATH)
 
         }).catch((error) => {
 
@@ -36,5 +34,18 @@ export const getRostersRequest = (profileId,navigate) => {
         return promise
 
     }
+
+}
+
+export const saveRostersRequest = (profileId, rosters, navigate) => {
+    return (dispatch) => {
+        dispatch(requestStart());
+        return rosterApi.saveRosters(profileId, rosters)
+            .then(result => {
+                navigate(ROSTERS_PATH)
+            }).catch(error => {
+            dispatch({type: GETTING_ROSTERS_FAILED, error: "Request Failed Try again!"});
+        })
+    };
 
 }

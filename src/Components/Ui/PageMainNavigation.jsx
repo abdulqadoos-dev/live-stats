@@ -1,10 +1,17 @@
 import {ReactSVG} from "react-svg";
 import menuBars from "../../Media/icons/menu-bars.svg";
 import React from "react";
-import {LOGOUT_PATH} from "../../state/constants/Constans";
+import {GAMES_PATH, ROSTERS_PATH, TEAMS_PATH} from "../../state/constants/Constans";
 import {Link} from "react-router-dom";
 
 const PageMainNavigation = ({navItems, heading}) => {
+
+    let navs = navItems || [
+        {label: "Teams", url: TEAMS_PATH},
+        {label: "Rosters", url: ROSTERS_PATH},
+        {label: "Games", url: GAMES_PATH},
+    ];
+
     return (
         <nav className="bg-white">
             <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -18,7 +25,7 @@ const PageMainNavigation = ({navItems, heading}) => {
 
                 <div className="w-full md:w-auto" id="main-navigation">
                     <ul className="flex flex-col mt-4 gap-0.5 md:flex-row md:mt-0 md:text-sm md:font-medium main-navigation">
-                        {navItems?.length && navItems.map((item, index) => (
+                        {navs?.length && navs.map((item, index) => (
                             <li key={index}>
                                 <Link to={item.url}>{item.label}</Link>
                             </li>

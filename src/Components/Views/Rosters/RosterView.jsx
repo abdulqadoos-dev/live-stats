@@ -6,7 +6,7 @@ import Breadcrumbs from "../../Ui/Breadcrumbs";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
 import {
-    FAN_ROLE_ID,
+    FAN_ROLE_ID, GAMES_PATH,
     LOCAL_STORAGE_AUTH_USER, ROSTERS_EDIT_PATH,
     ROSTERS_PATH,
     TEAMS_PATH
@@ -16,24 +16,27 @@ import {Link} from "react-router-dom";
 
 const RosterView = ({getRostersRequest, rosters}) => {
 
-    const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (authUser.user.roleId === FAN_ROLE_ID) navigate(TEAMS_PATH)
+        if (user.roleId === FAN_ROLE_ID) navigate(TEAMS_PATH)
     }, [])
 
     useEffect(() => {
-        getRostersRequest(authUser.user.profile.id, navigate)
+        getRostersRequest(user.profile.id || null, navigate)
+        // getRostersRequest(null, navigate)
     }, [])
+
+        console.log(user.profile)
 
     return (
         <Wrapper>
 
 
             <PageHeader
-                title="American fork high school"
+                title={user?.profile?.name || null}
                 subTitle="Cavemen"
                 description="American Fork, UT"
             />
@@ -44,12 +47,6 @@ const RosterView = ({getRostersRequest, rosters}) => {
 
                 <PageMainNavigation
                     heading="Rosters"
-                    navItems={
-                        [
-                            {label: "Teams", url: TEAMS_PATH},
-                            {label: "Rosters", url: ROSTERS_PATH},
-                        ]
-                    }
                 />
 
                 <main className="grid lg:grid-cols-3 my-5 gap-10">
@@ -58,7 +55,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
 
                         {rosters?.length ? rosters.map(roster => (
                             <div className="flex gap-5 items-center border-b pb-2 mb-3" key={roster.id}>
-                                <div className="rounded-full h-20 w-20 bg-light"></div>
+                                <div className="rounded-full h-20 w-20 bg-light"/>
                                 <h4 className="text-2xl  font-semibold text-secondary">{roster.name}</h4>
                                 <div className="flex h-[24px]  text-lg font-semibold text-secondary-light">
                                     <p className="border-r border-secondary-light px-2">G</p>
@@ -76,7 +73,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
                         <DarkButton
                             label="Edit Roster"
                             className="w-full text-2xl py-5"
-                            clickEvent={()=>navigate(ROSTERS_EDIT_PATH)}
+                            clickEvent={() => navigate(ROSTERS_EDIT_PATH)}
                         />
                     </section>
                 </main>

@@ -65,12 +65,6 @@ const TeamsView = () => {
 
                 <PageMainNavigation
                     heading="Teams"
-                    navItems={
-                        [
-                            {label: "Teams", url: TEAMS_PATH},
-                            {label: "Rosters", url: ROSTERS_PATH},
-                        ]
-                    }
                 />
 
 

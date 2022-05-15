@@ -19,8 +19,8 @@ export const ROSTERS_PATH = "/rosters"
 export const ROSTERS_EDIT_PATH = "/rosters/edit"
 
 // Team routes
-
 export const TEAMS_PATH = "/teams"
+export const GAMES_PATH = "/games"
 
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403

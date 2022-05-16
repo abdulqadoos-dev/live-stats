@@ -61,8 +61,8 @@ const GamesView = ({getGamesRequest, games}) => {
 
                 <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-10">
 
-                    {games?.length ? games.map(game => (
-                        <section className="w-full col-span-2 d gap-8 flex items-center">
+                    {games?.length ? games.map((game, i) => (
+                        <section className="w-full col-span-2 d gap-8 flex items-center" key={i}>
                             <div className="lg:text-xl lg:w-14 font-bold text-secondary-light">12/7</div>
                             <div className="text-lg w-full flex items-center gap-5">
                                 <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>

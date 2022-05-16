@@ -24,13 +24,15 @@ const games = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
-                games: action.games
+                games: action.games,
+                error: null
             }
 
         case GETTING_GAMES_FAILED:
             return {
                 ...state,
                 isLoading: false,
+                error: action?.error || null
             }
 
         case VALIDATION_RESULTS:

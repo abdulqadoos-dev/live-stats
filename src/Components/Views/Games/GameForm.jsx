@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ReactSVG} from "react-svg";
 import plus from "../../../Media/icons/plus.svg";
 
@@ -9,19 +9,63 @@ import PageMainNavigation from "../../Ui/PageMainNavigation";
 import {BASE_PATH, FAN_ROLE_ID, LOCAL_STORAGE_AUTH_USER} from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 import Breadcrumbs from "../../Ui/Breadcrumbs";
+import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
+import ValidationMessage from "../../Ui/Form/ValidationMessage";
+import {verifyScheduleTime} from "../../../state/actions/gameActions";
 
-const GameForm = ({createGameRequest, formData}) => {
+const GameForm = ({createGamesRequest, formData, error}) => {
 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     const navigate = useNavigate();
 
+    const playGroundsHome = 'home'
+    const playGroundsAway = 'away'
+
+    const [formState, setFormState] = useState({
+        sportId: user.profile.sportId,
+        team1Id: user.profile.id,
+    })
+
+    const [errors, setErrors] = useState(null)
+
     useEffect(() => {
         if (user.roleId === FAN_ROLE_ID) navigate(BASE_PATH)
     }, [])
 
+    const _handleChange = (name, value) => {
+        setFormState({...formState, [name]: value})
+    }
 
-    console.log(createGameRequest,formData, "game form data")
+    const _setPlayGround = (value) => {
+        if(value === playGroundsHome){
+            setFormState({...formState, team1PlayGround: value, team2PlayGround: playGroundsAway})
+        }else if(value === playGroundsAway){
+            setFormState({...formState, team1PlayGround: value, team2PlayGround: playGroundsHome})
+        }
+    }
+
+    const _verifyScheduleTime = (dateTime) => {
+        verifyScheduleTime({dateTime, team1Id: formState?.team1Id, team2Id: formState?.team2Id})
+            .then(res => {
+                if(res.data.isScheduled){
+                    _handleChange('dateTime', dateTime)
+                    setErrors(null)
+                }else{
+                    setErrors('Time is not available')
+                }
+            })
+            .catch(err => {
+                setErrors('Something is wrong with request')
+            })
+        return true
+    }
+
+    const _saveGame = () => {
+        createGamesRequest(formState, navigate)
+    }
+
+    console.log(createGamesRequest, formData, "game form data")
 
     return (
         <Wrapper>
@@ -55,26 +99,82 @@ const GameForm = ({createGameRequest, formData}) => {
                 />
 
 
-                {/*<main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-10">*/}
+                <main className="grid grid-cols-1 lg:grid-cols-1 w-full my-5 gap-10 justify-items-center">
+                    <div className="w-full max-w-2xl" >
+                        <div className="md:flex md:items-center mb-6">
+                            <div className="md:w-full">
+                                <select
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="team2Id"
+                                    name="team2Id"
+                                    value={formState?.team2Id || ''}
+                                    onChange={e => _handleChange('team2Id', parseInt(e.target.value))}
+                                >
+                                    <option value='1'>Team 1</option>
+                                    <option value='2'>Team 2</option>
+                                    <option value='3'>Team 3</option>
+                                    <option value='4'>Team 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="md:flex md:items-center mb-6">
+                            <div className="md:w-9/12 mr-1">
+                                <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="location"
+                                    name="location"
+                                    type="text"
+                                    placeholder="Location"
+                                    value={formState?.location || ''}
+                                    onChange={e => _handleChange('location', e.target.value)}
+                                />
+                            </div>
+                            <div className="md:w-3/12">
+                                <div
+                                    className="bg-gray-200 border-2 border-gray-200 rounded w-full text-gray-700 leading-tight">
+                                    <div
+                                        className={`bg-gray-${formState.team1PlayGround === playGroundsHome ? '100' : '200'} border-2 border-gray-${formState.team1PlayGround === playGroundsHome ? '100' : '200'} rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
+                                        onClick={()=>_setPlayGround(playGroundsHome)}
+                                    >
+                                        Home
+                                    </div>
+                                    <div
+                                        className={`bg-gray-${formState.team1PlayGround === playGroundsAway ? '100' : '200'} border-2 border-gray-${formState.team1PlayGround === playGroundsAway ? '100' : '200'} rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
+                                        onClick={()=>_setPlayGround(playGroundsAway)}
+                                    >
+                                        Away
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="md:flex md:items-center mb-6">
+                            <div className="md:w-full">
+                                <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="dateTime"
+                                    name="dateTime"
+                                    type="datetime-local"
+                                    placeholder=""
+                                    value={formState?.dateTime || ''}
+                                    onChange={e => _verifyScheduleTime( e.target.value)}
+                                />
+                                <ValidationMessage
+                                    message={errors || error}
+                                />
+                            </div>
+                        </div>
+                        <div className="md:flex md:items-center mb-6">
+                            <div className="md:w-full">
+                                <PrimaryButton
+                                    label="Done"
+                                    className="font-medium inline-block w-96 md:text-lg"
+                                    clickEvent={_saveGame}
+                                />
+                            </div>
+                        </div>
+                    </div>
 
-                {/*    /!*{games?.length ? games.map(game => (*!/*/}
-                {/*    /!*    <section className="w-full col-span-2 d gap-8 flex items-center">*!/*/}
-                {/*    /!*        <div className="lg:text-xl lg:w-14 font-bold text-secondary-light">12/7</div>*!/*/}
-                {/*    /!*        <div className="text-lg w-full flex items-center gap-5">*!/*/}
-                {/*    /!*            <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>*!/*/}
-                {/*    /!*            <h4 className="lg:text-2xl font-semibold text-secondary">{game.location}</h4>*!/*/}
-                {/*    /!*        </div>*!/*/}
-                {/*    /!*        <div className="lg:text-lg w-52 font-bold text-right text-secondary-light">Preview</div>*!/*/}
-                {/*    /!*    </section>*!/*/}
-                {/*    /!*)) : null}*!/*/}
-
-                {/*    <div className="">*/}
-                {/*        <DarkButton*/}
-                {/*            label="Add Game"*/}
-                {/*            className="w-full text-2xl my-2 py-5"*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*</main>*/}
+                </main>
             </div>
 
 

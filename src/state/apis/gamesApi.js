@@ -8,3 +8,7 @@ export const getGames = profileId => {
 export const createGame = (formData) => {
     return api.post('/game/create', formData)
 }
+
+export const verifyGameScheduleTime = (formData) => {
+    return api.post('/games/verify-schedule-time', formData)
+}

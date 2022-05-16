@@ -49,15 +49,20 @@ export const createGameRequest = (formData, navigate) => {
         promise.then((result) => {
 
             dispatch({type: GETTING_GAMES_SUCCESS, ...result.data})
+            navigate(GAMES_PATH)
 
         }).catch((error) => {
 
             dispatch({type: GETTING_GAMES_FAILED, error: "Request Failed Try again!"});
-            navigate(GAMES_PATH)
+            // navigate(GAMES_PATH)
 
         });
 
         return promise
 
     }
+}
+
+export const verifyScheduleTime = (formData) => {
+    return gamesApi.verifyGameScheduleTime(formData)
 }

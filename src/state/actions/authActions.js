@@ -6,9 +6,9 @@ import {
     FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILD, LOGOUT_SUCCESS
 } from "../constants/authConstants";
 
-import * as authApi from '../../apis/authApi';
+import * as authApi from '../apis/authApi';
 import {
-    BASE_PATH, LOCAL_STORAGE_AUTH_USER,
+     LOCAL_STORAGE_AUTH_USER,
     LOGIN_PATH, SETUP_PROFILE_PATH,
     STATUS_CODE_400, TEAMS_PATH,
 } from "../constants/Constans";
@@ -43,7 +43,6 @@ export const signupRequest = (formData) => {
     return (dispatch) => {
 
         dispatch(requestStart());
-
 
         const promise = authApi.signup(formData);
 

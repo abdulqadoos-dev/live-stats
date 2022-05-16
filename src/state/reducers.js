@@ -4,12 +4,14 @@ import app from "./reducers/app";
 import auth from "./reducers/auth";
 import profile from "./reducers/profile";
 import rosters from "./reducers/rosters";
+import games from "./reducers/games";
 
 const reducers = combineReducers({
     app,
     auth,
     profile,
-    rosters
+    rosters,
+    games
 });
 
 export default reducers;

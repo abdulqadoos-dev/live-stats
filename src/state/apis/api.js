@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOCAL_STORAGE_AUTH_USER} from "../state/constants/Constans";
+import {LOCAL_STORAGE_AUTH_USER} from "../constants/Constans";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_SERVER_PATH

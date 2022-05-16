@@ -1,5 +1,5 @@
 import {requestStart} from "./appActions";
-import * as rosterApi from "../../apis/rosterApi";
+import * as rosterApi from "../apis/rosterApi";
 import {CREATING_FEED_PATH, ROSTERS_PATH, SETUP_PROFILE_PATH} from "../constants/Constans";
 import {GETTING_ROSTERS_FAILED, GETTING_ROSTERS_SUCCESS, SET_ROSTER_FORM} from "../constants/rosterConstans";
 

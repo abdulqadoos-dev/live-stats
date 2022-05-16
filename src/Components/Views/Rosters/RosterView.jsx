@@ -56,7 +56,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
                         {rosters?.length ? rosters.map(roster => (
                             <div className="flex gap-5 items-center border-b pb-2 mb-3" key={roster.id}>
                                 <div className="rounded-full h-20 w-20 bg-light"/>
-                                <h4 className="text-2xl  font-semibold text-secondary">{roster.name}</h4>
+                                <h4 className="text-2xl font-semibold text-secondary">{roster.name}</h4>
                                 <div className="flex h-[24px]  text-lg font-semibold text-secondary-light">
                                     <p className="border-r border-secondary-light px-2">G</p>
                                     <p className="border-r border-secondary-light px-2">Sr.</p>

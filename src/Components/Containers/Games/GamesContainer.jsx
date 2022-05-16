@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux"
-import {setProfileForm} from "../../../state/actions/profileActions";
 import GamesView from "../../Views/Games/GamesView";
+import {getGamesRequest} from "../../../state/actions/gameActions";
 
 const GameContainer = (props) => {
     return (
@@ -11,13 +11,13 @@ const GameContainer = (props) => {
 const mapStateToProps = state => {
     return {
         ...state.auth,
-        ...state.profile
+        ...state.games
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getGamesRequest: formData => dispatch(setProfileForm(formData)),
+        getGamesRequest: formData => dispatch(getGamesRequest(formData)),
     }
 }
 

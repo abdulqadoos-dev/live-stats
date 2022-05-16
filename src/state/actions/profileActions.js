@@ -1,4 +1,4 @@
-import * as profileApi from "../../apis/profileApi";
+import * as profileApi from "../apis/profileApi";
 
 import {requestStart, validationResults} from "./appActions";
 import {

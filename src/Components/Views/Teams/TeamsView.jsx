@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Wrapper from "../../Ui/Form/Wrapper";
 import creatingFeed from "../../../Media/icons/creating-feed.svg";
 import {ReactSVG} from "react-svg";
@@ -11,12 +11,26 @@ import heart from "../../../Media/icons/heart.svg";
 import fan from "../../../Media/icons/fan.svg";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
-import {LOCAL_STORAGE_AUTH_USER, ROSTERS_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
+import {
+    GAMES_FORM_PATH,
+    LOCAL_STORAGE_AUTH_USER,
+    ROSTERS_EDIT_PATH,
+    ROSTERS_PATH,
+    TEAMS_PATH
+} from "../../../state/constants/Constans";
 import Footer from "../../Ui/Footer";
 import PageHeader from "../../Ui/PageHeader";
+import {useNavigate} from "react-router-dom";
+import {capitalizeFirstLetter} from "../../../Services/Helper";
 
-const TeamsView = () => {
+const TeamsView = ({getGamesRequest, games}) => {
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        getGamesRequest(user.profile.id || null, navigate)
+    }, [])
 
     return (
         <Wrapper>
@@ -58,51 +72,30 @@ const TeamsView = () => {
                 <div className="grid lg:grid-cols-2 my-5 gap-10">
 
                     <div className="w-full">
-                        <div className="bg-light rounded-xl p-4 my-2">
-                            <div className="flex justify-between font-sans font-semibold text-secondary-light ">
-                                <p>Boys BBall</p>
-                                <p>FINAL</p>
-                            </div>
-
-                            <div className="flex justify-between items-center my-2">
-                                <div className="flex items-center gap-5">
-                                    <div className="rounded-full h-20 w-20 bg-white"></div>
-                                    <p className="text-2xl font-bold text-secondary-light">TEAM 1</p>
+                        {
+                            games?.map((game, i) => <div key={i} className="bg-light rounded-xl p-4 my-2">
+                                <div className="flex justify-between font-sans font-semibold text-secondary-light ">
+                                    <p>{capitalizeFirstLetter(game?.team1?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
+                                    <p>FINAL</p>
                                 </div>
-                                <p className="font-bold text-secondary-light text-2xl">64</p>
-                            </div>
 
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-5">
-                                    <div className="rounded-full h-20 w-20 bg-white"></div>
-                                    <p className="text-2xl  text-secondary-light">TEAM 2</p>
+                                <div className="flex justify-between items-center my-2">
+                                    <div className="flex items-center gap-5">
+                                        <div className="rounded-full h-20 w-20 bg-white"></div>
+                                        <p className="text-2xl font-bold text-secondary-light">{capitalizeFirstLetter(game?.team1?.name || '')}</p>
+                                    </div>
+                                    <p className="font-bold text-secondary-light text-2xl">64</p>
                                 </div>
-                                <p className=" text-secondary-light text-2xl">41</p>
-                            </div>
-                        </div>
-                        <div className="bg-light rounded-xl p-4 my-2 ">
 
-                            <div className="flex justify-between font-sans font-semibold text-secondary-light ">
-                                <p>Boys BBall</p>
-                                <p>FINAL</p>
-                            </div>
-
-                            <div className="flex justify-between items-center my-2">
-                                <div className="flex items-center gap-5">
-                                    <div className="rounded-full h-20 w-20 bg-white"></div>
-                                    <p className="text-2xl font-bold text-secondary-light">TEAM 1</p>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-5">
+                                        <div className="rounded-full h-20 w-20 bg-white"></div>
+                                        <p className="text-2xl  text-secondary-light">{capitalizeFirstLetter(game?.team2?.name || '')}</p>
+                                    </div>
+                                    <p className=" text-secondary-light text-2xl">41</p>
                                 </div>
-                                <p className="font-bold text-secondary-light text-2xl">64</p>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-5">
-                                    <div className="rounded-full h-20 w-20 bg-white"></div>
-                                    <p className="text-2xl  text-secondary-light">TEAM 2</p>
-                                </div>
-                                <p className=" text-secondary-light text-2xl">41</p>
-                            </div>
-                        </div>
+                            </div>)
+                        }
                     </div>
 
 
@@ -114,10 +107,12 @@ const TeamsView = () => {
                         <DarkButton
                             label="Add Game"
                             className="w-full text-2xl my-2 py-5"
+                            clickEvent={() => navigate(GAMES_FORM_PATH)}
                         />
                         <DarkButton
                             label="Add Roster"
                             className="w-full text-2xl py-5"
+                            clickEvent={() => navigate(ROSTERS_EDIT_PATH)}
                         />
                     </div>
                 </div>

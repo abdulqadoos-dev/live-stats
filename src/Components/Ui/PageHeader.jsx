@@ -6,11 +6,11 @@ import React from "react";
 const PageHeader = ({title, subTitle, description}) => {
     return (
 
-        <div className="bg-secondary pb-8 lg:p-10 text-white">
+        <div className="bg-secondary pb-2 lg:p-2 text-white">
             <div className="grid lg:grid-cols-3 gap-4 items-center justify-center">
 
-                <div className="mx-auto">
-                    <div className="w-64 h-64 bg-white rounded-full my-10 relative overflow-hidden">
+                <div className="mx-auto ml-12">
+                    <div className="w-40 h-40 bg-white rounded-full my-5 relative overflow-hidden">
                         {/*<img src={creatingFeed} className="w-56 lg:w-64 mt-10"/>*/}
                         <span
                             className="absolute bottom-0 w-full rounded-full bg-secondary-light py-4 cursor-pointer flex items-center justify-center button-default-svg">

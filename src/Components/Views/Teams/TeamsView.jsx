@@ -11,33 +11,20 @@ import heart from "../../../Media/icons/heart.svg";
 import fan from "../../../Media/icons/fan.svg";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
-import {ROSTERS_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
+import {LOCAL_STORAGE_AUTH_USER, ROSTERS_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
 import Footer from "../../Ui/Footer";
+import PageHeader from "../../Ui/PageHeader";
 
 const TeamsView = () => {
+    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     return (
         <Wrapper>
-            <div className="bg-secondary pb-8 lg:p-10 text-white">
-                <div className="grid lg:grid-cols-3 gap-4 items-center justify-center">
-
-                    <div className="mx-auto">
-                        <div className="w-64 h-64 bg-white rounded-full my-10 relative overflow-hidden">
-                            {/*<img src={creatingFeed} className="w-56 lg:w-64 mt-10"/>*/}
-                            <span
-                                className="absolute bottom-0 w-full rounded-full bg-secondary-light py-4 cursor-pointer flex items-center justify-center button-default-svg">
-                                 <ReactSVG src={plus}/> <p aria-readonly={true}>Image</p>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="col-span-2 text-center lg:text-left w-64 lg:w-full">
-                        <h2 className="text-2xl lg:text-3xl">American fork high school</h2>
-                        <h1 className="text-4xl lg:text-5xl">Cavemen</h1>
-                        <p className="mt-5">American fork, UT</p>
-                    </div>
-                </div>
-            </div>
+            <PageHeader
+                title={user?.profile?.name || null}
+                subTitle="Cavemen"
+                description={(user?.profile?.school?.name || '') + ', ' + (user?.profile?.school?.state || '')}
+            />
 
             <div className="mx-2">
 

@@ -94,9 +94,9 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
         <Wrapper>
 
             <PageHeader
-                title="American fork high school"
+                title={authUser?.user?.profile?.name || null}
                 subTitle="Cavemen"
-                description="American Fork, UT"
+                description={(authUser?.user?.profile?.school?.name || '') + ', ' + (authUser?.user?.profile?.school?.state || '')}
             />
 
             <section className="mx-2">

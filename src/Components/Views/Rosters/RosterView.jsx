@@ -38,7 +38,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
             <PageHeader
                 title={user?.profile?.name || null}
                 subTitle="Cavemen"
-                description="American Fork, UT"
+                description={(user?.profile?.school?.name || '') + ', ' + (user?.profile?.school?.state || '')}
             />
 
             <section className="mx-2">

@@ -12,3 +12,7 @@ export const createGame = (formData) => {
 export const verifyGameScheduleTime = (formData) => {
     return api.post('/games/verify-schedule-time', formData)
 }
+
+export const getAllTeams = () => {
+    return api.get('/teams');
+}

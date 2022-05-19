@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom";
 import Breadcrumbs from "../../Ui/Breadcrumbs";
 import PrimaryButton from "../../Ui/Buttons/PrimaryButton";
 import ValidationMessage from "../../Ui/Form/ValidationMessage";
-import {verifyScheduleTime} from "../../../state/actions/gameActions";
+import {getTeams, verifyScheduleTime} from "../../../state/actions/gameActions";
 
 const GameForm = ({createGamesRequest, formData, error}) => {
 
@@ -26,11 +26,12 @@ const GameForm = ({createGamesRequest, formData, error}) => {
         sportId: user.profile.sportId,
         team1Id: user.profile.id,
     })
-
     const [errors, setErrors] = useState(null)
+    const [teams, setTeams] = useState([])
 
     useEffect(() => {
         if (user.roleId === FAN_ROLE_ID) navigate(BASE_PATH)
+        getTeams().then(res => setTeams(res.data?.teams?.filter(item => item.id !== user.profile.id) || []))
     }, [])
 
     const _handleChange = (name, value) => {
@@ -56,7 +57,11 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                 }
             })
             .catch(err => {
-                setErrors('Something is wrong with request')
+                if(err.status === 400){
+                    setErrors(Object.values(err.data?.validationResults || {}).join('; '))
+                }else{
+                    setErrors('Something went wrong. Please check your internet.')
+                }
             })
         return true
     }
@@ -64,8 +69,6 @@ const GameForm = ({createGamesRequest, formData, error}) => {
     const _saveGame = () => {
         createGamesRequest(formState, navigate)
     }
-
-    console.log(createGamesRequest, formData, "game form data")
 
     return (
         <Wrapper>
@@ -110,15 +113,15 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     value={formState?.team2Id || ''}
                                     onChange={e => _handleChange('team2Id', parseInt(e.target.value))}
                                 >
-                                    <option value='1'>Team 1</option>
-                                    <option value='2'>Team 2</option>
-                                    <option value='3'>Team 3</option>
-                                    <option value='4'>Team 4</option>
+                                    <option value='' disabled>Select opponent team</option>
+                                    {
+                                        teams.map((team,i) => <option key={i} value={team.id}>{team.name}</option>)
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-9/12 mr-1">
+                            <div className="md:w-9/12 mr-1 my-1">
                                 <input
                                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                                     id="location"
@@ -133,14 +136,24 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                 <div
                                     className="bg-gray-200 border-2 border-gray-200 rounded w-full text-gray-700 leading-tight">
                                     <div
-                                        className={`bg-gray-${formState.team1PlayGround === playGroundsHome ? '100' : '200'} border-2 border-gray-${formState.team1PlayGround === playGroundsHome ? '100' : '200'} rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
+                                        // Set the inline style because class css is not working
+                                        className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
                                         onClick={()=>_setPlayGround(playGroundsHome)}
+                                        style={{
+                                            backgroundColor: formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)':'rgb(229 231 235)',
+                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)':'rgb(229 231 235)') : 'rgb(209 213 219)',
+                                        }}
                                     >
                                         Home
                                     </div>
                                     <div
-                                        className={`bg-gray-${formState.team1PlayGround === playGroundsAway ? '100' : '200'} border-2 border-gray-${formState.team1PlayGround === playGroundsAway ? '100' : '200'} rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
+                                        // Set the inline style because class css is not working
+                                        className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
                                         onClick={()=>_setPlayGround(playGroundsAway)}
+                                        style={{
+                                            backgroundColor: formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)':'rgb(229 231 235)',
+                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)':'rgb(229 231 235)') : 'rgb(209 213 219)',
+                                        }}
                                     >
                                         Away
                                     </div>

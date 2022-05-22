@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {ReactSVG} from "react-svg";
-import plus from "../../../Media/icons/plus.svg";
 
 import Footer from "../../Ui/Footer";
 import Wrapper from "../../Ui/Form/Wrapper";
-import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
 import {BASE_PATH, FAN_ROLE_ID, LOCAL_STORAGE_AUTH_USER} from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
@@ -40,9 +37,9 @@ const GameForm = ({createGamesRequest, formData, error}) => {
     }
 
     const _setPlayGround = (value) => {
-        if(value === playGroundsHome){
+        if (value === playGroundsHome) {
             setFormState({...formState, team1PlayGround: value, team2PlayGround: playGroundsAway})
-        }else if(value === playGroundsAway){
+        } else if (value === playGroundsAway) {
             setFormState({...formState, team1PlayGround: value, team2PlayGround: playGroundsHome})
         }
     }
@@ -50,17 +47,17 @@ const GameForm = ({createGamesRequest, formData, error}) => {
     const _verifyScheduleTime = (dateTime) => {
         verifyScheduleTime({dateTime, team1Id: formState?.team1Id, team2Id: formState?.team2Id})
             .then(res => {
-                if(res.data.isScheduled){
+                if (res.data.isScheduled) {
                     _handleChange('dateTime', dateTime)
                     setErrors(null)
-                }else{
+                } else {
                     setErrors('Time is not available')
                 }
             })
             .catch(err => {
-                if(err.status === 400){
+                if (err.status === 400) {
                     setErrors(Object.values(err.data?.validationResults || {}).join('; '))
-                }else{
+                } else {
                     setErrors('Something went wrong. Please check your internet.')
                 }
             })
@@ -89,7 +86,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
 
 
                 <main className="grid grid-cols-1 lg:grid-cols-1 w-full my-5 gap-10 justify-items-center">
-                    <div className="w-full max-w-2xl" >
+                    <div className="w-full max-w-2xl">
                         <div className="md:flex md:items-center mb-6">
                             <div className="md:w-full">
                                 <select
@@ -101,7 +98,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                 >
                                     <option value='' disabled>Select opponent team</option>
                                     {
-                                        teams.map((team,i) => <option key={i} value={team.id}>{team.name}</option>)
+                                        teams.map((team, i) => <option key={i} value={team.id}>{team.name}</option>)
                                     }
                                 </select>
                             </div>
@@ -124,10 +121,10 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     <div
                                         // Set the inline style because class css is not working
                                         className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
-                                        onClick={()=>_setPlayGround(playGroundsHome)}
+                                        onClick={() => _setPlayGround(playGroundsHome)}
                                         style={{
-                                            backgroundColor: formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)':'rgb(229 231 235)',
-                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)':'rgb(229 231 235)') : 'rgb(209 213 219)',
+                                            backgroundColor: formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
+                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)') : 'rgb(209 213 219)',
                                         }}
                                     >
                                         Home
@@ -135,10 +132,10 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     <div
                                         // Set the inline style because class css is not working
                                         className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
-                                        onClick={()=>_setPlayGround(playGroundsAway)}
+                                        onClick={() => _setPlayGround(playGroundsAway)}
                                         style={{
-                                            backgroundColor: formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)':'rgb(229 231 235)',
-                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)':'rgb(229 231 235)') : 'rgb(209 213 219)',
+                                            backgroundColor: formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
+                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)') : 'rgb(209 213 219)',
                                         }}
                                     >
                                         Away
@@ -155,7 +152,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     type="datetime-local"
                                     placeholder=""
                                     value={formState?.dateTime || ''}
-                                    onChange={e => _verifyScheduleTime( e.target.value)}
+                                    onChange={e => _verifyScheduleTime(e.target.value)}
                                 />
                                 <ValidationMessage
                                     message={errors || error}
@@ -166,7 +163,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                             <div className="md:w-full">
                                 <PrimaryButton
                                     label="Done"
-                                    className="font-medium inline-block w-96 md:text-lg"
+                                    className="w-full md:text-lg"
                                     clickEvent={_saveGame}
                                 />
                             </div>

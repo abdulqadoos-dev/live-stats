@@ -61,7 +61,7 @@
     }
 
     .footer-navigation svg{
-        @apply stroke-white  w-10 h-10 mx-auto stroke-1
+        @apply stroke-white  w-7 h-7 lg:w-10 lg:h-10 mx-auto stroke-1
     }
 
     .remove-roster-icon{

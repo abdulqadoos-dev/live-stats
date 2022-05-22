@@ -103,16 +103,11 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
 
                 <Breadcrumbs/>
 
+
                 <PageMainNavigation
-                    heading="Rosters"
-                    navItems={
-                        [
-                            {label: "Teams", url: TEAMS_PATH},
-                            {label: "Rosters", url: ROSTERS_PATH},
-                        ]
-                    }
+                    heading="Games"
                 />
-                <main className="grid my-5 gap-10">
+                <main className="grid my-5 gap-10 justify-center">
                     <div className=" text-center font-sans">
                         <label htmlFor='rosters'>
                             <h2 className="font-bold text-xl " style={{cursor: 'pointer'}}>Upload File</h2>
@@ -120,7 +115,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                                    onChange={_handleExcelUploadChange}/>
                         </label>
                         <p className="mb-5 opacity-80 font-light">Acceptable files include Excel or CSV</p>
-                        <a href="/assets/example-rosters.csv" download className="font-bold">Download roster
+                        <a href="/assets/example-rosters.xlsx" download className="font-bold">Download roster
                             template</a>
                     </div>
                     <div className="m-0">
@@ -221,7 +216,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                     <div className='text-center'>
                         <PrimaryButton
                             label="Save Roster"
-                            className="w-32 text-lg py-5"
+                            className="w-full lg:w-56 lg:text-2xl lg:py-5"
                             clickEvent={_saveRosters}
                         />
                     </div>

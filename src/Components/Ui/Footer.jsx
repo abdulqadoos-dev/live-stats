@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 const Footer = () => {
     return (
         <div
-            className="flex justify-around py-2 bg-secondary text-white text-sm  font-sans footer-navigation sticky bottom-0 w-full">
+            className="flex justify-around py-2 bg-secondary text-white text-xs lg:text-sm font-sans footer-navigation sticky bottom-0 w-full">
             <div>
                 <ReactSVG src={home}/>
                 MY TEAM
@@ -25,8 +25,10 @@ const Footer = () => {
                 FAVORITES
             </div>
             <div className="cursor-pointer">
-                <ReactSVG src={fan}/>
-                <Link to={LOGOUT_PATH}>LOGOUT</Link>
+                <Link to={LOGOUT_PATH}>
+                    <ReactSVG src={fan}/>
+                    LOGOUT
+                </Link>
             </div>
         </div>
     )

@@ -29,7 +29,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
         // getRostersRequest(null, navigate)
     }, [])
 
-        console.log(user.profile)
+    console.log(user.profile)
 
     return (
         <Wrapper>
@@ -49,15 +49,15 @@ const RosterView = ({getRostersRequest, rosters}) => {
                     heading="Rosters"
                 />
 
-                <main className="grid lg:grid-cols-3 my-5 gap-10">
+                <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-y-4 lg:gap-10">
 
                     <section className="w-full col-span-2">
 
                         {rosters?.length ? rosters.map(roster => (
                             <div className="flex gap-5 items-center border-b pb-2 mb-3" key={roster.id}>
-                                <div className="rounded-full h-20 w-20 bg-light"/>
-                                <h4 className="text-2xl font-semibold text-secondary">{roster.name}</h4>
-                                <div className="flex h-[24px]  text-lg font-semibold text-secondary-light">
+                                <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>
+                                <h4 className="text-lg lg:text-2xl font-semibold text-secondary">{roster.name}</h4>
+                                <div className="flex h-[24px] text-sm md:text-xl font-semibold text-secondary-light">
                                     <p className="border-r border-secondary-light px-2">G</p>
                                     <p className="border-r border-secondary-light px-2">Sr.</p>
                                     <p className="border-r border-secondary-light px-2">{roster.height}</p>
@@ -72,7 +72,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
                     <section className="">
                         <DarkButton
                             label="Edit Roster"
-                            className="w-full text-2xl py-5"
+                            className="w-full lg:text-2xl lg:py-5"
                             clickEvent={() => navigate(ROSTERS_EDIT_PATH)}
                         />
                     </section>

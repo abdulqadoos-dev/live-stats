@@ -45,23 +45,23 @@ const GamesView = ({getGamesRequest, games}) => {
                 />
 
 
-                <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-10">
+                <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-y-5 lg:gap-10">
 
                     {games?.length ? games.map((game, i) => (
-                        <section className="w-full col-span-2 d gap-8 flex items-center" key={i}>
+                        <section className="w-full col-span-2 gap-3 lg:gap-8 flex items-center" key={i}>
                             <div className="lg:text-xl lg:w-14 font-bold text-secondary-light">12/7</div>
-                            <div className="text-lg w-full flex items-center gap-5">
+                            <div className="text-lg w-full flex items-center gap-2 lg:gap-5">
                                 <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>
                                 <h4 className="lg:text-2xl font-semibold text-secondary">{game.location}</h4>
                             </div>
-                            <div className="lg:text-lg w-52 font-bold text-right text-secondary-light">Preview</div>
+                            <div className="lg:text-lg w-30 lg:w-52 font-bold text-right text-secondary-light">Preview</div>
                         </section>
                     )) : null}
 
                     <div className="">
                         <DarkButton
                             label="Add Game"
-                            className="w-full text-2xl my-2 py-5"
+                            className="w-full lg:text-2xl lg:py-5"
                             clickEvent={() => navigate(GAMES_FORM_PATH)}
                         />
                     </div>

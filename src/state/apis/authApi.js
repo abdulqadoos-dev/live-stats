@@ -19,3 +19,7 @@ export const forgetPassword = data => {
 export const resetPassword = data => {
    return api.post('/reset-password', data)
 }
+
+export const uploadUserImage = formData => {
+   return api.post('/user/upload-image', formData)
+}

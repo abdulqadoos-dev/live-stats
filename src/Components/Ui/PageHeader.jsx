@@ -1,11 +1,23 @@
 import {ReactSVG} from "react-svg";
 import plus from "../../Media/icons/plus.svg";
 import React from "react";
+import {uploadUserImage} from "../../state/apis/authApi";
+import {LOCAL_STORAGE_AUTH_USER} from "../../state/constants/Constans";
 
 
 const PageHeader = ({title, subTitle, description, uploadedImage}) => {
+    const authUserData = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+
     const _onChangeImage = (e) => {
         document.getElementById('uploaded-image').src = URL.createObjectURL(e.target.files[0])
+        let formData = new FormData();
+        formData.append('image', e.target.files[0])
+        uploadUserImage(formData)
+            .then(res => {
+                authUserData.user.image = res.data.image
+                window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(authUserData))
+
+            }).catch(err => {})
     }
 
     return (
@@ -14,7 +26,7 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
             <div className="grid grid-cols-1 lg:grid-cols-3  items-center justify-center">
                 <div className="mx-auto">
                     <div className="w-40 h-40 lg:w-64 lg:h-64 bg-white rounded-full my-5 relative overflow-hidden">
-                        <img src={uploadedImage} id="uploaded-image" className="w-56 lg:w-64 mt-10"/>
+                        <img src={process.env.REACT_APP_SERVER_PATH+uploadedImage} id="uploaded-image" className="w-56 lg:w-64 mt-10"/>
                         <label htmlFor="upload-image"
                                className="absolute bottom-0 w-full rounded-full bg-secondary-light py-4 cursor-pointer flex items-center justify-center button-default-svg">
                             <ReactSVG src={plus}/> <p aria-readonly={true}>Image</p>

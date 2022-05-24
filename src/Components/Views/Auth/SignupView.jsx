@@ -69,7 +69,7 @@ export default function SignupView(
                             type="text"
                             placeholder="Name"
                             onChange={_handelInputChange}
-                            className={`px-4 py-3 rounded-t-md ${validations?.name && ('')}`}
+                            className={`px-4 py-3 outline-0 outline-0 rounded-t-md ${validations?.name && ('')}`}
                         />
                         <ValidationMessage
                             message={validations?.name}
@@ -81,7 +81,7 @@ export default function SignupView(
                             name="phone"
                             placeholder="Phone"
                             onChange={_handelInputChange}
-                            className={`px-4 py-3 ${validations?.phone && ('')}`}
+                            className={`px-4 py-3 outline-0 ${validations?.phone && ('')}`}
                         />
                         <ValidationMessage
                             message={validations?.phone}
@@ -92,7 +92,7 @@ export default function SignupView(
                             name="email"
                             placeholder="Email"
                             onChange={_handelInputChange}
-                            className={`px-4 py-3 ${validations?.email && ('')}`}
+                            className={`px-4 py-3 outline-0 ${validations?.email && ('')}`}
                         />
                         <ValidationMessage
                             message={validations?.email}
@@ -103,7 +103,7 @@ export default function SignupView(
                             name="password"
                             placeholder="Password"
                             onChange={_handelInputChange}
-                            className={`px-4 py-3 ${validations?.password && ('')}`}
+                            className={`px-4 py-3 outline-0 ${validations?.password && ('')}`}
                         />
                         <ValidationMessage
                             message={validations?.password}
@@ -114,7 +114,7 @@ export default function SignupView(
                             type="password"
                             name={CONFIRM_PASSWORD}
                             placeholder="Confirm Password"
-                            className={`px-4 py-3 rounded-b-md ${passwordMatched && ''}`}
+                            className={`px-4 py-3 outline-0 rounded-b-md ${passwordMatched && ''}`}
                             onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)}
                         />
 
@@ -144,7 +144,7 @@ export default function SignupView(
                             className={"border-rose-500"}
                         />
                         <input
-                            className={`px-4 py-3 rounded-md ${!verification ? '' : ''}`}
+                            className={`px-4 py-3 outline-0 rounded-md ${!verification ? '' : ''}`}
                             type="text"
                             name="otp"
                             placeholder="Verification code"

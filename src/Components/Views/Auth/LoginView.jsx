@@ -43,7 +43,7 @@ export default function LoginView({isLoading, validations, error, loginRequest})
                         type="email"
                         name="email"
                         placeholder="Email"
-                        className={`px-4 py-3 rounded-t-md ${validations?.email && ''}`}
+                        className={`px-4 py-3 outline-0 rounded-t-md ${validations?.email && ''}`}
                         onChange={_handelInputChange}
                     />
                     <ValidationMessage
@@ -54,7 +54,7 @@ export default function LoginView({isLoading, validations, error, loginRequest})
                         type="password"
                         name="password"
                         placeholder="Password"
-                        className={`px-4 py-3  ${validations?.password ? 'rounded-none' : 'rounded-b-md'}`}
+                        className={`px-4 py-3 outline-0  ${validations?.password ? 'rounded-none' : 'rounded-b-md'}`}
                         onChange={_handelInputChange}
                     />
                     <ValidationMessage

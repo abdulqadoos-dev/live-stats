@@ -50,11 +50,11 @@ export default function ForgetPasswordView(
     }
 
     const _handelChangePasswordSubmit = () => {
+        console.log(signature)
         let payload = {...formData, signature: signature};
-        changePasswordRequest(payload, navigate);
+        // changePasswordRequest(payload, navigate);
     }
 
-    console.log({signature})
 
     return (
         <BackgroundImage backgroundImage={AuthBackgroundImage}>
@@ -79,14 +79,14 @@ export default function ForgetPasswordView(
                                 name="email"
                                 placeholder="Email"
                                 onChange={_handelInputChange}
-                                className={`px-4 py-3 rounded-md  ${validations?.email && ('')}`}
+                                className={`px-4 py-3 outline-0 rounded-md  ${validations?.email && ('')}`}
                             />
                             <ValidationMessage
                                 message={validations?.email}
                             />
 
                             <DarkButton
-                                className="my-2"
+                                className="my-2 outline-0"
                                 label="Reset Password"
                                 isLoading={isLoading}
                                 clickEvent={_handelSubmitEmail}
@@ -108,7 +108,7 @@ export default function ForgetPasswordView(
 
 
                             <input
-                                className={`px-4 py-3 rounded-md`}
+                                className={`px-4 py-3 outline-0 rounded-md`}
                                 type="number"
                                 name="otp"
                                 placeholder="Verification code"
@@ -138,12 +138,12 @@ export default function ForgetPasswordView(
                     <>
                         <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
                             <input
-                                className={`px-4 py-3 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`}
+                                className={`px-4 py-3 outline-0 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`}
                                 type="password" name="password" placeholder="New Password"
                                 onChange={_handelInputChange}/>
 
                             <input
-                                className={`px-4 py-3 rounded-b-md ${passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`}
+                                className={`px-4 py-3 outline-0 rounded-b-md ${passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`}
                                 type="password" name={CONFIRM_PASSWORD} placeholder="Confirm Password"
                                 onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)}/>
 

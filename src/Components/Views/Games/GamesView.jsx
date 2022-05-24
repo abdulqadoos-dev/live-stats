@@ -34,6 +34,7 @@ const GamesView = ({getGamesRequest, games}) => {
                 title={user?.profile?.name || null}
                 subTitle="Cavemen"
                 description={(user?.profile?.school?.name || '') + ', ' + (user?.profile?.school?.state || '')}
+                uploadedImage={user.image}
             />
 
             <div className="mx-2">

@@ -97,6 +97,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                 title={authUser?.user?.profile?.name || null}
                 subTitle="Cavemen"
                 description={(authUser?.user?.profile?.school?.name || '') + ', ' + (authUser?.user?.profile?.school?.state || '')}
+                uploadedImage={authUser?.user.image}
             />
 
             <section className="mx-2">

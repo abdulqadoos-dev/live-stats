@@ -39,6 +39,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
                 title={user?.profile?.name || null}
                 subTitle="Cavemen"
                 description={(user?.profile?.school?.name || '') + ', ' + (user?.profile?.school?.state || '')}
+                uploadedImage={user.image}
             />
 
             <section className="mx-2">

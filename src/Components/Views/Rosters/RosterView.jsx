@@ -6,13 +6,11 @@ import Breadcrumbs from "../../Ui/Breadcrumbs";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
 import {
-    FAN_ROLE_ID, GAMES_PATH,
+    FAN_ROLE_ID,
     LOCAL_STORAGE_AUTH_USER, ROSTERS_EDIT_PATH,
-    ROSTERS_PATH,
     TEAMS_PATH
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
-import {Link} from "react-router-dom";
 
 const RosterView = ({getRostersRequest, rosters}) => {
 
@@ -25,11 +23,9 @@ const RosterView = ({getRostersRequest, rosters}) => {
     }, [])
 
     useEffect(() => {
-        getRostersRequest(user.profile.id || null, navigate)
-        // getRostersRequest(null, navigate)
+        getRostersRequest(user?.profile?.id || null, navigate)
     }, [])
 
-    console.log(user.profile)
 
     return (
         <Wrapper>
@@ -44,7 +40,9 @@ const RosterView = ({getRostersRequest, rosters}) => {
 
             <section className="mx-2">
 
-                <Breadcrumbs/>
+                <Breadcrumbs
+                    currentPage="Rosters"
+                />
 
                 <PageMainNavigation
                     heading="Rosters"

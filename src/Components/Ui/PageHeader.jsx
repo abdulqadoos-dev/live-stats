@@ -22,23 +22,24 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
 
     return (
 
-        <div className="bg-secondary pb-2 lg:p-2 text-white">
-            <div className="grid grid-cols-1 lg:grid-cols-3  items-center justify-center">
-                <div className="mx-auto">
-                    <div className="w-40 h-40 lg:w-64 lg:h-64 bg-white rounded-full my-5 relative overflow-hidden">
-                        <img src={process.env.REACT_APP_SERVER_PATH+uploadedImage} id="uploaded-image" className="w-56 lg:w-64 mt-10"/>
+        <div className="bg-secondary pb-2 lg:p-3 text-white">
+            {/*<div className="grid grid-cols-3 items-center justify-center">*/}
+            <div className="flex gap-5 items-center justify-center">
+                <div className="ml-5">
+                    <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 relative overflow-hidden">
+                        <img src={process.env.REACT_APP_SERVER_PATH+uploadedImage} id="uploaded-image" className="w-56 lg:w-64"/>
                         <label htmlFor="upload-image"
-                               className="absolute bottom-0 w-full rounded-full bg-secondary-light py-4 cursor-pointer flex items-center justify-center button-default-svg">
-                            <ReactSVG src={plus}/> <p aria-readonly={true}>Image</p>
+                               className="absolute bottom-0 w-full bg-secondary-light py-1 lg:py-2 cursor-pointer flex items-center justify-center button-default-svg opacity-90">
+                            <ReactSVG src={plus}/> <p className="text-sm lg:text-lg" aria-readonly={true}>Image</p>
                             <input type='file' id="upload-image" style={{display: 'none'}} onChange={_onChangeImage}/>
                         </label>
                     </div>
                 </div>
 
-                <div className="col-span-2 text-center lg:text-left w-full">
-                    <h2 className="text-xl lg:text-3xl">{title}</h2>
-                    <h1 className="text-3xl lg:text-5xl">{subTitle}</h1>
-                    <p className="my-4 text-sm">{description}</p>
+                <div className="overflow-clip">
+                    <h2 className="text-sm md:text-2xl">{title}</h2>
+                    <h1 className="text-xl md:text-5xl">{subTitle}</h1>
+                    <p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>
                 </div>
             </div>
         </div>

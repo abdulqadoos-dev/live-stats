@@ -1,6 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import {BASE_PATH} from "../../../state/constants/Constans";
+import {BASE_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
 
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import creatingFeed from "../../../Media/icons/creating-feed.svg";
@@ -9,7 +9,7 @@ export default function CreatingFeedView() {
     const navigate = useNavigate();
 
     setTimeout(() => {
-        navigate(BASE_PATH)
+        navigate(TEAMS_PATH)
     },2000)
 
     return (

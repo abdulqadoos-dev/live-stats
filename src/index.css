@@ -34,7 +34,7 @@
     }
 
     .button-default-svg svg {
-        @apply stroke-white fill-white w-5 h-5
+        @apply stroke-white fill-white w-3 h-3  lg:w-5 lg:h-5
     }
 
 

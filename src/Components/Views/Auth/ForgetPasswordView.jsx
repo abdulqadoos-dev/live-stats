@@ -50,7 +50,6 @@ export default function ForgetPasswordView(
     }
 
     const _handelChangePasswordSubmit = () => {
-        console.log(signature)
         let payload = {...formData, signature: signature};
         // changePasswordRequest(payload, navigate);
     }

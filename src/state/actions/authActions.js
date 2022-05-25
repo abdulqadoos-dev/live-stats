@@ -50,11 +50,9 @@ export const signupRequest = (formData) => {
             .then((result) => {
                 dispatch(signupSuccess(result.data));
                 dispatch(setView(OTP_VERIFICATION_VIEW));
-                console.log(result.data, SIGNUP_SUCCESS);
             })
             .catch((error) => {
                 error.status === STATUS_CODE_400 ? dispatch(signupFailed(error.data)) : dispatch(signupFailed({error: "signup failed try again!"}))
-                console.log(formData, error.status, error.data, SIGNUP_FAILD)
             });
 
         return promise;
@@ -163,11 +161,9 @@ export const forgetPasswordRequest = (formData) => {
             .then((result) => {
                 dispatch(forgetPasswordSuccess(result.data));
                 dispatch(setView(OTP_VERIFICATION_VIEW));
-                console.log(result, FORGET_PASSWORD_SUCCESS);
             })
             .catch((error) => {
                 error.status === STATUS_CODE_400 ? dispatch(forgetPasswordFailed(error.data)) : dispatch(forgetPasswordFailed({error: "Request Failed Try again!"}));
-                console.log(formData, error, FORGET_PASSWORD_FAILD)
             });
 
         return promise;

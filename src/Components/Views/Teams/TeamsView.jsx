@@ -14,6 +14,7 @@ import Footer from "../../Ui/Footer";
 import PageHeader from "../../Ui/PageHeader";
 import {useNavigate} from "react-router-dom";
 import {capitalizeFirstLetter} from "../../../Services/Helper";
+import Breadcrumbs from "../../Ui/Breadcrumbs";
 
 const TeamsView = ({getGamesRequest, games}) => {
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
@@ -21,7 +22,7 @@ const TeamsView = ({getGamesRequest, games}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getGamesRequest(user.profile.id || null, navigate)
+        getGamesRequest(user?.profile?.id || null, navigate)
     }, [])
 
     return (
@@ -35,27 +36,9 @@ const TeamsView = ({getGamesRequest, games}) => {
 
             <div className="mx-2">
 
-                <nav className="bg-grey-light rounded-md w-full breadcrumbs my-2">
-                    <ol className="list-reset flex items-center">
-                        <li>
-                            <a href="#" className="text-blue-600 hover:text-blue-700">
-                                Home
-                            </a>
-                        </li>
-                        <li>
-                            <ReactSVG src={chevronRight}/>
-                        </li>
-                        <li>
-                            <a href="#" className="text-blue-600 hover:text-blue-700">
-                                Library
-                            </a>
-                        </li>
-                        <li>
-                            <ReactSVG src={chevronRight}/>
-                        </li>
-                        <li className="text-secondary-light">Data</li>
-                    </ol>
-                </nav>
+                <Breadcrumbs
+                    currentPage="Teams"
+                />
 
                 <PageMainNavigation
                     heading="Teams"

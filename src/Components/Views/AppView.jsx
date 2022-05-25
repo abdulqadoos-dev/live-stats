@@ -1,6 +1,6 @@
 import React from "react"
 import {Routes, Route} from "react-router";
-import {BrowserRouter, Link} from "react-router-dom";
+import {BrowserRouter, Link, useNavigate} from "react-router-dom";
 
 import {
     BASE_PATH,
@@ -37,6 +37,7 @@ import TeamsContainer from "../Containers/Teams/TeamsContainers";
 import RosterEditContainer from "../Containers/Rosters/RostersEditContainer";
 import GameContainer from "../Containers/Games/GamesContainer";
 import GameFormContainer from "../Containers/Games/GameFormContainer";
+import HomeContainer from "../Containers/HomeContainer";
 
 
 export default function AppView(props) {
@@ -57,8 +58,7 @@ export default function AppView(props) {
 
                         <Route index element={
                             <ProtectedRoutes isLoggedIn={isLoggedIn}>
-                                <h1>Home</h1>
-                                <button><Link to={LOGOUT_PATH}> -- LogOut -- </Link></button>
+                                <HomeContainer/>
                             </ProtectedRoutes>
                         }/>
 

@@ -1,16 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {BASE_PATH, TEAMS_PATH} from "../../../state/constants/Constans";
+import {BASE_PATH, LOCAL_STORAGE_AUTH_USER, TEAMS_PATH} from "../../../state/constants/Constans";
 
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import creatingFeed from "../../../Media/icons/creating-feed.svg";
+import {loginRequest} from "../../../state/actions/authActions";
+import {connect} from "react-redux";
 
-export default function CreatingFeedView() {
+function CreatingFeedView() {
     const navigate = useNavigate();
+
+    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     setTimeout(() => {
         navigate(TEAMS_PATH)
-    },2000)
+    }, 2000)
 
     return (
         <>
@@ -26,3 +30,12 @@ export default function CreatingFeedView() {
         </>
     )
 }
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loginRequest: (formData, navigate) => dispatch(loginRequest(formData, navigate)),
+    }
+}
+
+export default connect(mapDispatchToProps)(CreatingFeedView)

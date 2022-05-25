@@ -16,7 +16,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
         if (!formData) navigate(SETUP_PROFILE_PATH)
     }, [])
 
-    const [rosters, setRosters] = React.useState([])
+    const [rosters, setRosters] = React.useState([{}])
 
     const _handleExcelUploadChange = (e) => {
         const [file] = e.target.files;
@@ -86,8 +86,8 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
 
     return (
         <>
-            <ProfileSetupWrapper>
-                <main className="grid justify-items-center  ">
+            <ProfileSetupWrapper className="w-fit lg:w-screen">
+                <main className="grid justify-items-center ">
                     <h1 className="text-3xl md:text-4xl text-white mb-10 md:mb-10">Build your roster</h1>
 
                     <div className="text-white text-center font-sans">
@@ -101,41 +101,40 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                             template</a>
                     </div>
 
-                    <div className="my-10">
+                    <div className="m-10  ">
                         <div className="m-0">
                             <input
                                 type="text"
                                 value="Player Name"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-64"
+                                className="upload-roster-form-input w-64"
                             />
                             <input
                                 type="text"
                                 value="Number"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="upload-roster-form-input w-32"
                             />
                             <input
                                 type="text"
                                 value="Height"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="upload-roster-form-input w-32"
                             />
                             <input
                                 type="text"
                                 value="Weight"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="upload-roster-form-input w-32"
                             />
                             <input
                                 type="text"
                                 value="Position"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="upload-roster-form-input w-32"
                             />
                         </div>
 
-                        {/*table rows*/}
                         {
                             rosters.length ? rosters.map((roster, i) => <div
                                         className="border-b border-secondary flex items-center"

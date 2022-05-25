@@ -42,7 +42,7 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
         <>
             <ProfileSetupWrapper>
                 <main className="grid justify-items-center">
-                    <h1 className="text-3xl md:text-4xl text-white mb-10 md:mb-10">What's your school and sport ?</h1>
+                    <h1 className="text-2xl md:text-4xl text-white mb-10 md:mb-10">What's your school and sport ?</h1>
                     <section className="flex flex-col gap-1 lg:gap-0.5 w-64">
 
                         <Alert
@@ -54,7 +54,7 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
                             type="text"
                             name="state"
                             placeholder="State"
-                            className={`px-4 py-3  ${validations?.state ? 'rounded-none' : 'rounded-t-md'}`}
+                            className={`px-4 py-3  outline-0 ${validations?.state ? 'rounded-none' : 'rounded-t-md'}`}
                             onChange={_handelInputChange}
                         />
                         <ValidationMessage
@@ -65,7 +65,7 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
                             type="text"
                             name="school"
                             placeholder="School"
-                            className={`px-4 py-3  ${validations?.school && ''}`}
+                            className={`px-4 py-3  outline-0 ${validations?.school && ''}`}
                             onChange={_handelInputChange}
                         />
                         <ValidationMessage
@@ -78,7 +78,7 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
                             readOnly
                             placeholder="Basket ball"
                             value="Basket ball"
-                            className={`px-4 py-3  ${validations?.sport && ''}`}
+                            className={`px-4 py-3  outline-0 ${validations?.sport && ''}`}
                             // onChange={_handelInputChange}
                         />
                         <ValidationMessage
@@ -87,10 +87,10 @@ export default function SchoolAndSportView({isLoading, validations, error, formD
 
 
                         <input
-                            type="number"
+                            type="text"
                             name="liveStatCode"
                             placeholder="Live stat code"
-                            className={`px-4 py-3  ${validations?.liveStatCode ? 'rounded-none' : 'rounded-b-md'}`}
+                            className={`px-4 py-3  outline-0 ${validations?.liveStatCode ? 'rounded-none' : 'rounded-b-md'}`}
                             onChange={_handelInputChange}
                         />
                         <ValidationMessage

@@ -60,17 +60,21 @@
         @apply sm:rounded-r
     }
 
-    .footer-navigation svg{
+    .footer-navigation svg {
         @apply stroke-white  w-7 h-7 lg:w-10 lg:h-10 mx-auto stroke-1
     }
 
-    .remove-roster-icon{
+    .remove-roster-icon {
         @apply bg-red-700 rounded-full w-6 h-6 inline-flex items-center justify-center ml-1 cursor-pointer
     }
-    .remove-roster-icon svg{
+
+    .remove-roster-icon svg {
         @apply stroke-white h-5 w-5
     }
 
-
+    .upload-roster-form-input {
+        @apply text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold
+    }
 }
+
 

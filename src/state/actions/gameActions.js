@@ -29,7 +29,7 @@ export const getGamesRequest = (profileId, navigate) => {
         }).catch((error) => {
 
             dispatch({type: GETTING_GAMES_FAILED, error: "Request Failed Try again!"});
-            navigate(GAMES_PATH)
+            // navigate(GAMES_PATH)
 
         });
 

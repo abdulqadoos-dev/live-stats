@@ -24,7 +24,7 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
 
         <div className="bg-secondary pb-2 lg:p-3 text-white">
             {/*<div className="grid grid-cols-3 items-center justify-center">*/}
-            <div className="flex gap-5 items-center justify-center">
+            <div className="flex gap-5 items-center ">
                 <div className="ml-5">
                     <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 relative overflow-hidden">
                         <img src={process.env.REACT_APP_SERVER_PATH+uploadedImage} id="uploaded-image" className="w-56 lg:w-64"/>
@@ -37,8 +37,7 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
                 </div>
 
                 <div className="overflow-clip">
-                    <h2 className="text-sm md:text-2xl">{title}</h2>
-                    <h1 className="text-xl md:text-5xl">{subTitle}</h1>
+                    <h1 className="text-xl md:text-5xl">{title}</h1>
                     <p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>
                 </div>
             </div>

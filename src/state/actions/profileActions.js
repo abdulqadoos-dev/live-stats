@@ -15,7 +15,6 @@ import {
     CREATE_TEAM_PROFILE_SUCCESS,
     SET_PROFILE_FORM
 } from "../constants/profileConstants";
-import {getProfile} from "../apis/profileApi";
 
 
 export const setProfileForm = formData => {

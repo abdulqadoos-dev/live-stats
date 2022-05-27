@@ -121,7 +121,6 @@ export const loginRequest = (formData, navigate) => {
 
         promise
             .then((result) => {
-                // console.log(result, "after login......")
                 dispatch(loginSuccess(result.data));
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
                 result?.data?.user?.profile ? navigate(TEAMS_PATH) : navigate(SETUP_PROFILE_PATH);
@@ -196,12 +195,10 @@ export const changePasswordRequest = (formData, navigate) => {
         promise
             .then((result) => {
                 dispatch(changePasswordSuccess(result.data.data));
-                console.log(result.data.data, CHANGE_PASSWORD_SUCCESS);
                 navigate(LOGIN_PATH)
             })
             .catch((error) => {
                 dispatch(changePasswordFailed(error.data))
-                console.log({formData}, error, CHANGE_PASSWORD_FAILD)
             });
 
         return promise;

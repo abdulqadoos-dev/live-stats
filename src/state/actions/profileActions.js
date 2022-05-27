@@ -2,11 +2,11 @@ import * as profileApi from "../apis/profileApi";
 
 import {requestStart, validationResults} from "./appActions";
 import {
-    CREATING_FEED_PATH,
+    CREATING_FEED_PATH, LOCAL_STORAGE_AUTH_USER,
     LOCATION_DETAILS_PATH,
     SCHOOL_AND_SPORT_PATH,
     SETUP_PROFILE_PATH,
-    STATUS_CODE_400
+    STATUS_CODE_400, TEAMS_PATH
 } from "../constants/Constans";
 
 import {
@@ -15,6 +15,7 @@ import {
     CREATE_TEAM_PROFILE_SUCCESS,
     SET_PROFILE_FORM
 } from "../constants/profileConstants";
+import {getProfile} from "../apis/profileApi";
 
 
 export const setProfileForm = formData => {
@@ -73,6 +74,24 @@ export const createTeamProfileRequest = (formData, navigate) => {
             dispatch({type: CREATE_TEAM_PROFILE_FAILED, error: "Request Failed Try again!"});
             navigate(SETUP_PROFILE_PATH)
 
+        });
+        return promise
+
+    }
+}
+export const getProfileRequest = (navigate) => {
+    return (dispatch) => {
+        dispatch(requestStart());
+
+        const promise = profileApi.getProfile()
+
+        promise.then((result) => {
+            const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+            authUser.user.profile = result.data.profile
+            window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(authUser));
+            setTimeout(() => navigate(TEAMS_PATH), 1000)
+        }).catch((error) => {
+            navigate(SETUP_PROFILE_PATH)
         });
         return promise
 

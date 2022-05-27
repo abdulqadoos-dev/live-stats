@@ -1,20 +1,22 @@
 import React, {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import {BASE_PATH, LOCAL_STORAGE_AUTH_USER, TEAMS_PATH} from "../../../state/constants/Constans";
-
-import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
-import creatingFeed from "../../../Media/icons/creating-feed.svg";
-import {loginRequest} from "../../../state/actions/authActions";
 import {connect} from "react-redux";
 
-function CreatingFeedView() {
+import {useNavigate} from "react-router-dom";
+
+import creatingFeed from "../../../Media/icons/creating-feed.svg";
+
+import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
+import {getProfileRequest} from "../../../state/actions/profileActions";
+
+const CreatingFeedView = ({getProfileRequest}) => {
+
     const navigate = useNavigate();
 
-    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+    useEffect(() => {
+         getProfileRequest(navigate)
+    }, [])
 
-    setTimeout(() => {
-        navigate(TEAMS_PATH)
-    }, 2000)
+
 
     return (
         <>
@@ -32,10 +34,17 @@ function CreatingFeedView() {
 }
 
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        loginRequest: (formData, navigate) => dispatch(loginRequest(formData, navigate)),
+        ...state.auth,
+        ...state.profile
     }
 }
 
-export default connect(mapDispatchToProps)(CreatingFeedView)
+const mapDispatchToProps = dispatch => {
+    return {
+        getProfileRequest: navigate => dispatch(getProfileRequest(navigate)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatingFeedView)

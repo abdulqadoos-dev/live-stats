@@ -65,7 +65,7 @@
     }
 
     .remove-roster-icon {
-        @apply bg-red-700 rounded-full w-6 h-6 inline-flex items-center justify-center ml-1 cursor-pointer
+        @apply bg-red-700 inline-flex items-center justify-center  cursor-pointer
     }
 
     .remove-roster-icon svg {
@@ -73,7 +73,7 @@
     }
 
     .upload-roster-form-input {
-        @apply text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold
+        @apply text-white font-sans text-sm bg-secondary-light px-2 font-bold
     }
 }
 

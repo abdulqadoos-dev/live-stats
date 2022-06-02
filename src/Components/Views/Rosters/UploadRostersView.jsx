@@ -86,8 +86,8 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
 
     return (
         <>
-            <ProfileSetupWrapper className="w-fit lg:w-screen">
-                <main className="grid justify-items-center ">
+            <ProfileSetupWrapper >
+                <main className="grid justify-items-center w-screen">
                     <h1 className="text-3xl md:text-4xl text-white mb-10 md:mb-10">Build your roster</h1>
 
                     <div className="text-white text-center font-sans">
@@ -101,50 +101,54 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                             template</a>
                     </div>
 
-                    <div className="m-10  ">
-                        <div className="m-0">
+                    <div className="m-10">
+                        <div className="grid grid-cols-2 md:grid-cols-6 gap-0.5 mb-0.5">
                             <input
                                 type="text"
                                 value="Player Name"
                                 readOnly={true}
-                                className="upload-roster-form-input w-64"
+                                className="upload-roster-form-input "
                             />
                             <input
                                 type="text"
                                 value="Number"
                                 readOnly={true}
-                                className="upload-roster-form-input w-32"
+                                className="upload-roster-form-input"
                             />
                             <input
                                 type="text"
                                 value="Height"
                                 readOnly={true}
-                                className="upload-roster-form-input w-32"
+                                className="upload-roster-form-input"
                             />
                             <input
                                 type="text"
                                 value="Weight"
                                 readOnly={true}
-                                className="upload-roster-form-input w-32"
+                                className="upload-roster-form-input"
                             />
                             <input
                                 type="text"
                                 value="Position"
                                 readOnly={true}
-                                className="upload-roster-form-input w-32"
+                                className="upload-roster-form-input"
+                            /> <input
+                                type="text"
+                                value="Action"
+                                readOnly={true}
+                                className="upload-roster-form-input"
                             />
                         </div>
 
                         {
-                            rosters.length ? rosters.map((roster, i) => <div
-                                        className="border-b border-secondary flex items-center"
+                            rosters.length ? rosters.map((roster, i) => <div className="grid grid-cols-2 md:grid-cols-6 gap-0.5 mb-0.5"
                                         key={i}>
                                         <input
                                             type="text"
                                             value={roster.name}
                                             name='name'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-64"
+                                            className="text-secondary font-sans text-sm border-secondary  py-1 px-2 "
                                         />
 
                                         <input
@@ -152,7 +156,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                             value={roster.number}
                                             name='number'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary  py-1 px-2"
                                         />
 
                                         <input
@@ -160,7 +164,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                             value={roster.height}
                                             name='height'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary  py-1 px-2"
                                         />
 
                                         <input
@@ -168,7 +172,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                             value={roster.weight}
                                             name='weight'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary  py-1 px-2"
                                         />
 
                                         <input
@@ -176,7 +180,7 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                             value={roster.position}
                                             name='position'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary  py-1 px-2"
                                         />
 
                                         <div className="remove-roster-icon" onClick={() => _removeRoster(i)}>
@@ -186,16 +190,16 @@ export default function UploadRostersView({formData, setProfileForm, createTeamP
                                     </div>
                                 )
                                 :
-                                <div className="border-r border-secondary bg-white text-center">
+                                <div className=" border-secondary bg-white text-center">
                                     <p>no record found</p>
                                 </div>
                         }
-                        <div className="border-b border-secondary ">
+                        <div className="">
                             <span className="cursor-pointer text-white" onClick={_addRoster}>+ Player</span>
                         </div>
                     </div>
 
-                    <p className="mb-5 opacity-80 font-light text-white font-sans text-lg w-[400px] text-center">
+                    <p className="mb-5 opacity-80 font-light text-white font-sans text-lg w-[350px] text-center">
                         Add some basic player information's to start building your roster. Your can always edit the
                         roster later on the team page as well as enter additional info.
                     </p>

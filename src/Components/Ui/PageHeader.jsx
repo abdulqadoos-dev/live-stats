@@ -17,7 +17,8 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
                 authUserData.user.image = res.data.image
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(authUserData))
 
-            }).catch(err => {})
+            }).catch(err => {
+        })
     }
 
     return (
@@ -27,7 +28,8 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
             <div className="flex gap-5 items-center ">
                 <div className="ml-5">
                     <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 relative overflow-hidden">
-                        <img src={process.env.REACT_APP_SERVER_PATH+uploadedImage} id="uploaded-image" className="w-56 lg:w-64"/>
+                        <img src={process.env.REACT_APP_SERVER_PATH + uploadedImage} id="uploaded-image"
+                             className="w-56 lg:w-64"/>
                         <label htmlFor="upload-image"
                                className="absolute bottom-0 w-full bg-secondary-light py-1 lg:py-2 cursor-pointer flex items-center justify-center button-default-svg opacity-90">
                             <ReactSVG src={plus}/> <p className="text-sm lg:text-lg" aria-readonly={true}>Image</p>

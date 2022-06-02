@@ -106,7 +106,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
 
 
                 <PageMainNavigation
-                    heading="Games"
+                    heading="Edit Rosters"
                 />
                 <main className="grid my-5 gap-10 justify-center">
                     <div className=" text-center font-sans">
@@ -119,52 +119,58 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                         <a href="/assets/example-rosters.xlsx" download className="font-bold">Download roster
                             template</a>
                     </div>
-                    <div className="m-0">
+                    <div className="m-2">
 
-                        <div className="m-0">
+                        <div className="grid grid-cols-2 md:grid-cols-6 gap-0.5 mb-1">
                             <input
                                 type="text"
                                 value="Player Name"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-64"
+                                className="text-white font-sans text-sm border-secondary bg-secondary-light px-2 py-1 font-bold "
                             />
                             <input
                                 type="text"
                                 value="Number"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="text-white font-sans text-sm border-secondary bg-secondary-light px-2 py-1 font-bold"
                             />
                             <input
                                 type="text"
                                 value="Height"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="text-white font-sans text-sm border-secondary bg-secondary-light px-2 py-1 font-bold"
                             />
                             <input
                                 type="text"
                                 value="Weight"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="text-white font-sans text-sm border-secondary bg-secondary-light px-2 py-1 font-bold"
                             />
                             <input
                                 type="text"
                                 value="Position"
                                 readOnly={true}
-                                className="text-white font-sans text-sm border-r border-secondary bg-secondary-light px-2 font-bold w-32"
+                                className="text-white font-sans text-sm border-secondary bg-secondary-light px-2 py-1 font-bold"
+                            />
+                            <input
+                                type="text"
+                                value="Action"
+                                readOnly={true}
+                                className="text-white font-sans text-sm border-secondary bg-secondary-light px-2 py-1 font-bold"
                             />
                         </div>
 
                         {/*table rows*/}
                         {
                             newRosters?.length ? newRosters.map((roster, i) => <div
-                                        className=" border-l border-secondary"
+                                        className="grid grid-cols-2 md:grid-cols-6 gap-0.5 mb-1"
                                         key={i}>
                                         <input
                                             type="text"
                                             value={roster.name}
                                             name='name'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-b border-r py-1 px-2 w-64"
+                                            className="text-secondary font-sans text-sm border-secondary border py-1 px-2 "
                                         />
 
                                         <input
@@ -172,7 +178,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                                             value={roster.number}
                                             name='number'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-b border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary border  py-1 px-2 "
                                         />
 
                                         <input
@@ -180,7 +186,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                                             value={roster.height}
                                             name='height'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-b border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary border  py-1 px-2 "
                                         />
 
                                         <input
@@ -188,7 +194,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                                             value={roster.weight}
                                             name='weight'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-b border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary border   py-1 px-2 "
                                         />
 
                                         <input
@@ -196,7 +202,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                                             value={roster.position}
                                             name='position'
                                             onChange={(e) => _handleChange(e, i)}
-                                            className="text-secondary font-sans text-sm border-secondary border-b border-r py-1 px-2 w-32"
+                                            className="text-secondary font-sans text-sm border-secondary border  py-1 px-2 "
                                         />
 
                                         <div className="remove-roster-icon" onClick={() => _removeRoster(i)}>

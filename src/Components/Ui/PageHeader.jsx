@@ -24,9 +24,10 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
     return (
 
         <div className="bg-secondary pb-2 lg:p-3 text-white">
-            {/*<div className="grid grid-cols-3 items-center justify-center">*/}
+            <div className="container mx-auto">
+
             <div className="flex gap-5 items-center ">
-                <div className="ml-5">
+                <div className="ml-0">
                     <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 relative overflow-hidden">
                         <img src={process.env.REACT_APP_SERVER_PATH + uploadedImage} id="uploaded-image"
                              className="w-56 lg:w-64"/>
@@ -43,6 +44,8 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
                     <p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>
                 </div>
             </div>
+            </div>
+
         </div>
 
     )

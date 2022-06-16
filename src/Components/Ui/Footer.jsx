@@ -12,9 +12,9 @@ const Footer = () => {
     return (
     <>
         <div className="pt-28"/>
-        <div className="fixed bottom-0 w-full container">
+        <div className="fixed bottom-0 w-full">
         <div
-            className="flex justify-around py-2 bg-secondary text-white text-xs lg:text-sm font-sans footer-navigation">
+            className="flex justify-around py-2 bg-secondary text-white text-xs lg:text-sm font-sans footer-navigation ">
             <div>
                 <ReactSVG src={home}/>
                 MY TEAM

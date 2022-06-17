@@ -22,6 +22,7 @@ export const ROSTERS_EDIT_PATH = "/rosters/edit"
 export const TEAMS_PATH = "/teams"
 export const GAMES_PATH = "/games"
 export const GAMES_FORM_PATH = "/games/form"
+export const GAMES_BOARD_PATH = "/games/board"
 
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403

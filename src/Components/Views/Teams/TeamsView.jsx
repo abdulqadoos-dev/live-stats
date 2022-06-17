@@ -5,6 +5,7 @@ import chevronRight from "../../../Media/icons/chevron-right.svg";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
 import {
+    GAMES_BOARD_PATH,
     GAMES_FORM_PATH,
     LOCAL_STORAGE_AUTH_USER,
     ROSTERS_EDIT_PATH,
@@ -87,6 +88,7 @@ const TeamsView = ({getGamesRequest, games}) => {
                             <DarkButton
                                 label="Start Game"
                                 className="w-full lg:text-2xl lg:py-5"
+                                clickEvent={() => navigate(GAMES_BOARD_PATH)}
                             />
                             <DarkButton
                                 label="Add Game"

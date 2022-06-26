@@ -91,8 +91,7 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
         saveRostersRequest(authUser.user.profile.id, newRosters, navigate)
     }
     return (
-        <Wrapper>
-
+        <>
             <PageHeader
                 title={authUser?.user?.profile?.name || null}
                 subTitle="Cavemen"
@@ -100,10 +99,10 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                 uploadedImage={authUser?.user.image}
             />
 
+        <Wrapper>
             <section className="mx-2">
 
                 <Breadcrumbs/>
-
 
                 <PageMainNavigation
                     heading="Edit Rosters"
@@ -229,10 +228,14 @@ const EditRosterView = ({getRostersRequest, rosters, saveRostersRequest}) => {
                     </div>
                 </main>
             </section>
-            <Footer/>
 
         </Wrapper>
-    )
+    <Footer/>
+
+
+    </>
+
+)
 }
 
 export default EditRosterView

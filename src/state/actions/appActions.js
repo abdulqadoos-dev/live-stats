@@ -1,4 +1,4 @@
-import {REQUEST_START, VALIDATION_RESULTS} from "../constants/Constans";
+import {CHANGE_STATE_VALUE, REQUEST_START, VALIDATION_RESULTS} from "../constants/Constans";
 
 
 export const testAction = () => {
@@ -14,3 +14,10 @@ export const validationResults = (validationResults = null, message = null, erro
     message,
     error
 });
+
+
+export const changeStateValue = (key, value) => ({
+    type: CHANGE_STATE_VALUE,
+    key: key,
+    value: value
+})

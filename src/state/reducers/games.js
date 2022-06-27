@@ -14,6 +14,7 @@ const INITIAL_STATE = {
     validations: null,
 
     startGameModal: null,
+    selectedGame : null
 }
 
 const games = (state = INITIAL_STATE, action) => {

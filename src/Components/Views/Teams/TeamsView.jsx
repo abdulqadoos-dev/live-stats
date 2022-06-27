@@ -86,7 +86,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                     isOpen: true,
                                     title: "Select Games",
                                     content: MODEL_CONTENT_GAMES,
-                                    isEnableButton: false
+                                    isDisabledButton: true
                                 })}
                             />
                             <DarkButton

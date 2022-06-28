@@ -14,7 +14,10 @@ const INITIAL_STATE = {
     validations: null,
 
     startGameModal: null,
-    selectedGame : null
+    selectedGame : null,
+    dragEventObject : null,
+    selectedTeamRosters : null,
+    selectedOpponentRosters : null
 }
 
 const games = (state = INITIAL_STATE, action) => {

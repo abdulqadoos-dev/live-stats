@@ -29,7 +29,8 @@ export default function StartGame({
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("RERENDER", games, selectedGame, dragEventObject)
+        // console.log("RERENDER", games, selectedGame, dragEventObject)
+        console.log("RERENDER", rosters, selectedTeamRosters)
     })
 
     useEffect(() => {
@@ -39,9 +40,9 @@ export default function StartGame({
     const _handleModelClickEvent = (action) => {
         switch (action) {
             case MODEL_CONTENT_GAMES :
-                return _handelPlayersModel(user?.profile?.id || null, "Team 1 Players", MODEL_CONTENT_TEAM_PLAYERS)
+                return _handelPlayersModel(selectedGame?.team1Id || null, "Team 1 Players", MODEL_CONTENT_TEAM_PLAYERS)
             case MODEL_CONTENT_TEAM_PLAYERS :
-                return _handelPlayersModel(user?.profile?.id || null, "Team 2 Players", MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS)
+                return _handelPlayersModel(selectedGame?.team2Id || null, "Team 2 Players", MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS)
             case MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS:
                 navigate(GAMES_BOARD_PATH)
         }
@@ -55,21 +56,43 @@ export default function StartGame({
 
 
     const rosterDragStart = ({target}) => {
-        console.log(target, "drag start")
-        target.classList.add("opacity-5")
-        changeGameSate("dragEventObject", {...dragEventObject, rosterId: target.id})
-
+        target.classList.add("opacity-70")
+        target.classList.add('dragging');
+        changeGameSate("dragEventObject", {
+            ...dragEventObject,
+            rosterId: target.id,
+            closestLane: target.closest("div.line").id
+        })
     }
 
-    const rosterDragOver = ({target}) => {
-        let roster = document.getElementById(dragEventObject.rosterId);
-
-        console.log(target, roster, "drag over")
+    const rosterDragOver = (event) => {
+        const target = event.target
+        let draggingRoster = document.getElementById(dragEventObject.rosterId);
+        // let targetRoster = target.closest('div.roster:not(.dragging)');
+        let targetLane = target.closest("div.line");
+        targetLane.append(draggingRoster)
+        // const offset = targetRoster ? event.clientY - targetRoster.getBoundingClientRect().top - 100 / 2 : 0;
+        // targetRoster ? (offset < 0 ? targetRoster.after(draggingRoster) : targetRoster.before(draggingRoster)) : targetLane.append(draggingRoster);
     }
 
     const rosterDragEnd = ({target}) => {
-        target.classList.remove("opacity-5")
-        changeGameSate("dragEventObject", null)
+        target.classList.remove("opacity-70")
+        target.classList.remove("dragging")
+        let targetLane = target.closest("div.line");
+        let arr = [];
+        let roster = null;
+
+        if (dragEventObject.closestLane === "rosters") {
+            rosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+            selectedTeamRosters.push(roster)
+        }
+
+        // if (dragEventObject.closestLane === "selectedRosters") {
+        //     selectedTeamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+        // }
+
+        console.log({rosters}, {selectedTeamRosters})
+        changeGameSate("selectedTeamRosters", selectedTeamRosters)
     }
 
     return (
@@ -111,13 +134,13 @@ const _renderPlayers = (rosters, selectedRosters, {rosterDragOver, rosterDragSta
             <div
                 id="selectedRosters"
                 onDragOver={rosterDragOver}
-                className="mb-2">
+                className="mb-2 line">
                 {selectedRosters?.length ? selectedRosters.map(roster => (
                     <div
                         draggable={true}
                         key={roster.id}
                         id={roster.id}
-                        className="mb-2 p-3 bg-secondary text-center rounded-md text-light hover:bg-primary cursor-move selectedRoster">
+                        className="mb-2 p-3 bg-secondary text-center rounded-md text-light hover:bg-primary cursor-move roster">
                         {roster.position + " " + roster.name}
                     </div>
                 )) : null}
@@ -126,7 +149,7 @@ const _renderPlayers = (rosters, selectedRosters, {rosterDragOver, rosterDragSta
             <div
                 id="rosters"
                 onDragOver={rosterDragOver}
-                className="mb-2">
+                className="mb-2 line">
                 {rosters?.length ? rosters.map(roster => (
                     <div
                         id={roster.id}

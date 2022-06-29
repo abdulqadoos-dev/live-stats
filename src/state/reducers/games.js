@@ -16,8 +16,8 @@ const INITIAL_STATE = {
     startGameModal: null,
     selectedGame : null,
     dragEventObject : null,
-    selectedTeamRosters : null,
-    selectedOpponentRosters : null
+    selectedTeamRosters : [],
+    selectedOpponentRosters : []
 }
 
 const games = (state = INITIAL_STATE, action) => {

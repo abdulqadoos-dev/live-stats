@@ -7,18 +7,18 @@ import {
     GAMES_BOARD_PATH, LOCAL_STORAGE_AUTH_USER,
     MODEL_CONTENT_GAMES,
     MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS,
-    MODEL_CONTENT_TEAM_PLAYERS
+    MODEL_CONTENT_TEAM_PLAYERS,
 } from "../../../state/constants/Constans";
 
 
 export default function StartGame({
-                                      getGamesRequest,
                                       getRostersRequest,
                                       changeGameSate,
                                       games,
                                       rosters,
                                       startGameModal,
                                       selectedGame,
+                                      teamRosters,
                                       dragEventObject,
                                       selectedTeamRosters,
                                       selectedOpponentRosters
@@ -28,10 +28,10 @@ export default function StartGame({
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // console.log("RERENDER", games, selectedGame, dragEventObject)
-        console.log("RERENDER", rosters, selectedTeamRosters)
-    })
+    // useEffect(() => {
+    //     // console.log("RERENDER", games, selectedGame, dragEventObject)
+    //     // console.log("RERENDER", {teamRosters}, {selectedTeamRosters})
+    // })
 
     useEffect(() => {
         selectedGame && changeGameSate("startGameModal", {...startGameModal, isDisabledButton: false})
@@ -50,7 +50,10 @@ export default function StartGame({
 
 
     const _handelPlayersModel = (profileId, title, content) => {
-        getRostersRequest(profileId, navigate)
+        let promise = getRostersRequest(profileId, navigate)
+        promise.then((result) => {
+            result?.data?.players && changeGameSate("teamRosters", result.data.players)
+        })
         changeGameSate("startGameModal", {...startGameModal, isDisabledButton: false, title: title, content: content})
     }
 
@@ -66,11 +69,11 @@ export default function StartGame({
     }
 
     const rosterDragOver = (event) => {
-        const target = event.target
-        let draggingRoster = document.getElementById(dragEventObject.rosterId);
+        // const target = event.target
+        // let draggingRoster = document.getElementById(dragEventObject.rosterId);
         // let targetRoster = target.closest('div.roster:not(.dragging)');
-        let targetLane = target.closest("div.line");
-        targetLane.append(draggingRoster)
+        // let targetLane = target.closest("div.line");
+        // targetLane.append(draggingRoster)
         // const offset = targetRoster ? event.clientY - targetRoster.getBoundingClientRect().top - 100 / 2 : 0;
         // targetRoster ? (offset < 0 ? targetRoster.after(draggingRoster) : targetRoster.before(draggingRoster)) : targetLane.append(draggingRoster);
     }
@@ -78,22 +81,22 @@ export default function StartGame({
     const rosterDragEnd = ({target}) => {
         target.classList.remove("opacity-70")
         target.classList.remove("dragging")
-        let targetLane = target.closest("div.line");
         let arr = [];
         let roster = null;
-
-        if (dragEventObject.closestLane === "rosters") {
-            rosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+        if (dragEventObject.closestLane === "teamRosters") {
+            teamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
             selectedTeamRosters.push(roster)
+            changeGameSate("teamRosters", arr)
+            changeGameSate("selectedTeamRosters", selectedTeamRosters)
         }
-
-        // if (dragEventObject.closestLane === "selectedRosters") {
-        //     selectedTeamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
-        // }
-
-        console.log({rosters}, {selectedTeamRosters})
-        changeGameSate("selectedTeamRosters", selectedTeamRosters)
+        if (dragEventObject.closestLane === "selectedRosters") {
+            selectedTeamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+            teamRosters.push(roster)
+            changeGameSate("selectedTeamRosters", arr)
+            changeGameSate("teamRosters", teamRosters)
+        }
     }
+
 
     return (
         <DefaultModal
@@ -101,8 +104,7 @@ export default function StartGame({
             isDisabledButton={startGameModal.isDisabledButton}
             clickEvent={() => _handleModelClickEvent(startGameModal.content)}>
             <div className="my-3">
-                {/*{startGameModal.content === MODEL_CONTENT_GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(rosters, selectedTeamRosters)}*/}
-                {startGameModal.content === MODEL_CONTENT_GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(rosters, selectedTeamRosters, {
+                {startGameModal.content === MODEL_CONTENT_GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(teamRosters, selectedTeamRosters, {
                     rosterDragOver,
                     rosterDragStart,
                     rosterDragEnd
@@ -127,7 +129,7 @@ const _renderGames = (games, changeGameSate, selectedGame) => games?.length ? ga
     </div>
 )) : null
 
-const _renderPlayers = (rosters, selectedRosters, {rosterDragOver, rosterDragStart, rosterDragEnd}) =>
+const _renderPlayers = (teamRosters, selectedRosters, {rosterDragOver, rosterDragStart, rosterDragEnd}) =>
     <div className="my-3">
         <div className="grid grid-cols-2 gap-2 ">
 
@@ -135,10 +137,12 @@ const _renderPlayers = (rosters, selectedRosters, {rosterDragOver, rosterDragSta
                 id="selectedRosters"
                 onDragOver={rosterDragOver}
                 className="mb-2 line">
-                {selectedRosters?.length ? selectedRosters.map(roster => (
+                {selectedRosters?.length ? selectedRosters.map((roster, key) => (
                     <div
                         draggable={true}
-                        key={roster.id}
+                        onDragStart={rosterDragStart}
+                        onDragEnd={rosterDragEnd}
+                        key={key}
                         id={roster.id}
                         className="mb-2 p-3 bg-secondary text-center rounded-md text-light hover:bg-primary cursor-move roster">
                         {roster.position + " " + roster.name}
@@ -147,13 +151,13 @@ const _renderPlayers = (rosters, selectedRosters, {rosterDragOver, rosterDragSta
             </div>
 
             <div
-                id="rosters"
+                id="teamRosters"
                 onDragOver={rosterDragOver}
                 className="mb-2 line">
-                {rosters?.length ? rosters.map(roster => (
+                {teamRosters?.length ? teamRosters.map((roster,key) => (
                     <div
                         id={roster.id}
-                        key={roster.id}
+                        key={key}
                         draggable={true}
                         onDragStart={rosterDragStart}
                         onDragEnd={rosterDragEnd}

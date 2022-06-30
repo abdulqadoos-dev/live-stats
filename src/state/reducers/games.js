@@ -16,6 +16,7 @@ const INITIAL_STATE = {
     startGameModal: null,
     selectedGame : null,
     dragEventObject : null,
+    teamRosters : [],
     selectedTeamRosters : [],
     selectedOpponentRosters : []
 }

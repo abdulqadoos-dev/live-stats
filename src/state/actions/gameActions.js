@@ -1,7 +1,12 @@
 import {requestStart} from "./appActions";
 import * as gamesApi from "../apis/gamesApi";
-import {GAMES_PATH} from "../constants/Constans";
-import {GETTING_GAMES_FAILED, GETTING_GAMES_SUCCESS, SET_GAMES_FORM} from "../constants/gamesConstants";
+import { GAMES_PATH} from "../constants/Constans";
+import {
+    CHANGE_GAME_STATE,
+    GETTING_GAMES_FAILED,
+    GETTING_GAMES_SUCCESS,
+    SET_GAMES_FORM
+} from "../constants/gamesConstants";
 import {getAllTeams} from "../apis/gamesApi";
 
 export const setRosterForm = formData => {
@@ -12,6 +17,14 @@ export const setRosterForm = formData => {
         })
     }
 }
+
+
+
+export const changeGameState = (key, value) => ({
+    type: CHANGE_GAME_STATE,
+    key: key,
+    value: value
+})
 
 
 export const getGamesRequest = (profileId, navigate) => {

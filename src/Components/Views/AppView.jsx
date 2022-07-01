@@ -15,7 +15,14 @@ import {
     SCHOOL_AND_SPORT_PATH,
     LOCATION_DETAILS_PATH,
     LOCAL_STORAGE_AUTH_USER,
-    BUILD_YOUR_PROFILE_PATH, UPLOAD_ROSTERS, ROSTERS_PATH, TEAMS_PATH, ROSTERS_EDIT_PATH, GAMES_PATH, GAMES_FORM_PATH
+    BUILD_YOUR_PROFILE_PATH,
+    UPLOAD_ROSTERS,
+    ROSTERS_PATH,
+    TEAMS_PATH,
+    ROSTERS_EDIT_PATH,
+    GAMES_PATH,
+    GAMES_FORM_PATH,
+    GAMES_BOARD_PATH
 } from "../../state/constants/Constans";
 
 import AuthRoutes from "../Includes/AuthRoutes";
@@ -38,13 +45,14 @@ import RosterEditContainer from "../Containers/Rosters/RostersEditContainer";
 import GameContainer from "../Containers/Games/GamesContainer";
 import GameFormContainer from "../Containers/Games/GameFormContainer";
 import HomeContainer from "../Containers/HomeContainer";
+import GameBoardContainer from "../Containers/Games/GameBoardContainer";
 
 
 export default function AppView(props) {
 
     // console.log({isLoggedIn}, props.auth, "AUTH STATE");
     // console.info(props.profile.formData, "STATE");
-    console.info(props.auth, "STATE");
+    console.info(props, "STATE");
     // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 
     const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
@@ -93,6 +101,13 @@ export default function AppView(props) {
                         <Route path={GAMES_FORM_PATH} element={
                             <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 <GameFormContainer/>
+                            </ProtectedRoutes>
+                        }/>
+
+
+                        <Route path={GAMES_BOARD_PATH} element={
+                            <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                                <GameBoardContainer/>
                             </ProtectedRoutes>
                         }/>
 

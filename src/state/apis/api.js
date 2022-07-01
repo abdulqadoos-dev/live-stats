@@ -15,7 +15,7 @@ api.interceptors.request.use((request) => {
 api.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    if (error.response.status === 401) {
+    if (!error.response || error.response.status === 401) {
         window.localStorage.removeItem(LOCAL_STORAGE_AUTH_USER);
         window.location.replace(LOGIN_PATH);
     }

@@ -22,6 +22,7 @@ export const ROSTERS_EDIT_PATH = "/rosters/edit"
 export const TEAMS_PATH = "/teams"
 export const GAMES_PATH = "/games"
 export const GAMES_FORM_PATH = "/games/form"
+export const GAMES_BOARD_PATH = "/games/board"
 
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403
@@ -30,5 +31,11 @@ export const LOCAL_STORAGE_AUTH_USER = "authUser";
 export const FAN_ROLE_ID = 1;
 export const TEAM_ROLE_ID = 2;
 
+export const CHANGE_STATE_VALUE = "CHANGE_STATE_VALUE";
+
 export const REQUEST_START = "REQUEST_START"
 export const VALIDATION_RESULTS = "VALIDATION_RESULTS"
+
+export const GAMES = "GAMES"
+export const TEAM_ROSTERS = "TEAM_ROSTERS"
+export const OPPONENTS_TEAM_ROSTERS = "OPPONENTS_TEAM_ROSTERS"

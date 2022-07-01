@@ -1,5 +1,5 @@
-import {REQUEST_START, VALIDATION_RESULTS} from "../constants/Constans";
-import {GETTING_GAMES_FAILED, GETTING_GAMES_SUCCESS} from "../constants/gamesConstants";
+import { REQUEST_START, VALIDATION_RESULTS} from "../constants/Constans";
+import {CHANGE_GAME_STATE, GETTING_GAMES_FAILED, GETTING_GAMES_SUCCESS} from "../constants/gamesConstants";
 
 const INITIAL_STATE = {
 
@@ -13,10 +13,20 @@ const INITIAL_STATE = {
     message: null,
     validations: null,
 
+    startGameModal: null,
+    selectedGame : null,
+    dragEventObject : null,
+    teamRosters : [],
+    selectedTeamRosters : [],
+    selectedOpponentRosters : []
 }
 
 const games = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+
+        case CHANGE_GAME_STATE :
+            return {...state, [action.key]: action.value}
+
         case REQUEST_START:
             return {...state, isLoading: true}
 

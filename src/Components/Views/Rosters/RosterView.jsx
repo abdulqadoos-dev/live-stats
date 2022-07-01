@@ -28,9 +28,7 @@ const RosterView = ({getRostersRequest, rosters}) => {
 
 
     return (
-        <Wrapper>
-
-
+        <>
             <PageHeader
                 title={user?.profile?.name || null}
                 subTitle="Cavemen"
@@ -38,50 +36,55 @@ const RosterView = ({getRostersRequest, rosters}) => {
                 uploadedImage={user.image}
             />
 
-            <section className="mx-2">
+            <Wrapper>
 
-                <Breadcrumbs
-                    currentPage="Rosters"
-                />
+                <section className="mx-2">
 
-                <PageMainNavigation
-                    heading="Rosters"
-                />
+                    <Breadcrumbs
+                        currentPage="Rosters"
+                    />
 
-                <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-y-4 lg:gap-10">
+                    <PageMainNavigation
+                        heading="Rosters"
+                    />
 
-                    <section className="w-full col-span-2">
+                    <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-y-4 lg:gap-10">
 
-                        {rosters?.length ? rosters.map(roster => (
-                            <div className="flex gap-5 items-center border-b pb-2 mb-3" key={roster.id}>
-                                <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>
-                                <h4 className="text-lg lg:text-2xl font-semibold text-secondary">{roster.name}</h4>
-                                <div className="flex h-[24px] text-sm md:text-xl font-semibold text-secondary-light">
-                                    <p className="border-r border-secondary-light px-2">G</p>
-                                    <p className="border-r border-secondary-light px-2">Sr.</p>
-                                    <p className="border-r border-secondary-light px-2">{roster.height}</p>
-                                    <p className="px-2">{roster.weight}</p>
+                        <section className="w-full col-span-2">
+
+                            {rosters?.length ? rosters.map(roster => (
+                                <div className="flex gap-5 items-center border-b pb-2 mb-3" key={roster.id}>
+                                    <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>
+                                    <h4 className="text-lg lg:text-2xl font-semibold text-secondary">{roster.name}</h4>
+                                    <div className="flex h-[24px] text-sm md:text-xl font-semibold text-secondary-light">
+                                        <p className="border-r border-secondary-light px-2">G</p>
+                                        <p className="border-r border-secondary-light px-2">Sr.</p>
+                                        <p className="border-r border-secondary-light px-2">{roster.height}</p>
+                                        <p className="px-2">{roster.weight}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        )) : null}
+                            )) : null}
 
-                    </section>
-
-
-                    <section className="">
-                        <DarkButton
-                            label="Edit Roster"
-                            className="w-full lg:text-2xl lg:py-5"
-                            clickEvent={() => navigate(ROSTERS_EDIT_PATH)}
-                        />
-                    </section>
-                </main>
-            </section>
+                        </section>
 
 
+                        <section className="">
+                            <DarkButton
+                                label="Edit Roster"
+                                className="w-full lg:text-2xl lg:py-5"
+                                clickEvent={() => navigate(ROSTERS_EDIT_PATH)}
+                            />
+                        </section>
+                    </main>
+                </section>
+
+
+
+            </Wrapper>
             <Footer/>
 
-        </Wrapper>
+        </>
+
     )
 }
 

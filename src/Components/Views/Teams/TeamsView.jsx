@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {
     GAMES_FORM_PATH,
     ROSTERS_EDIT_PATH,
-    LOCAL_STORAGE_AUTH_USER, MODEL_CONTENT_GAMES,
+    LOCAL_STORAGE_AUTH_USER, GAMES,
 } from "../../../state/constants/Constans";
 
 import Footer from "../../Ui/Footer";
@@ -85,7 +85,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                 clickEvent={() => changeGameSate("startGameModal", {
                                     isOpen: true,
                                     title: "Select Games",
-                                    content: MODEL_CONTENT_GAMES,
+                                    content: GAMES,
                                     isDisabledButton: true
                                 })}
                             />

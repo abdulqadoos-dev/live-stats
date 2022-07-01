@@ -5,9 +5,9 @@ import {capitalizeFirstLetter} from "../../../Services/Helper";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
     GAMES_BOARD_PATH, LOCAL_STORAGE_AUTH_USER,
-    MODEL_CONTENT_GAMES,
-    MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS,
-    MODEL_CONTENT_TEAM_PLAYERS,
+    GAMES,
+    OPPONENTS_TEAM_ROSTERS,
+    TEAM_ROSTERS,
 } from "../../../state/constants/Constans";
 
 
@@ -28,22 +28,23 @@ export default function StartGame({
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     // console.log("RERENDER", games, selectedGame, dragEventObject)
-    //     // console.log("RERENDER", {teamRosters}, {selectedTeamRosters})
-    // })
-
     useEffect(() => {
         selectedGame && changeGameSate("startGameModal", {...startGameModal, isDisabledButton: false})
     }, [selectedGame])
 
     const _handleModelClickEvent = (action) => {
         switch (action) {
-            case MODEL_CONTENT_GAMES :
-                return _handelPlayersModel(selectedGame?.team1Id || null, "Team 1 Players", MODEL_CONTENT_TEAM_PLAYERS)
-            case MODEL_CONTENT_TEAM_PLAYERS :
-                return _handelPlayersModel(selectedGame?.team2Id || null, "Team 2 Players", MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS)
-            case MODEL_CONTENT_OPPONENTS_TEAM_PLAYERS:
+            case GAMES :
+                return _handelPlayersModel(selectedGame?.team1Id || null, "Team 1 Players", TEAM_ROSTERS)
+            case TEAM_ROSTERS :
+                return _handelPlayersModel(selectedGame?.team2Id || null, "Team 2 Players", OPPONENTS_TEAM_ROSTERS)
+            case OPPONENTS_TEAM_ROSTERS:
+                changeGameSate("startGameModal", null)
+                changeGameSate("dragEventObject", null)
+
+                changeGameSate("teamRosters", [])
+                changeGameSate("selectedTeamRosters", [])
+                changeGameSate("selectedOpponentRosters", [])
                 navigate(GAMES_BOARD_PATH)
         }
     }
@@ -68,31 +69,40 @@ export default function StartGame({
         })
     }
 
-    const rosterDragOver = (event) => {
-        // const target = event.target
-        // let draggingRoster = document.getElementById(dragEventObject.rosterId);
-        // let targetRoster = target.closest('div.roster:not(.dragging)');
-        // let targetLane = target.closest("div.line");
-        // targetLane.append(draggingRoster)
-        // const offset = targetRoster ? event.clientY - targetRoster.getBoundingClientRect().top - 100 / 2 : 0;
-        // targetRoster ? (offset < 0 ? targetRoster.after(draggingRoster) : targetRoster.before(draggingRoster)) : targetLane.append(draggingRoster);
-    }
-
     const rosterDragEnd = ({target}) => {
         target.classList.remove("opacity-70")
         target.classList.remove("dragging")
         let arr = [];
         let roster = null;
         if (dragEventObject.closestLane === "teamRosters") {
+
             teamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
-            selectedTeamRosters.push(roster)
+
+           if(startGameModal.content === TEAM_ROSTERS) {
+               selectedTeamRosters.push(roster)
+               changeGameSate("selectedTeamRosters", selectedTeamRosters)
+           }
+
+           if(startGameModal.content === OPPONENTS_TEAM_ROSTERS) {
+               selectedOpponentRosters.push(roster)
+               changeGameSate("selectedOpponentRosters", selectedOpponentRosters)
+           }
+
             changeGameSate("teamRosters", arr)
-            changeGameSate("selectedTeamRosters", selectedTeamRosters)
         }
         if (dragEventObject.closestLane === "selectedRosters") {
-            selectedTeamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+
+            if(startGameModal.content === TEAM_ROSTERS){
+                selectedTeamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+                changeGameSate("selectedTeamRosters", arr)
+            }
+
+            if(startGameModal.content === OPPONENTS_TEAM_ROSTERS){
+                selectedOpponentRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
+                changeGameSate("selectedOpponentRosters", arr)
+            }
+
             teamRosters.push(roster)
-            changeGameSate("selectedTeamRosters", arr)
             changeGameSate("teamRosters", teamRosters)
         }
     }
@@ -104,8 +114,7 @@ export default function StartGame({
             isDisabledButton={startGameModal.isDisabledButton}
             clickEvent={() => _handleModelClickEvent(startGameModal.content)}>
             <div className="my-3">
-                {startGameModal.content === MODEL_CONTENT_GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(teamRosters, selectedTeamRosters, {
-                    rosterDragOver,
+                {startGameModal.content === GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(teamRosters,startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters , {
                     rosterDragStart,
                     rosterDragEnd
                 })}
@@ -129,13 +138,12 @@ const _renderGames = (games, changeGameSate, selectedGame) => games?.length ? ga
     </div>
 )) : null
 
-const _renderPlayers = (teamRosters, selectedRosters, {rosterDragOver, rosterDragStart, rosterDragEnd}) =>
+const _renderPlayers = (teamRosters, selectedRosters, {rosterDragStart, rosterDragEnd}) =>
     <div className="my-3">
         <div className="grid grid-cols-2 gap-2 ">
 
             <div
                 id="selectedRosters"
-                onDragOver={rosterDragOver}
                 className="mb-2 line">
                 {selectedRosters?.length ? selectedRosters.map((roster, key) => (
                     <div
@@ -152,7 +160,6 @@ const _renderPlayers = (teamRosters, selectedRosters, {rosterDragOver, rosterDra
 
             <div
                 id="teamRosters"
-                onDragOver={rosterDragOver}
                 className="mb-2 line">
                 {teamRosters?.length ? teamRosters.map((roster,key) => (
                     <div

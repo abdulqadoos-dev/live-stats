@@ -22,7 +22,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
 
     const [formState, setFormState] = useState({
         sportId: user.profile.sportId,
-        team1Id: user.profile.id,
+        mainTeamId: user.profile.id,
     })
     const [errors, setErrors] = useState(null)
     const [teams, setTeams] = useState([])
@@ -38,14 +38,14 @@ const GameForm = ({createGamesRequest, formData, error}) => {
 
     const _setPlayGround = (value) => {
         if (value === playGroundsHome) {
-            setFormState({...formState, team1PlayGround: value, team2PlayGround: playGroundsAway})
+            setFormState({...formState, mainTeamPlayGround: value, opponentTeamPlayGround: playGroundsAway})
         } else if (value === playGroundsAway) {
-            setFormState({...formState, team1PlayGround: value, team2PlayGround: playGroundsHome})
+            setFormState({...formState, mainTeamPlayGround: value, opponentTeamPlayGround: playGroundsHome})
         }
     }
 
     const _verifyScheduleTime = (dateTime) => {
-        verifyScheduleTime({dateTime, team1Id: formState?.team1Id, team2Id: formState?.team2Id})
+        verifyScheduleTime({dateTime, mainTeamId: formState?.mainTeamId, opponentTeamId: formState?.opponentTeamId})
             .then(res => {
                 if (res.data.isScheduled) {
                     _handleChange('dateTime', dateTime)
@@ -92,10 +92,10 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                             <div className="md:w-full">
                                 <select
                                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                    id="team2Id"
-                                    name="team2Id"
-                                    value={formState?.team2Id || ''}
-                                    onChange={e => _handleChange('team2Id', parseInt(e.target.value))}
+                                    id="opponentTeamId"
+                                    name="opponentTeamId"
+                                    value={formState?.opponentTeamId || ''}
+                                    onChange={e => _handleChange('opponentTeamId', parseInt(e.target.value))}
                                 >
                                     <option value='' disabled>Select opponent team</option>
                                     {
@@ -124,8 +124,8 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                         className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
                                         onClick={() => _setPlayGround(playGroundsHome)}
                                         style={{
-                                            backgroundColor: formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
-                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)') : 'rgb(209 213 219)',
+                                            backgroundColor: formState.mainTeamPlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
+                                            borderColor: formState.mainTeamPlayGround ? (formState.mainTeamPlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)') : 'rgb(209 213 219)',
                                         }}
                                     >
                                         Home
@@ -135,8 +135,8 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                         className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
                                         onClick={() => _setPlayGround(playGroundsAway)}
                                         style={{
-                                            backgroundColor: formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
-                                            borderColor: formState.team1PlayGround ? (formState.team1PlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)') : 'rgb(209 213 219)',
+                                            backgroundColor: formState.mainTeamPlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
+                                            borderColor: formState.mainTeamPlayGround ? (formState.mainTeamPlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)') : 'rgb(209 213 219)',
                                         }}
                                     >
                                         Away

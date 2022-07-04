@@ -50,7 +50,7 @@ const GamesView = ({getGamesRequest, games}) => {
                                     className="lg:text-xl lg:w-14 font-bold text-secondary-light">{new Date(game.dateTime).getMonth() + 1}/{new Date(game.dateTime).getDate()}</div>
                                 <div className="text-lg w-full flex items-center gap-2 lg:gap-5">
                                     <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>
-                                    <h4 className="lg:text-2xl font-semibold text-secondary">{game.team2.name}</h4>
+                                    <h4 className="lg:text-2xl font-semibold text-secondary">{game.opponentTeam.name}</h4>
                                 </div>
                                 <div
                                     className="lg:text-lg w-30 lg:w-52 font-bold text-right text-secondary-light">Preview

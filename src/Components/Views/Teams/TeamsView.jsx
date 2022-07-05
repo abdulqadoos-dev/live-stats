@@ -55,14 +55,14 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                             {
                                 games?.map((game, i) => <div key={i} className="bg-light rounded-xl p-4 my-2">
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">
-                                            <p>{capitalizeFirstLetter(game?.team1?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
+                                            <p>{capitalizeFirstLetter(game?.mainTeam?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
                                             <p>FINAL</p>
                                         </div>
 
                                         <div className="flex justify-between items-center my-2">
                                             <div className="flex items-center gap-2 lg:gap-5">
                                                 <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-                                                <p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter(game?.team1?.name || '')}</p>
+                                                <p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter(game?.mainTeam?.name || '')}</p>
                                             </div>
                                             <p className="font-bold text-secondary-light text-sm lg:text-2xl">64</p>
                                         </div>
@@ -70,7 +70,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                         <div className="flex justify-between items-center">
                                             <div className="flex items-center gap-2 lg:gap-5">
                                                 <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-                                                <p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter(game?.team2?.name || '')}</p>
+                                                <p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter(game?.opponentTeam?.name || '')}</p>
                                             </div>
                                             <p className="font-bold text-secondary-light text-sm lg:text-2xl">41</p>
                                         </div>

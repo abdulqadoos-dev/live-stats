@@ -20,6 +20,7 @@ export default function StartGame({
                                       selectedGame,
                                       teamRosters,
                                       dragEventObject,
+                                      createMatchRequest,
                                       selectedTeamRosters,
                                       selectedOpponentRosters
                                   }) {
@@ -35,17 +36,27 @@ export default function StartGame({
     const _handleModelClickEvent = (action) => {
         switch (action) {
             case GAMES :
-                return _handelPlayersModel(selectedGame?.team1Id || null, "Team 1 Players", TEAM_ROSTERS)
+                return _handelPlayersModel(selectedGame?.mainTeamId || null, "Team 1 Players", TEAM_ROSTERS)
             case TEAM_ROSTERS :
-                return _handelPlayersModel(selectedGame?.team2Id || null, "Team 2 Players", OPPONENTS_TEAM_ROSTERS)
+                return _handelPlayersModel(selectedGame?.opponentTeamId || null, "Team 2 Players", OPPONENTS_TEAM_ROSTERS)
             case OPPONENTS_TEAM_ROSTERS:
+                let formData = {
+                    gameId: selectedGame.id,
+                    matchDuration: {},
+                    matchPlayers: {
+                        mainTeamRosters: selectedTeamRosters,
+                        opponentTeamRosters: selectedOpponentRosters
+                    },
+                    matchDetails: {}
+                }
+
                 changeGameSate("startGameModal", null)
                 changeGameSate("dragEventObject", null)
 
                 changeGameSate("teamRosters", [])
                 changeGameSate("selectedTeamRosters", [])
                 changeGameSate("selectedOpponentRosters", [])
-                navigate(GAMES_BOARD_PATH)
+                createMatchRequest(formData, navigate)
         }
     }
 
@@ -78,26 +89,26 @@ export default function StartGame({
 
             teamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
 
-           if(startGameModal.content === TEAM_ROSTERS) {
-               selectedTeamRosters.push(roster)
-               changeGameSate("selectedTeamRosters", selectedTeamRosters)
-           }
+            if (startGameModal.content === TEAM_ROSTERS) {
+                selectedTeamRosters.push(roster)
+                changeGameSate("selectedTeamRosters", selectedTeamRosters)
+            }
 
-           if(startGameModal.content === OPPONENTS_TEAM_ROSTERS) {
-               selectedOpponentRosters.push(roster)
-               changeGameSate("selectedOpponentRosters", selectedOpponentRosters)
-           }
+            if (startGameModal.content === OPPONENTS_TEAM_ROSTERS) {
+                selectedOpponentRosters.push(roster)
+                changeGameSate("selectedOpponentRosters", selectedOpponentRosters)
+            }
 
             changeGameSate("teamRosters", arr)
         }
         if (dragEventObject.closestLane === "selectedRosters") {
 
-            if(startGameModal.content === TEAM_ROSTERS){
+            if (startGameModal.content === TEAM_ROSTERS) {
                 selectedTeamRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
                 changeGameSate("selectedTeamRosters", arr)
             }
 
-            if(startGameModal.content === OPPONENTS_TEAM_ROSTERS){
+            if (startGameModal.content === OPPONENTS_TEAM_ROSTERS) {
                 selectedOpponentRosters.map(item => item.id === parseInt(target.id) ? roster = item : arr.push(item))
                 changeGameSate("selectedOpponentRosters", arr)
             }
@@ -114,7 +125,7 @@ export default function StartGame({
             isDisabledButton={startGameModal.isDisabledButton}
             clickEvent={() => _handleModelClickEvent(startGameModal.content)}>
             <div className="my-3">
-                {startGameModal.content === GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(teamRosters,startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters , {
+                {startGameModal.content === GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(teamRosters, startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters, {
                     rosterDragStart,
                     rosterDragEnd
                 })}
@@ -153,7 +164,7 @@ const _renderPlayers = (teamRosters, selectedRosters, {rosterDragStart, rosterDr
                         key={key}
                         id={roster.id}
                         className="mb-2 p-3 bg-secondary text-center rounded-md text-light hover:bg-primary cursor-move roster">
-                        {roster.position + " " + roster.name}
+                        {roster.name}
                     </div>
                 )) : null}
             </div>
@@ -161,7 +172,7 @@ const _renderPlayers = (teamRosters, selectedRosters, {rosterDragStart, rosterDr
             <div
                 id="teamRosters"
                 className="mb-2 line">
-                {teamRosters?.length ? teamRosters.map((roster,key) => (
+                {teamRosters?.length ? teamRosters.map((roster, key) => (
                     <div
                         id={roster.id}
                         key={key}
@@ -169,7 +180,7 @@ const _renderPlayers = (teamRosters, selectedRosters, {rosterDragStart, rosterDr
                         onDragStart={rosterDragStart}
                         onDragEnd={rosterDragEnd}
                         className="mb-2 col-span-1 p-3 bg-light text-center hover:bg-primary cursor-move hover:text-white rounded-md roster">
-                        {roster.position + " " + roster.name}
+                        {roster.name}
                     </div>
                 )) : null}
             </div>

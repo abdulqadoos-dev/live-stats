@@ -7,8 +7,8 @@ export default function GameBoardView() {
     return (
         <>
             <GameBoardHeader/>
-            <Wrapper>
-                <div className="grid grid-cols-5 gap-5 ">
+            <Wrapper readyOnly={true}>
+                <div className="grid grid-cols-5 gap-5">
                     <div className="mt-5">
                         <div className="bg-light hover:bg-primary cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans">
                             12 Last Name
@@ -16,8 +16,7 @@ export default function GameBoardView() {
                     </div>
                     <div className="mt-5 col-span-3 ">
                         <div className="bg-light rounded h-96"></div>
-                        <div className=""></div>
-
+                        <div/>
                         <div className="my-5">
                             <div className="grid grid-cols-6 gap-1">
                                 <div
@@ -106,8 +105,8 @@ export default function GameBoardView() {
                             </div>
                         </div>
 
-                        <div className="my-5 flex justify-center">
-                            <div>
+                        <div className="my-5 flex justify-center ">
+                            <div className="absolute z-20">
                                 <div className="bg-red-600 text-center hover:bg-primary rounded w-56 py-5 text-white cursor-pointer text-lg font-bold">Stop Clock</div>
                                 <div className="grid grid-cols-5 gap-0.5 mt-3">
                                     <div className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">1</div>

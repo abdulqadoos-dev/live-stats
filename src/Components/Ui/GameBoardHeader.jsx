@@ -1,10 +1,22 @@
 import React from "react";
+import {ReactSVG} from "react-svg";
+import chevron from "../../Media/icons/chevron-right.svg"
 
 export default function GameBoardHeader() {
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
+            <div className="container mx-auto">
+                <div className="flex justify-between game-board-actions">
+                    <div><span className="cursor-pointer flex items-center back-action">
+                            <ReactSVG src={chevron}/> Back</span>
+                    </div>
+                    <div><span className="cursor-pointer flex items-center">
+                            Start Game <ReactSVG src={chevron}/>
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div className="container mx-auto py-5">
-                <div className=""></div>
                 <div className="grid grid-cols-4 gap-5 items-end">
 
                     <div className="text-center">

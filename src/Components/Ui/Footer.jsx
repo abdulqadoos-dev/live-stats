@@ -4,24 +4,24 @@ import score from "../../Media/icons/score.svg";
 import heart from "../../Media/icons/heart.svg";
 import fan from "../../Media/icons/fan.svg";
 import React from "react";
-import {BASE_PATH, LOGOUT_PATH} from "../../state/constants/Constans";
+import {BASE_PATH, GAMES_BOARD_PATH, LOGOUT_PATH} from "../../state/constants/Constans";
 import {Link} from "react-router-dom";
 
 
 const Footer = () => {
     return (
     <>
-        <div className="fixed bottom-0 w-full">
+        <div className="fixed bottom-0 w-full z-50">
         <div
             className="flex justify-around py-2 bg-secondary text-white text-xs lg:text-sm font-sans footer-navigation ">
             <Link to={BASE_PATH}>
                 <ReactSVG src={home}/>
                 MY TEAM
             </Link>
-            <div>
+            <Link to={GAMES_BOARD_PATH}>
                 <ReactSVG src={score}/>
                 SCORES
-            </div>
+            </Link>
             <div>
                 <ReactSVG src={heart}/>
                 FAVORITES

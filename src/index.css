@@ -75,6 +75,15 @@
     .upload-roster-form-input {
         @apply text-white font-sans text-sm bg-secondary-light px-2 font-bold
     }
+
+    .game-board-actions svg {
+        @apply h-12 w-10 stroke-white
+    }
+
+    .game-board-actions .back-action svg{
+        @apply rotate-180
+    }
+
 }
 
 

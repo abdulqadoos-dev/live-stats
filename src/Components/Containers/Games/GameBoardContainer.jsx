@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux"
 import GameBoardView from "../../Views/Games/GameBoardView";
-import {createGameRequest} from "../../../state/actions/gameActions";
+import {changeMatchState, getMatchRequest, updateMatchRequest} from "../../../state/actions/matchActions";
 
 const GameBoardContainer = (props) => {
     return (
@@ -11,13 +11,16 @@ const GameBoardContainer = (props) => {
 const mapStateToProps = state => {
     return {
         ...state.auth,
-        ...state.games
+        ...state.games,
+        ...state.matches
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        createGamesRequest: (formData,navigation) => dispatch(createGameRequest(formData,navigation)),
+        changeMatchState: (key,value) => dispatch(changeMatchState(key,value)),
+        getMatchRequest: (formData,navigation) => dispatch(getMatchRequest(formData,navigation)),
+        updateMatchRequest: (formData,navigation) => dispatch(updateMatchRequest(formData,navigation)),
     }
 }
 

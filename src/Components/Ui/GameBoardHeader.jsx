@@ -1,8 +1,17 @@
 import React from "react";
 import {ReactSVG} from "react-svg";
 import chevron from "../../Media/icons/chevron-right.svg"
+import {
+    CLOCK_STARTED,
+    CONTINUE,
+    END_GAME,
+    GAME_STARTED,
+    START_CLOCK,
+    START_GAME,
+    STOP, STOP_CLOCK
+} from "../../state/constants/Constans";
 
-export default function GameBoardHeader() {
+export default function GameBoardHeader({match, changeMatchState}) {
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
             <div className="container mx-auto">
@@ -10,8 +19,18 @@ export default function GameBoardHeader() {
                     <div><span className="cursor-pointer flex items-center back-action">
                             <ReactSVG src={chevron}/> Back</span>
                     </div>
-                    <div><span className="cursor-pointer flex items-center">
-                            Start Game <ReactSVG src={chevron}/>
+                    <div><span className="cursor-pointer flex items-center" onClick={() =>
+                        changeMatchState("match", {
+                            ...match,
+                            matchDuration: {
+                                ...match.matchDuration,
+                                matchState: match?.matchDuration.matchState === START_GAME ? GAME_STARTED : END_GAME,
+                                matchClock: match?.matchDuration.matchClock === START_CLOCK ? CLOCK_STARTED : STOP_CLOCK
+                            }
+                        })
+                    }>
+                          {match?.matchDuration.matchState === START_GAME ? "Start Game" : "End Game"}
+                        <ReactSVG src={chevron}/>
                         </span>
                     </div>
                 </div>

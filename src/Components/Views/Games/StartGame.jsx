@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {capitalizeFirstLetter} from "../../../Services/Helper";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
-    GAMES_BOARD_PATH, LOCAL_STORAGE_AUTH_USER,
+    LOCAL_STORAGE_AUTH_USER,
     GAMES,
     OPPONENTS_TEAM_ROSTERS,
     TEAM_ROSTERS,

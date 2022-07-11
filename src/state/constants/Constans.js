@@ -39,3 +39,17 @@ export const VALIDATION_RESULTS = "VALIDATION_RESULTS"
 export const GAMES = "GAMES"
 export const TEAM_ROSTERS = "TEAM_ROSTERS"
 export const OPPONENTS_TEAM_ROSTERS = "OPPONENTS_TEAM_ROSTERS"
+
+export const STOP = "STOP"
+export const START = "START"
+export const PAUSED = "PAUSED"
+export const CONTINUE = "CONTINUE"
+
+export const START_GAME = "START_GAME"
+export const GAME_STARTED = "START_STARTED"
+export const END_GAME = "END_GAME"
+
+
+export const START_CLOCK = "START_CLOCK"
+export const CLOCK_STARTED = "CLOCK_STARTED"
+export const STOP_CLOCK = "STOP_CLOCK"

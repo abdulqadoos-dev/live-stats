@@ -3,7 +3,7 @@ import GameBoardHeader from "../../Ui/GameBoardHeader";
 import Footer from "../../Ui/Footer";
 import Wrapper from "../../Ui/Form/Wrapper";
 import {
-    CLOCK_STARTED,
+    CLOCK_STARTED, CLOCK_STOPPED,
     CONTINUE,
     END_GAME,
     GAME_STARTED,
@@ -20,8 +20,8 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
         changeMatchState("match", {
             ...promise.data.match,
             matchDuration: {
-                matchState: START_GAME,
-                matchClock: START_CLOCK
+                isMatchStarted: false,
+                isClockStarted: false,
             }
         })
 
@@ -46,74 +46,52 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
             ...match,
             matchDuration: {
                 ...match.matchDuration,
-                matchState: START_GAME,
-                matchClock: START_CLOCK
+                isMatchEnd: false,
+                isMatchStarted: false,
+                isClockStarted: false,
             }
         })
     }
 
-    console.log(stats)
 
     return (
         <>
             <GameBoardHeader match={match} changeMatchState={changeMatchState}/>
 
-            {/*{match?.matchDuration.matchState === END_GAME && (*/}
-            {/*    <DefaultModal*/}
-            {/*        title="Do you want to send stats?"*/}
-            {/*    >*/}
-            {/*        <input*/}
-            {/*            type="email"*/}
-            {/*            name="homeEmail"*/}
-            {/*            placeholder="Home Email"*/}
-            {/*            onChange={_handelInputChange}*/}
-            {/*            className="px-4 py-3 outline-0 border-y border-secondary-light w-full "*/}
-            {/*        />*/}
+            {match?.matchDuration.isMatchEnd && (
+                <DefaultModal
+                    title="Do you want to send stats?"
+                    className="px-0 py-5 "
+                    buttonLabel="Done"
+                    clickEvent={_handelEndGame}
+                >
+                    <div className="mt-2">
 
-            {/*        <input*/}
-            {/*            type="email"*/}
-            {/*            name="awayEmail"*/}
-            {/*            placeholder="Away Email"*/}
-            {/*            onChange={_handelInputChange}*/}
-            {/*            className="px-4 py-3 outline-0 border-y border-secondary-light w-full "*/}
-            {/*        />*/}
+                        <input
+                            type="email"
+                            name="homeEmail"
+                            placeholder="Home Email"
+                            defaultValue={stats?.homeEmail}
+                            onChange={(e) => changeMatchState("stats", {...stats, homeEmail: e.target.value})}
+                            className="px-4 py-3 outline-0 border-y border-secondary-light w-full "
+                        />
 
-            {/*    </DefaultModal>*/}
-
-            {/*)}*/}
-
-
-            <DefaultModal
-                title="Do you want to send stats?"
-                className="px-0 py-5"
-                buttonLabel="Done"
-                clickEvent={_handelEndGame}
-            >
-                <div className="mt-2">
-
-                    <input
-                        type="email"
-                        name="homeEmail"
-                        placeholder="Home Email"
-                        onChange={(e) => changeMatchState("stats", {...stats, homeEmail: e.target.value})}
-                        className="px-4 py-3 outline-0 border-y border-secondary-light w-full "
-                    />
-
-                    <input
-                        type="email"
-                        name="awayEmail"
-                        placeholder="Away Email"
-                        onChange={(e) => changeMatchState("stats", {...stats, awayEmail: e.target.value})}
-                        className="px-4 py-3 outline-0 border-b border-secondary-light w-full "
-                    />
-                </div>
-
-
-            </DefaultModal>
+                        <input
+                            type="email"
+                            name="awayEmail"
+                            placeholder="Away Email"
+                            defaultValue={stats?.awayEmail}
+                            onChange={(e) => changeMatchState("stats", {...stats, awayEmail: e.target.value})}
+                            className="px-4 py-3 outline-0 border-b border-secondary-light w-full "
+                        />
+                    </div>
+                </DefaultModal>
+            )}
 
 
             <Wrapper
-                readyOnly={match?.matchDuration.matchClock !== START_CLOCK}>
+                // readyOnly={match?.matchDuration.matchClock !== START_CLOCK || match?.matchDuration.matchState !== START_CLOCK}>
+                readyOnly={!match?.matchDuration.isMatchStarted || !match?.matchDuration.isClockStarted}>
                 <div className="grid grid-cols-5 gap-5">
                     <div className="mt-5">
                         {match && match.matchPlayers.mainTeamRosters.length ? match.matchPlayers.mainTeamRosters.map(roster => (
@@ -214,13 +192,46 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                             </div>
                         </div>
 
-                        <div className="my-5 flex justify-center ">
-                            <div className={match?.matchDuration.matchClock !== CLOCK_STARTED ? "absolute z-20" : ""}>
+                        {/*<div className="my-5 flex justify-center ">*/}
+                        {/*    <div className={match?.matchDuration.matchClock !== CLOCK_STARTED ? "absolute z-10" : ""}>*/}
+                        {/*        <div*/}
+                        {/*            className={`text-center ${match?.matchDuration.matchState === GAME_STARTED ? "bg-red-600 hover:bg-primary cursor-pointer" : "bg-secondary-light "}  rounded w-56 py-5 text-white  text-lg font-bold `}>*/}
+                        {/*            {match?.matchDuration.matchClock !== CLOCK_STARTED ? "Start Clock" : "Stop Clock"}*/}
+                        {/*        </div>*/}
+                        {/*        <div className="grid grid-cols-5 gap-0.5 mt-3">*/}
+                        {/*            <div*/}
+                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">1*/}
+                        {/*            </div>*/}
+                        {/*            <div*/}
+                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">2*/}
+                        {/*            </div>*/}
+                        {/*            <div*/}
+                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">H*/}
+                        {/*            </div>*/}
+                        {/*            <div*/}
+                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">3*/}
+                        {/*            </div>*/}
+                        {/*            <div*/}
+                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">4*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+                        <div className="my-5 flex justify-center h-24">
+                            <div className={match?.matchDuration.isMatchStarted ? "absolute z-10 " : ""}>
                                 <div
-                                    className={` text-center ${match?.matchDuration.matchState === GAME_STARTED ? "bg-red-600 hover:bg-primary cursor-pointer" : "bg-secondary-light "}  rounded w-56 py-5 text-white  text-lg font-bold `}>
-                                    {match?.matchDuration.matchClock !== CLOCK_STARTED ? "Start Clock" : "Stop Clock"}
+                                    onClick={() => changeMatchState("match", {
+                                        ...match,
+                                        matchDuration: {
+                                            ...match.matchDuration,
+                                            isClockStarted: !match.matchDuration.isClockStarted
+                                        }
+                                    })}
+                                    className={`text-center ${match?.matchDuration.isClockStarted ? "bg-red-600 " : "bg-secondary-light"} hover:bg-primary cursor-pointer rounded w-56 py-5 text-white  text-lg font-bold `}>
+                                    {!match?.matchDuration.isClockStarted ? "Start Clock" : "Stop Clock"}
                                 </div>
-                                <div className="grid grid-cols-5 gap-0.5 mt-3">
+                                <div className="grid grid-cols-5 gap-0.5 mt-3 relative">
+                                    {match?.matchDuration.isClockStarted && (<div className="bg-white opacity-30 h-6 w-full absolute"/>)}
                                     <div
                                         className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">1
                                     </div>

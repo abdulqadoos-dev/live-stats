@@ -10,28 +10,29 @@ import {Link} from "react-router-dom";
 
 const Footer = () => {
     return (
-    <>
-        <div className="fixed bottom-0 w-full z-50">
-        <div
-            className="flex justify-around py-2 bg-secondary text-white text-xs lg:text-sm font-sans footer-navigation ">
-            <Link to={BASE_PATH}>
-                <ReactSVG src={home}/>
-                MY TEAM
-            </Link>
-            <Link to={GAMES_BOARD_PATH}>
-                <ReactSVG src={score}/>
-                SCORES
-            </Link>
-            <div>
-                <ReactSVG src={heart}/>
-                FAVORITES
+        <>
+            <div className="fixed bottom-0 w-full z-20">
+                <div
+                    className="flex justify-around py-2 bg-secondary text-white text-xs lg:text-sm font-sans footer-navigation ">
+                    <Link to={BASE_PATH}>
+                        <ReactSVG src={home}/>
+                        MY TEAM
+                    </Link>
+                    <Link to={GAMES_BOARD_PATH}>
+                        <ReactSVG src={score}/>
+                        SCORES
+                    </Link>
+                    <div>
+                        <ReactSVG src={heart}/>
+                        FAVORITES
+                    </div>
+                    <Link to={LOGOUT_PATH}>
+                        <ReactSVG src={fan}/>
+                        LOGOUT
+                    </Link>
+                </div>
             </div>
-            <Link to={LOGOUT_PATH}>
-                    <ReactSVG src={fan}/>
-                    LOGOUT
-            </Link>
-        </div>
-        </div></>
+        </>
 
     )
 }

@@ -26,26 +26,27 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
         <div className="bg-secondary pb-2 lg:p-3 text-white">
             <div className="container mx-auto">
 
-            <div className="flex gap-5 items-center ">
-                <div className="ml-0">
-                    <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 relative overflow-hidden">
-                        <img src={process.env.REACT_APP_SERVER_PATH + uploadedImage} id="uploaded-image"
-                             className="w-56 lg:w-64"/>
-                        <label htmlFor="upload-image"
-                               className="absolute bottom-0 w-full bg-secondary-light py-1 lg:py-2 cursor-pointer flex items-center justify-center button-default-svg opacity-90">
-                            <ReactSVG src={plus}/> <p className="text-sm lg:text-lg" aria-readonly={true}>Image</p>
-                            <input type='file' id="upload-image" style={{display: 'none'}} onChange={_onChangeImage}/>
-                        </label>
+                <div className="flex gap-5 items-center ">
+                    <div className="ml-0">
+                        <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 relative overflow-hidden">
+                            <img src={process.env.REACT_APP_SERVER_PATH + uploadedImage} id="uploaded-image"
+                                 className="w-56 lg:w-64"/>
+                            <label htmlFor="upload-image"
+                                   className="absolute bottom-0 w-full bg-secondary-light py-1 lg:py-2 cursor-pointer flex items-center justify-center button-default-svg opacity-90">
+                                <ReactSVG src={plus}/> <p className="text-sm lg:text-lg" aria-readonly={true}>Image</p>
+                                <input type='file' id="upload-image" style={{display: 'none'}}
+                                       onChange={_onChangeImage}/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="overflow-clip">
+                        <h1 className="text-xl md:text-5xl">{title}</h1>
+                        {/*<p className="text-2xl mt-3">{subTitle}</p>*/}
+                        {/*<p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>*/}
+                        <p className="my-2 md:my-3 text-xs md:text-2xl">{authUserData.user.name}</p>
                     </div>
                 </div>
-
-                <div className="overflow-clip">
-                    <h1 className="text-xl md:text-5xl">{title}</h1>
-                    {/*<p className="text-2xl mt-3">{subTitle}</p>*/}
-                    {/*<p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>*/}
-                    <p className="my-2 md:my-3 text-xs md:text-2xl">{subTitle}</p>
-                </div>
-            </div>
             </div>
 
         </div>

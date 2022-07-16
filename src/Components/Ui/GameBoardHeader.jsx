@@ -24,12 +24,12 @@ export default function GameBoardHeader({match, changeMatchState}) {
                             ...match,
                             matchDuration: {
                                 ...match.matchDuration,
-                                matchState: match?.matchDuration.matchState === START_GAME ? GAME_STARTED : END_GAME,
-                                matchClock: match?.matchDuration.matchClock === START_CLOCK ? CLOCK_STARTED : STOP_CLOCK
+                                isMatchStarted: !match.matchDuration.isMatchStarted,
+                                isMatchEnd: match.matchDuration.isMatchStarted
                             }
                         })
                     }>
-                          {match?.matchDuration.matchState === START_GAME ? "Start Game" : "End Game"}
+                          {!match?.matchDuration.isMatchStarted ? "Start Game" : "End Game"}
                         <ReactSVG src={chevron}/>
                         </span>
                     </div>

@@ -8,10 +8,11 @@ import {
     END_GAME,
     GAME_STARTED,
     START_CLOCK,
-    START_GAME
+    START_GAME, STOP_CLOCK
 } from "../../../state/constants/Constans";
+import DefaultModal from "../../Ui/Modals/DefaultModal";
 
-export default function GameBoardView({getMatchRequest, updateMatchRequest, changeMatchState, match}) {
+export default function GameBoardView({getMatchRequest, updateMatchRequest, changeMatchState, match, stats}) {
 
     useEffect(() => {
         const promise = getMatchRequest()
@@ -36,12 +37,83 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
 
     console.log(match, "match....")
 
+    const _handelInputChange = () => {
+        console.log("click envet")
+    }
+
+    const _handelEndGame = () => {
+        changeMatchState("match", {
+            ...match,
+            matchDuration: {
+                ...match.matchDuration,
+                matchState: START_GAME,
+                matchClock: START_CLOCK
+            }
+        })
+    }
+
+    console.log(stats)
 
     return (
         <>
             <GameBoardHeader match={match} changeMatchState={changeMatchState}/>
+
+            {/*{match?.matchDuration.matchState === END_GAME && (*/}
+            {/*    <DefaultModal*/}
+            {/*        title="Do you want to send stats?"*/}
+            {/*    >*/}
+            {/*        <input*/}
+            {/*            type="email"*/}
+            {/*            name="homeEmail"*/}
+            {/*            placeholder="Home Email"*/}
+            {/*            onChange={_handelInputChange}*/}
+            {/*            className="px-4 py-3 outline-0 border-y border-secondary-light w-full "*/}
+            {/*        />*/}
+
+            {/*        <input*/}
+            {/*            type="email"*/}
+            {/*            name="awayEmail"*/}
+            {/*            placeholder="Away Email"*/}
+            {/*            onChange={_handelInputChange}*/}
+            {/*            className="px-4 py-3 outline-0 border-y border-secondary-light w-full "*/}
+            {/*        />*/}
+
+            {/*    </DefaultModal>*/}
+
+            {/*)}*/}
+
+
+            <DefaultModal
+                title="Do you want to send stats?"
+                className="px-0 py-5"
+                buttonLabel="Done"
+                clickEvent={_handelEndGame}
+            >
+                <div className="mt-2">
+
+                    <input
+                        type="email"
+                        name="homeEmail"
+                        placeholder="Home Email"
+                        onChange={(e) => changeMatchState("stats", {...stats, homeEmail: e.target.value})}
+                        className="px-4 py-3 outline-0 border-y border-secondary-light w-full "
+                    />
+
+                    <input
+                        type="email"
+                        name="awayEmail"
+                        placeholder="Away Email"
+                        onChange={(e) => changeMatchState("stats", {...stats, awayEmail: e.target.value})}
+                        className="px-4 py-3 outline-0 border-b border-secondary-light w-full "
+                    />
+                </div>
+
+
+            </DefaultModal>
+
+
             <Wrapper
-                readyOnly={match?.matchDuration.matchState !== GAME_STARTED || match?.matchDuration.matchClock !== CLOCK_STARTED}>
+                readyOnly={match?.matchDuration.matchClock !== START_CLOCK}>
                 <div className="grid grid-cols-5 gap-5">
                     <div className="mt-5">
                         {match && match.matchPlayers.mainTeamRosters.length ? match.matchPlayers.mainTeamRosters.map(roster => (

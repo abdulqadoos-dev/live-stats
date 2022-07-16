@@ -12,6 +12,8 @@ const INITIAL_STATE = {
     error: null,
     message: null,
     validations: null,
+
+    stats: null
 }
 
 const matches = (state = INITIAL_STATE, action) => {

@@ -11,7 +11,7 @@ import PageHeader from "../../Ui/PageHeader";
 const GamesView = ({getGamesRequest, games}) => {
 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-
+console.log(user)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const GamesView = ({getGamesRequest, games}) => {
         <>
             <PageHeader
                 title={user?.profile?.name || null}
-                subTitle="Cavemen"
+                subTitle={user.name}
                 description={(user?.profile?.school?.name || '') + ', ' + (user?.profile?.school?.state || '')}
                 uploadedImage={user.image}
             />

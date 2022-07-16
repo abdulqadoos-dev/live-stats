@@ -41,7 +41,9 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
 
                 <div className="overflow-clip">
                     <h1 className="text-xl md:text-5xl">{title}</h1>
-                    <p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>
+                    {/*<p className="text-2xl mt-3">{subTitle}</p>*/}
+                    {/*<p className="my-2 md:my-3 text-xs md:text-lg">{description}</p>*/}
+                    <p className="my-2 md:my-3 text-xs md:text-2xl">{subTitle}</p>
                 </div>
             </div>
             </div>

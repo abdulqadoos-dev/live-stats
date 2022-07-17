@@ -22,12 +22,14 @@ import {
     ROSTERS_EDIT_PATH,
     GAMES_PATH,
     GAMES_FORM_PATH,
-    GAMES_BOARD_PATH
+    GAMES_BOARD_PATH,
+    FANS_PATH
 } from "../../state/constants/Constans";
 
 import AuthRoutes from "../Includes/AuthRoutes";
 import CreatingFeedView from "./Profile/CreatingFeedView";
 import ProtectedRoutes from "../Includes/ProtectedRoutes";
+import FanProtectedRoutes from "../Includes/FanProtectedRoutes";
 
 import LoginContainer from "../Containers/Auth/LoginContainer";
 import LogoutContainer from "../Containers/Auth/LogoutContainer";
@@ -46,13 +48,14 @@ import GameContainer from "../Containers/Games/GamesContainer";
 import GameFormContainer from "../Containers/Games/GameFormContainer";
 import HomeContainer from "../Containers/HomeContainer";
 import GameBoardContainer from "../Containers/Games/GameBoardContainer";
+import FansContainers from "../Containers/Fans/FansContainers";
 
 
 export default function AppView(props) {
 
     // console.log({isLoggedIn}, props.auth, "AUTH STATE");
     // console.info(props.profile.formData, "STATE");
-    console.info(props, "STATE");
+    // console.info(props, "STATE");
     // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 
     const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
@@ -174,6 +177,14 @@ export default function AppView(props) {
                                 <ForgetPasswordContainer/>
                             </AuthRoutes>
                         }/>
+
+                        {/* Fans Route */}
+                        <Route path={FANS_PATH} element={
+                            <FanProtectedRoutes isLoggedIn={isLoggedIn} user={authUser?.user || {}}>
+                                <FansContainers />
+                            </FanProtectedRoutes>
+                        }
+                        />
 
                         <Route path={PAGE_NOT_FOUND} element={
                             <h1>404 page not found <Link to={BASE_PATH}> -- Home --</Link></h1>

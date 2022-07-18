@@ -7,7 +7,7 @@ export default function HomeView(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        navigate(TEAMS_PATH)
+        // navigate(TEAMS_PATH)
     },[])
 
     return(

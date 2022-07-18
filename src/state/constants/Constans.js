@@ -53,4 +53,6 @@ export const END_GAME = "END_GAME"
 export const START_CLOCK = "START_CLOCK"
 export const CLOCK_STARTED = "CLOCK_STARTED"
 export const STOP_CLOCK = "STOP_CLOCK"
-export const CLOCK_STOPPED = "CLOCK_STOPPED"
+
+export const POINT_MADE = "POINT_MADE"
+export const POINT_MISSED = "POINTS_MISSED"

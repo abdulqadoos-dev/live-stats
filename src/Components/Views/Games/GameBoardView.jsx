@@ -1,16 +1,9 @@
 import React, {useEffect} from "react";
-import GameBoardHeader from "../../Ui/GameBoardHeader";
 import Footer from "../../Ui/Footer";
 import Wrapper from "../../Ui/Form/Wrapper";
-import {
-    CLOCK_STARTED, CLOCK_STOPPED,
-    CONTINUE,
-    END_GAME,
-    GAME_STARTED,
-    START_CLOCK,
-    START_GAME, STOP_CLOCK
-} from "../../../state/constants/Constans";
+import GameBoardHeader from "../../Ui/GameBoardHeader";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
+import {OPPONENTS_TEAM_ROSTERS, POINT_MADE, TEAM_ROSTERS} from "../../../state/constants/Constans";
 
 export default function GameBoardView({getMatchRequest, updateMatchRequest, changeMatchState, match, stats}) {
 
@@ -20,9 +13,10 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
         changeMatchState("match", {
             ...promise.data.match,
             matchDuration: {
-                isMatchStarted: false,
-                isClockStarted: false,
-            }
+                isMatchStarted: true,
+                isClockStarted: true,
+            },
+
         })
 
 
@@ -34,12 +28,7 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
 
     }, [])
 
-
     console.log(match, "match....")
-
-    const _handelInputChange = () => {
-        console.log("click envet")
-    }
 
     const _handelEndGame = () => {
         changeMatchState("match", {
@@ -51,6 +40,36 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                 isClockStarted: false,
             }
         })
+    }
+
+    const _handleActions = (action, points) => {
+        // eslint-disable-next-line default-case
+        switch (action) {
+            case POINT_MADE:
+                changeMatchState("match", {
+                    ...match,
+                    matchPlayers: {
+                        ...match.matchPlayers,
+                        recentAction: {actionFor: action, actionName: POINT_MADE, points: points},
+
+                        mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? match.matchPlayers.mainTeamRosters.map(player => player.isActive ? ({
+                            ...player,
+                            isActive: false,
+                            recentMade: true,
+                            totalPoints: player.totalPoints ? player.totalPoints + points : points
+                        }) : ({...player, isActive: false, recentMade: false})) : match.matchPlayers.mainTeamRosters,
+
+                        opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? match.matchPlayers.opponentTeamRosters.map(player => player.isActive ? ({
+                            ...player,
+                            isActive: false,
+                            recentMade: true,
+                            totalPoints: player.totalPoints ? player.totalPoints + points : points
+                        }) : ({...player, isActive: false, recentMade: false})) : match.matchPlayers.opponentTeamRosters
+
+                    }
+                })
+                break
+        }
     }
 
 
@@ -90,13 +109,23 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
 
 
             <Wrapper
-                // readyOnly={match?.matchDuration.matchClock !== START_CLOCK || match?.matchDuration.matchState !== START_CLOCK}>
                 readyOnly={!match?.matchDuration.isMatchStarted || !match?.matchDuration.isClockStarted}>
                 <div className="grid grid-cols-5 gap-5">
                     <div className="mt-5">
                         {match && match.matchPlayers.mainTeamRosters.length ? match.matchPlayers.mainTeamRosters.map(roster => (
                             <div key={roster.id}
-                                 className="bg-light hover:bg-primary cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2">
+                                 onClick={() => changeMatchState("match", {
+                                     ...match,
+                                     recentAction: {actionFor: TEAM_ROSTERS},
+                                     matchPlayers: {
+                                         ...match.matchPlayers,
+                                         mainTeamRosters: match.matchPlayers.mainTeamRosters.map(player => player.id === roster.id ? ({
+                                             ...player,
+                                             isActive: true
+                                         }) : ({...player, isActive: false}))
+                                     }
+                                 })}
+                                 className={` ${roster.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
                                 {roster.number + ' ' + roster.name}
                             </div>
                         )) : null}
@@ -107,6 +136,7 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                         <div className="my-5">
                             <div className="grid grid-cols-6 gap-1">
                                 <div
+                                    onClick={() => _handleActions(POINT_MADE, 2)}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>2 Points</b>
                                     <span>Made</span>
@@ -192,31 +222,6 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                             </div>
                         </div>
 
-                        {/*<div className="my-5 flex justify-center ">*/}
-                        {/*    <div className={match?.matchDuration.matchClock !== CLOCK_STARTED ? "absolute z-10" : ""}>*/}
-                        {/*        <div*/}
-                        {/*            className={`text-center ${match?.matchDuration.matchState === GAME_STARTED ? "bg-red-600 hover:bg-primary cursor-pointer" : "bg-secondary-light "}  rounded w-56 py-5 text-white  text-lg font-bold `}>*/}
-                        {/*            {match?.matchDuration.matchClock !== CLOCK_STARTED ? "Start Clock" : "Stop Clock"}*/}
-                        {/*        </div>*/}
-                        {/*        <div className="grid grid-cols-5 gap-0.5 mt-3">*/}
-                        {/*            <div*/}
-                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">1*/}
-                        {/*            </div>*/}
-                        {/*            <div*/}
-                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">2*/}
-                        {/*            </div>*/}
-                        {/*            <div*/}
-                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">H*/}
-                        {/*            </div>*/}
-                        {/*            <div*/}
-                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">3*/}
-                        {/*            </div>*/}
-                        {/*            <div*/}
-                        {/*                className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">4*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                         <div className="my-5 flex justify-center h-24">
                             <div className={match?.matchDuration.isMatchStarted ? "absolute z-10 " : ""}>
                                 <div
@@ -231,7 +236,8 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                                     {!match?.matchDuration.isClockStarted ? "Start Clock" : "Stop Clock"}
                                 </div>
                                 <div className="grid grid-cols-5 gap-0.5 mt-3 relative">
-                                    {match?.matchDuration.isClockStarted && (<div className="bg-white opacity-30 h-6 w-full absolute"/>)}
+                                    {match?.matchDuration.isClockStarted && (
+                                        <div className="bg-white opacity-30 h-6 w-full absolute"/>)}
                                     <div
                                         className="bg-secondary-light hover:bg-secondary cursor-pointer text-center text-white rounded">1
                                     </div>
@@ -255,7 +261,18 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                     <div className="mt-5">
                         {match && match.matchPlayers.opponentTeamRosters.length ? match.matchPlayers.opponentTeamRosters.map(roster => (
                             <div key={roster.id}
-                                 className="bg-light hover:bg-primary cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2">
+                                 onClick={() => changeMatchState("match", {
+                                     ...match,
+                                     recentAction: {actionFor: OPPONENTS_TEAM_ROSTERS},
+                                     matchPlayers: {
+                                         ...match.matchPlayers,
+                                         opponentTeamRosters: match.matchPlayers.opponentTeamRosters.map(player => player.id === roster.id ? ({
+                                             ...player,
+                                             isActive: true
+                                         }) : ({...player, isActive: false}))
+                                     }
+                                 })}
+                                 className={` ${roster.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
                                 {roster.number + ' ' + roster.name}
                             </div>
                         )) : null}

@@ -12,6 +12,9 @@ import {
 } from "../../state/constants/Constans";
 
 export default function GameBoardHeader({match, changeMatchState}) {
+
+    // console.log(match,"match")
+
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
             <div className="container mx-auto">
@@ -39,7 +42,7 @@ export default function GameBoardHeader({match, changeMatchState}) {
                 <div className="grid grid-cols-4 gap-5 items-end">
 
                     <div className="text-center">
-                        <h1 className="md:text-3xl font-default font-light">TEAM 1 NAME <span
+                        <h1 className="md:text-3xl font-default font-light">{} <span
                             className="text-xl">8-8</span></h1>
                         <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 overflow-hidden mx-auto ">
                             <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>

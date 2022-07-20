@@ -3,32 +3,42 @@ import Footer from "../../Ui/Footer";
 import Wrapper from "../../Ui/Form/Wrapper";
 import GameBoardHeader from "../../Ui/GameBoardHeader";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
-import {OPPONENTS_TEAM_ROSTERS, POINT_MADE, TEAM_ROSTERS} from "../../../state/constants/Constans";
+import {OPPONENTS_TEAM_ROSTERS, POINT_MADE, TEAM_ROSTERS, TEAMS_PATH} from "../../../state/constants/Constans";
+import {useNavigate} from "react-router-dom";
 
-export default function GameBoardView({getMatchRequest, updateMatchRequest, changeMatchState, match, stats}) {
+export default function GameBoardView({
+                                          getMatchRequest,
+                                          updateMatchRequest,
+                                          changeMatchState,
+                                          match,
+                                          stats,
+                                          selectedGame
+                                      }) {
+
+    const navigate = useNavigate();
+
 
     useEffect(() => {
-        const promise = getMatchRequest()
-
-        changeMatchState("match", {
-            ...promise.data.match,
-            matchDuration: {
-                isMatchStarted: true,
-                isClockStarted: true,
-            },
-
-        })
-
-
-        // promise.then(() => {
-        //     changeMatchState("match", {
-        //         ...match, matchDuration: {matchState: CONTINUE}
-        //     })
-        // })
-
+        if (!selectedGame?.id) return navigate(TEAMS_PATH);
+        const promise = getMatchRequest(selectedGame.id, navigate)
+        promise.then((result) => {
+            if (result?.data?.matches[0]) {
+                let arr = {...result.data.matches[0]}
+                arr.matchDuration = {
+                    isMatchStarted: true,
+                    isClockStarted: true,
+                }
+                arr.game = selectedGame
+                changeMatchState("match", arr)
+            } else {
+                navigate(TEAMS_PATH)
+            }
+        }).catch((error) => {
+            navigate(TEAMS_PATH)
+        });
     }, [])
 
-    console.log(match, "match....")
+    console.log({match}, {selectedGame}, {stats}, "match....")
 
     const _handelEndGame = () => {
         changeMatchState("match", {
@@ -51,21 +61,34 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                     matchPlayers: {
                         ...match.matchPlayers,
                         recentAction: {actionFor: action, actionName: POINT_MADE, points: points},
-
                         mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? match.matchPlayers.mainTeamRosters.map(player => player.isActive ? ({
                             ...player,
-                            isActive: false,
-                            recentMade: true,
-                            totalPoints: player.totalPoints ? player.totalPoints + points : points
-                        }) : ({...player, isActive: false, recentMade: false})) : match.matchPlayers.mainTeamRosters,
-
+                            score: {
+                                lastScore: true,
+                                total: player.total ? player.total + points : points
+                            },
+                            action: {
+                                isActive: false,
+                                recentMade: true,
+                            }
+                        }) : ({
+                            ...player,
+                            action: {...player.action, isActive: false, recentMade: false}
+                        })) : match.matchPlayers.mainTeamRosters,
                         opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? match.matchPlayers.opponentTeamRosters.map(player => player.isActive ? ({
                             ...player,
-                            isActive: false,
-                            recentMade: true,
-                            totalPoints: player.totalPoints ? player.totalPoints + points : points
-                        }) : ({...player, isActive: false, recentMade: false})) : match.matchPlayers.opponentTeamRosters
-
+                            score: {
+                                lastScore: true,
+                                total: player.total ? player.total + points : points
+                            },
+                            action: {
+                                isActive: false,
+                                recentMade: true,
+                            }
+                        }) : ({
+                            ...player,
+                            action: {...player.action, isActive: false, recentMade: false}
+                        })) : match.matchPlayers.opponentTeamRosters
                     }
                 })
                 break
@@ -121,11 +144,11 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                                          ...match.matchPlayers,
                                          mainTeamRosters: match.matchPlayers.mainTeamRosters.map(player => player.id === roster.id ? ({
                                              ...player,
-                                             isActive: true
-                                         }) : ({...player, isActive: false}))
+                                             action: {...player.action, isActive: true}
+                                         }) : ({...player, action: {...player.action, isActive: false}}))
                                      }
                                  })}
-                                 className={` ${roster.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
+                                 className={` ${roster?.action?.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
                                 {roster.number + ' ' + roster.name}
                             </div>
                         )) : null}
@@ -268,11 +291,11 @@ export default function GameBoardView({getMatchRequest, updateMatchRequest, chan
                                          ...match.matchPlayers,
                                          opponentTeamRosters: match.matchPlayers.opponentTeamRosters.map(player => player.id === roster.id ? ({
                                              ...player,
-                                             isActive: true
-                                         }) : ({...player, isActive: false}))
+                                             action: {...player.action, isActive: true}
+                                         }) : ({...player, action: {...player.action, isActive: false}}))
                                      }
                                  })}
-                                 className={` ${roster.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
+                                 className={` ${roster?.action?.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
                                 {roster.number + ' ' + roster.name}
                             </div>
                         )) : null}

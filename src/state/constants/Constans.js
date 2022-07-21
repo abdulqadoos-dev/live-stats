@@ -37,8 +37,8 @@ export const REQUEST_START = "REQUEST_START"
 export const VALIDATION_RESULTS = "VALIDATION_RESULTS"
 
 export const GAMES = "GAMES"
-export const TEAM_ROSTERS = "TEAM_ROSTERS"
-export const OPPONENTS_TEAM_ROSTERS = "OPPONENTS_TEAM_ROSTERS"
+export const TEAM_ROSTERS = "mainTeamRosters"
+export const OPPONENTS_TEAM_ROSTERS = "opponentTeamRosters"
 
 export const STOP = "STOP"
 export const START = "START"

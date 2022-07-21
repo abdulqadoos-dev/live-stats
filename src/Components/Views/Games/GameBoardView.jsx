@@ -71,7 +71,14 @@ export default function GameBoardView({
 
     const _calculateTotalOfTeam = (rosters) => {
         let total = 0;
-        rosters.map(roster => (roster?.score?.total ? total += parseInt(roster.score.total) : 0))
+        let subTotal = 0;
+        rosters.map(roster => {
+            // eslint-disable-next-line no-unused-expressions
+            roster.scores?.length ? roster.scores.map(score => {
+                subTotal += score.total
+            }) : null
+            total += subTotal
+        })
         return total
     }
 
@@ -79,48 +86,36 @@ export default function GameBoardView({
         // eslint-disable-next-line default-case
         switch (action) {
             case POINT_MADE:
-
-                let teamRosters = match.matchPlayers.mainTeamRosters.map(player => player.action.isActive ? {
+                let teamRosters = match.matchPlayers[match.recentAction.actionFor].map(player => player.action.isActive ? {
                     ...player,
                     action: {isActive: false, recentMade: true},
-                    scores: player.scores?.length ? player.scores.map((score) => score.half === match.matchDetails.activeHalf ? {half: match.matchDetails.activeHalf, total : score.total + points} : score ): [{half: match.matchDetails.activeHalf, total: points}]
-                } :  ({
+                    scores: player.scores?.length ? player.scores.map(score => score.half === match.matchDetails.activeHalf ? {
+                            ...score,
+                            total: score.total + points
+                        } : score)
+                        : [...listOfHalf.map((half, index) => ({half: half.value, total: index === 0 ? points : 0}))]
+                } : ({
                     ...player,
                     action: {...player.action, isActive: false, recentMade: false}
                 }));
 
-                console.log(teamRosters, "updatedTeamRosters")
-
+                console.log(teamRosters, match.recentAction.actionFor)
                 changeMatchState("match", {
                     ...match,
                     matchPlayers: {
                         ...match.matchPlayers,
-                        // mainTeamTotal: _calculateTotalOfTeam(match.matchPlayers.mainTeamRosters),
-                        mainTeamTotal: 5,
-                        // opponentTeamTotal: _calculateTotalOfTeam(match.matchPlayers.opponentTeamRosters),
-                        opponentTeamTotal: 5,
+                        mainTeamTotal: _calculateTotalOfTeam(teamRosters),
+                        opponentTeamTotal: _calculateTotalOfTeam(teamRosters),
                         recentAction: {actionFor: action, actionName: POINT_MADE, points: points},
                         mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? teamRosters : match.matchPlayers.mainTeamRosters,
-                        opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? match.matchPlayers.opponentTeamRosters.map(player => player.action.isActive ? ({
-                            ...player,
-                            score: {
-                                lastScore: true,
-                                total: player?.score?.total ? player.score.total + points : points
-                            },
-                            action: {
-                                isActive: false,
-                                recentMade: true,
-                            }
-                        }) : ({
-                            ...player,
-                            action: {...player.action, isActive: false, recentMade: false}
-                        })) : match.matchPlayers.opponentTeamRosters
+                        opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? teamRosters : match.matchPlayers.opponentTeamRosters
                     }
                 })
                 break
         }
     }
 
+    // console.log(match?.matchDetails?.activeHalf)
 
     return (
         <>

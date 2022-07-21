@@ -54,6 +54,7 @@ export const START_CLOCK = "START_CLOCK"
 export const CLOCK_STARTED = "CLOCK_STARTED"
 export const STOP_CLOCK = "STOP_CLOCK"
 
+export const ACTIVITY = "ACTIVITY"
 export const POINT_MADE = "POINT_MADE"
 export const POINT_MISSED = "POINTS_MISSED"
 

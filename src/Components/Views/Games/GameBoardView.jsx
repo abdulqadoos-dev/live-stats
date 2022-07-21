@@ -4,9 +4,10 @@ import Wrapper from "../../Ui/Form/Wrapper";
 import GameBoardHeader from "../../Ui/GameBoardHeader";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
+    ACTIVITY,
     FIRST_HALF, FOURTH_HALF, MATCH_HALF,
     OPPONENTS_TEAM_ROSTERS,
-    POINT_MADE, SECOND_HALF,
+    POINT_MADE, POINT_MISSED, SECOND_HALF,
     TEAM_ROSTERS,
     TEAMS_PATH, THIRD_HALF
 } from "../../../state/constants/Constans";
@@ -49,7 +50,7 @@ export default function GameBoardView({
 
     // console.log({match}, {selectedGame}, {stats}, "match....")
 
-    const listOfHalf = [
+    const numberOfHalf = [
         {label: 1, value: FIRST_HALF, time: "10"},
         {label: 2, value: SECOND_HALF, time: "12"},
         {label: "H", value: MATCH_HALF, time: "14"},
@@ -82,7 +83,7 @@ export default function GameBoardView({
         return total
     }
 
-    const _handleActions = (action, points) => {
+    const _handleActions = (action, payload) => {
         // eslint-disable-next-line default-case
         switch (action) {
             case POINT_MADE:
@@ -91,9 +92,9 @@ export default function GameBoardView({
                     action: {isActive: false, recentMade: true},
                     scores: player.scores?.length ? player.scores.map(score => score.half === match.matchDetails.activeHalf ? {
                             ...score,
-                            total: score.total + points
+                            total: score.total + payload
                         } : score)
-                        : [...listOfHalf.map((half, index) => ({half: half.value, total: index === 0 ? points : 0}))]
+                        : [...numberOfHalf.map((half, index) => ({half: half.value, total: index === 0 ? payload : 0}))]
                 } : ({
                     ...player,
                     action: {...player.action, isActive: false, recentMade: false}
@@ -106,12 +107,33 @@ export default function GameBoardView({
                         ...match.matchPlayers,
                         mainTeamTotal: _calculateTotalOfTeam(teamRosters),
                         opponentTeamTotal: _calculateTotalOfTeam(teamRosters),
-                        recentAction: {actionFor: action, actionName: POINT_MADE, points: points},
+                        recentAction: {actionFor: action, actionName: POINT_MADE, points: payload},
                         mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? teamRosters : match.matchPlayers.mainTeamRosters,
                         opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? teamRosters : match.matchPlayers.opponentTeamRosters
                     }
                 })
-                break
+                break;
+
+            case ACTIVITY :
+                let teamRostersActivity = match.matchPlayers[match.recentAction.actionFor].map(player => player.action.isActive ? {
+                    ...player,
+                    action: {isActive: false, recentAction: true},
+                    activity: payload
+                } : ({
+                    ...player,
+                    action: {...player.action, isActive: false, recentMade: false}
+                }))
+                console.log(teamRostersActivity, "teamRostersActivity")
+                changeMatchState("match", {
+                    ...match,
+                    matchPlayers: {
+                        ...match.matchPlayers,
+                        recentAction: {actionFor: action, actionName: ACTIVITY, points: payload},
+                        mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? teamRostersActivity : match.matchPlayers.mainTeamRosters,
+                        opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? teamRostersActivity : match.matchPlayers.opponentTeamRosters
+                    }
+                })
+                break;
         }
     }
 
@@ -119,7 +141,7 @@ export default function GameBoardView({
 
     return (
         <>
-            <GameBoardHeader match={match} changeMatchState={changeMatchState}/>
+            <GameBoardHeader match={match} changeMatchState={changeMatchState} numberOfHalf={numberOfHalf}/>
 
             {match?.matchDuration.isMatchEnd && (
                 <DefaultModal
@@ -188,28 +210,33 @@ export default function GameBoardView({
                                     <span>Made</span>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "2 point missed")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>2 Points</b>
                                     <span>Miss</span>
                                 </div>
 
                                 <div
+                                    onClick={() => _handleActions(POINT_MADE, 3)}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>3 Points</b>
                                     <span>Made</span>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "3 point missed")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>3 Points</b>
                                     <span>Miss</span>
                                 </div>
 
                                 <div
+                                    onClick={() => _handleActions(POINT_MADE, 1)}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>1 Point</b>
                                     <span>Made</span>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "1 point missed")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>1 Point</b>
                                     <span>Miss</span>
@@ -284,7 +311,7 @@ export default function GameBoardView({
                                 <div className="grid grid-cols-5 gap-0.5 mt-3 relative">
                                     {match?.matchDuration.isClockStarted && (
                                         <div className="bg-white opacity-30 h-6 w-full absolute"/>)}
-                                    {listOfHalf.map((half, key) => (
+                                    {numberOfHalf.map((half, key) => (
                                         <div
                                             key={key}
                                             onClick={() => changeMatchState("match", {

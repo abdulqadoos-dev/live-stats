@@ -1,10 +1,11 @@
 import React from "react";
 import {ReactSVG} from "react-svg";
 import chevron from "../../Media/icons/chevron-right.svg"
-export default function GameBoardHeader({match, changeMatchState}) {
+export default function GameBoardHeader({match, changeMatchState,numberOfHalf}) {
 
     // console.log(match?.matchPlayers.mainTeamRosters,match?.matchPlayers?.mainTeamTotal,match?.matchPlayers?.opponentTeamTotal,"match")
     // console.log(match,"match")
+
 
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
@@ -60,31 +61,25 @@ export default function GameBoardHeader({match, changeMatchState}) {
                         <div className="w-full">
                             <div className="grid grid-cols-9 text-center font-bold">
                                 <span className="bg-secondary-light h-6 col-span-3"></span>
-                                <span className="bg-secondary-light h-6">1</span>
-                                <span className="bg-secondary-light h-6">2</span>
-                                <span className="bg-secondary-light h-6">3</span>
-                                <span className="bg-secondary-light h-6">4</span>
-                                <span className="bg-secondary-light h-6">OT</span>
+                                {numberOfHalf.map(half => (
+                                    <span className="bg-secondary-light h-6">{half.label}</span>
+                                ))}
                                 <span className="bg-secondary-light h-6"></span>
                             </div>
 
                             <div className="grid grid-cols-9 gap-0.5 text-secondary">
-                                <span className="bg-white h-9 leading-9 px-2 col-span-3">Team 1</span>
-                                <span className="bg-white h-9 leading-9 text-center">1</span>
-                                <span className="bg-white h-9 leading-9 text-center">2</span>
-                                <span className="bg-white h-9 leading-9 text-center">3</span>
-                                <span className="bg-white h-9 leading-9 text-center">4</span>
-                                <span className="bg-white h-9 leading-9 text-center">OT</span>
+                                <span className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.mainTeam?.name || ""}</span>
+                                {numberOfHalf.map(half => (
+                                    <span className="bg-white h-9 leading-9 text-center">1</span>
+                                ))}
                                 <span className="bg-white h-9 leading-9 text-center"></span>
                             </div>
 
                             <div className="grid grid-cols-9 gap-0.5 mt-0.5 text-secondary">
-                                <span className="bg-white h-9 leading-9 px-2 col-span-3">Team 2</span>
-                                <span className="bg-white h-9 leading-9 text-center">1</span>
-                                <span className="bg-white h-9 leading-9 text-center">2</span>
-                                <span className="bg-white h-9 leading-9 text-center">3</span>
-                                <span className="bg-white h-9 leading-9 text-center">4</span>
-                                <span className="bg-white h-9 leading-9 text-center">OT</span>
+                                <span className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.opponentTeam?.name || ""}</span>
+                                {numberOfHalf.map(half => (
+                                    <span className="bg-white h-9 leading-9 text-center">1</span>
+                                ))}
                                 <span className="bg-white h-9 leading-9 text-center"></span>
                             </div>
                         </div>

@@ -56,3 +56,10 @@ export const STOP_CLOCK = "STOP_CLOCK"
 
 export const POINT_MADE = "POINT_MADE"
 export const POINT_MISSED = "POINTS_MISSED"
+
+export const FIRST_HALF = "1st"
+export const SECOND_HALF = "2nd"
+export const THIRD_HALF = "3rd"
+export const FOURTH_HALF = "4th"
+export const FIFTH_HALF = "5th"
+export const MATCH_HALF = "H"

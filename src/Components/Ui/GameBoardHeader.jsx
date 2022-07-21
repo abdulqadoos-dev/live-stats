@@ -1,18 +1,9 @@
 import React from "react";
 import {ReactSVG} from "react-svg";
 import chevron from "../../Media/icons/chevron-right.svg"
-import {
-    CLOCK_STARTED,
-    CONTINUE,
-    END_GAME,
-    GAME_STARTED,
-    START_CLOCK,
-    START_GAME,
-    STOP, STOP_CLOCK
-} from "../../state/constants/Constans";
-
 export default function GameBoardHeader({match, changeMatchState}) {
 
+    // console.log(match?.matchPlayers.mainTeamRosters,match?.matchPlayers?.mainTeamTotal,match?.matchPlayers?.opponentTeamTotal,"match")
     // console.log(match,"match")
 
     return (
@@ -42,7 +33,7 @@ export default function GameBoardHeader({match, changeMatchState}) {
                 <div className="grid grid-cols-4 gap-5 items-end">
 
                     <div className="text-center">
-                        <h1 className="md:text-3xl font-default font-light">{} <span
+                        <h1 className="md:text-3xl font-default font-light">{match?.game?.mainTeam?.name || ""} <span
                             className="text-xl">8-8</span></h1>
                         <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 overflow-hidden mx-auto ">
                             <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>
@@ -61,10 +52,10 @@ export default function GameBoardHeader({match, changeMatchState}) {
 
                     <div className="font-default col-span-2">
                         <div className="flex justify-around items-center mb-16">
-                            <h1 className="text-5xl">45</h1>
+                            <h1 className="text-5xl">{match?.matchPlayers.mainTeamTotal}</h1>
                             <h1 className=" flex flex-col text-center text-4xl"><span>6:02</span> <span
-                                className="text-xl ">4th</span></h1>
-                            <h1 className="text-5xl">52</h1>
+                                className="text-xl ">{match?.matchDetails?.activeHalf}</span></h1>
+                            <h1 className="text-5xl">{match?.matchPlayers.opponentTeamTotal}</h1>
                         </div>
                         <div className="w-full">
                             <div className="grid grid-cols-9 text-center font-bold">
@@ -100,8 +91,7 @@ export default function GameBoardHeader({match, changeMatchState}) {
                     </div>
 
                     <div className="text-center">
-                        <h1 className="md:text-3xl font-default font-light"><span className="text-xl">12-8</span> TEAM 2
-                            NAME </h1>
+                        <h1 className="md:text-3xl font-default font-light"><span className="text-xl">12-8</span> {match?.game?.opponentTeam?.name || ""} </h1>
                         <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 overflow-hidden mx-auto ">
                             <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>
                         </div>

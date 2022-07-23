@@ -24,6 +24,9 @@ export const GAMES_PATH = "/games"
 export const GAMES_FORM_PATH = "/games/form"
 export const GAMES_BOARD_PATH = "/games/board"
 
+// Fan routes
+export const FANS_PATH = "/fans";
+
 export const STATUS_CODE_400 = 400
 export const STATUS_CODE_403 = 403
 export const LOCAL_STORAGE_AUTH_USER = "authUser";

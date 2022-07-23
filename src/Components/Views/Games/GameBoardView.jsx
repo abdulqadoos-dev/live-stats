@@ -9,9 +9,13 @@ import {
     OPPONENTS_TEAM_ROSTERS,
     POINT_MADE, POINT_MISSED, SECOND_HALF,
     TEAM_ROSTERS,
-    TEAMS_PATH, THIRD_HALF
+    TEAMS_PATH, THIRD_HALF, UNDO_STATS
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
+import {ReactSVG} from "react-svg";
+import plus from "../../../Media/icons/plus.svg";
+import minus from "../../../Media/icons/minus.svg";
+
 
 export default function GameBoardView({
                                           getMatchRequest,
@@ -36,7 +40,9 @@ export default function GameBoardView({
                     isClockStarted: true,
                 }
                 arr.matchDetails = {
-                    activeHalf: FIRST_HALF
+                    activeHalf: FIRST_HALF,
+                    isActiveTeamMakeSub: false,
+                    isActiveOpponentTeamMakeSub: false
                 }
                 arr.game = selectedGame
                 changeMatchState("match", arr)
@@ -197,6 +203,30 @@ export default function GameBoardView({
 
                             </div>
                         )) : null}
+                        <div
+                            className={` ${match?.matchDetails?.isActiveTeamMakeSub ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
+                            Make Sub
+                        </div>
+
+                        <div className="flex items-center timeout-buttons-group">
+                            <div
+                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-l py-5 text-center text-xl font-sans mb-2">
+                                <ReactSVG src={plus}/>
+                            </div>
+                            <div
+                                className={` bg-light w-full   py-5 text-center text-xl font-sans mb-2`}>
+                                1
+                            </div>
+                            <div
+                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-r  py-5 text-center text-xl font-sans mb-2">
+                                <ReactSVG src={minus}/>
+                            </div>
+                        </div>
+                        <div className="text-center text-sm font-bold text-secondary-light">
+                            Timeouts
+                        </div>
+
+
                     </div>
                     <div className="mt-5 col-span-3 ">
                         <div className="bg-light rounded h-96"></div>
@@ -244,21 +274,25 @@ export default function GameBoardView({
                             </div>
                             <div className="grid grid-cols-6 gap-1 my-1">
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Assist")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex items-center justify-center">
                                     <b>Assist</b>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Rebound Offense")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Rebound</b>
                                     <span>Offense</span>
                                 </div>
 
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Rebound Defense")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Rebound</b>
                                     <span>Defense</span>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Steal")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Steal</b>
                                 </div>
@@ -267,27 +301,32 @@ export default function GameBoardView({
                                     <b>Block</b>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Turnover")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Turnover</b>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-1">
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Foul Offense")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Foul</b>
                                     <span>Offense</span>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Foul Defense")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Foul</b>
                                     <span>Defense</span>
                                 </div>
 
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, "Charge")}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Charge</b>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(UNDO_STATS)}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center col-span-3">
                                     <b>UNDO STATS</b>
                                 </div>
@@ -344,6 +383,10 @@ export default function GameBoardView({
                                 {roster.number + ' ' + roster.name}
                             </div>
                         )) : null}
+                        <div
+                            className={` ${match?.matchDetails?.isActiveOpponentTeamMakeSub ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
+                            Make Sub
+                        </div>
                     </div>
                 </div>
             </Wrapper>

@@ -16,7 +16,6 @@ const PageHeader = ({title, subTitle, description, uploadedImage}) => {
             .then(res => {
                 authUserData.user.image = res.data.image
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(authUserData))
-
             }).catch(err => {
         })
     }

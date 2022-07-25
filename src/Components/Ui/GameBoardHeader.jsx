@@ -1,11 +1,11 @@
 import React from "react";
 import {ReactSVG} from "react-svg";
 import chevron from "../../Media/icons/chevron-right.svg"
-export default function GameBoardHeader({match, changeMatchState,numberOfHalf}) {
+
+export default function GameBoardHeader({match, changeMatchState, numberOfHalf, calculateTeamHalf}) {
 
     // console.log(match?.matchPlayers.mainTeamRosters,match?.matchPlayers?.mainTeamTotal,match?.matchPlayers?.opponentTeamTotal,"match")
     // console.log(match,"match")
-
 
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
@@ -40,14 +40,19 @@ export default function GameBoardHeader({match, changeMatchState,numberOfHalf}) 
                             <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>
                         </div>
                         <div className="my-5 gap-3 flex justify-center">
-                            <span className="p-1.5  bg-yellow-300 rounded-full"/>
-                            <span className="p-1.5  bg-yellow-300 rounded-full"/>
-                            <span className="p-1.5  bg-yellow-300 rounded-full"/>
-                            <span className="p-1.5  bg-light rounded-full"/>
-                            <span className="p-1.5  bg-light rounded-full"/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 1 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 2 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 3 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 4 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 5 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                         </div>
                         <div className="font-default">
-                            BONUS +
+                            {match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonusPlus ? "Bonus +" : match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonus && "Bounce"}
                         </div>
                     </div>
 
@@ -68,17 +73,23 @@ export default function GameBoardHeader({match, changeMatchState,numberOfHalf}) 
                             </div>
 
                             <div className="grid grid-cols-9 gap-0.5 text-secondary">
-                                <span className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.mainTeam?.name || ""}</span>
+                                <span
+                                    className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.mainTeam?.name || ""}</span>
                                 {numberOfHalf.map(half => (
-                                    <span className="bg-white h-9 leading-9 text-center">1</span>
+                                    <span
+                                        key={half.value}
+                                        className="bg-white h-9 leading-9 text-center">{match?.matchPlayers.mainTeamRosters ? calculateTeamHalf(match.matchPlayers.mainTeamRosters, half.value) : null}</span>
                                 ))}
                                 <span className="bg-white h-9 leading-9 text-center"></span>
                             </div>
 
                             <div className="grid grid-cols-9 gap-0.5 mt-0.5 text-secondary">
-                                <span className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.opponentTeam?.name || ""}</span>
+                                <span
+                                    className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.opponentTeam?.name || ""}</span>
                                 {numberOfHalf.map(half => (
-                                    <span className="bg-white h-9 leading-9 text-center">1</span>
+                                    <span
+                                        key={half.value}
+                                        className="bg-white h-9 leading-9 text-center">{match?.matchPlayers.opponentTeamRosters ? calculateTeamHalf(match.matchPlayers.opponentTeamRosters, half.value) : null}</span>
                                 ))}
                                 <span className="bg-white h-9 leading-9 text-center"></span>
                             </div>
@@ -86,19 +97,25 @@ export default function GameBoardHeader({match, changeMatchState,numberOfHalf}) 
                     </div>
 
                     <div className="text-center">
-                        <h1 className="md:text-3xl font-default font-light"><span className="text-xl">12-8</span> {match?.game?.opponentTeam?.name || ""} </h1>
+                        <h1 className="md:text-3xl font-default font-light"><span
+                            className="text-xl">12-8</span> {match?.game?.opponentTeam?.name || ""} </h1>
                         <div className="w-20 h-20 md:w-40 md:h-40 bg-white rounded-full my-5 overflow-hidden mx-auto ">
                             <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>
                         </div>
                         <div className="my-5 gap-3 flex justify-center">
-                            <span className="p-1.5  bg-yellow-300 rounded-full"/>
-                            <span className="p-1.5  bg-yellow-300 rounded-full"/>
-                            <span className="p-1.5  bg-yellow-300 rounded-full"/>
-                            <span className="p-1.5  bg-light rounded-full"/>
-                            <span className="p-1.5  bg-light rounded-full"/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 1 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 2 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 3 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 4 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                            <span
+                                className={`p-1.5  ${match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 5 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                         </div>
                         <div className="font-default">
-                            BONUS +
+                            {match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonusPlus ? "Bonus +" : match?.matchDetails.opponentTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonus && "Bounce"}
                         </div>
                     </div>
 

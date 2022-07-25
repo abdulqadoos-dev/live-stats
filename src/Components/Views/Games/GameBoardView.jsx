@@ -4,17 +4,18 @@ import Wrapper from "../../Ui/Form/Wrapper";
 import GameBoardHeader from "../../Ui/GameBoardHeader";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
-    ACTIVITY,
-    FIRST_HALF, FOURTH_HALF, MATCH_HALF,
+    ACTIVITY, BONUS, BONUS_PLUS, DETAILS,
+    FIRST_HALF, FOURTH_HALF, MAIN_TEAM, MAKE_SUB, MATCH_HALF, OPPONENT_TEAM,
     OPPONENTS_TEAM_ROSTERS,
     POINT_MADE, POINT_MISSED, SECOND_HALF,
     TEAM_ROSTERS,
-    TEAMS_PATH, THIRD_HALF, UNDO_STATS
+    TEAMS_PATH, THIRD_HALF, TIMEOUTS, UNDO_STATS
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 import {ReactSVG} from "react-svg";
 import plus from "../../../Media/icons/plus.svg";
 import minus from "../../../Media/icons/minus.svg";
+import Switch from "react-switch";
 
 
 export default function GameBoardView({
@@ -41,8 +42,20 @@ export default function GameBoardView({
                 }
                 arr.matchDetails = {
                     activeHalf: FIRST_HALF,
-                    isActiveTeamMakeSub: false,
-                    isActiveOpponentTeamMakeSub: false
+                    mainTeam: [...numberOfHalf.map((half, index) => ({
+                        half: half.value,
+                        isActiveMakeSub: false,
+                        timeouts: 0,
+                        bonus: false,
+                        bonusPlus: false
+                    }))],
+                    opponentTeam: [...numberOfHalf.map((half, index) => ({
+                        half: half.value,
+                        isActiveMakeSub: false,
+                        timeouts: 0,
+                        bonus: false,
+                        bonusPlus: false
+                    }))],
                 }
                 arr.game = selectedGame
                 changeMatchState("match", arr)
@@ -54,7 +67,7 @@ export default function GameBoardView({
         });
     }, [])
 
-    // console.log({match}, {selectedGame}, {stats}, "match....")
+    console.log({match}, "match....")
 
     const numberOfHalf = [
         {label: 1, value: FIRST_HALF, time: "10"},
@@ -78,13 +91,20 @@ export default function GameBoardView({
 
     const _calculateTotalOfTeam = (rosters) => {
         let total = 0;
-        let subTotal = 0;
-        rosters.map(roster => {
-            // eslint-disable-next-line no-unused-expressions
-            roster.scores?.length ? roster.scores.map(score => {
-                subTotal += score.total
-            }) : null
-            total += subTotal
+        rosters.filter(roster => {
+            if (roster.scores) {
+                roster.scores.map(score =>  total += score.total)
+            }
+        })
+        return total
+    }
+
+    const _calculateTotalOfTeamHalf = (rosters, half) => {
+        let total = 0;
+        rosters.filter(roster => {
+            if (roster.scores) {
+                roster.scores.map(score => score.half === half ? total += score.total : null)
+            }
         })
         return total
     }
@@ -140,6 +160,22 @@ export default function GameBoardView({
                     }
                 })
                 break;
+
+            case DETAILS :
+                let matchDetails = match.matchDetails[payload.team].map(details => details.half === match.matchDetails.activeHalf ? {
+                    ...details,
+                    isActiveMakeSub: payload.name === MAKE_SUB ? !details.isActiveMakeSub : details.isActiveMakeSub,
+                    timeouts: payload.name === TIMEOUTS ? payload.isPlusTimeout ? details.timeouts + 1 : details.timeouts - 1 : details.timeouts,
+                    bonus: payload.name === BONUS ? !details.bonus : details.bonus,
+                    bonusPlus: payload.name === BONUS_PLUS ? !details.bonusPlus : details.bonusPlus,
+                } : details)
+
+                console.log(matchDetails, "updatedMatchDetails")
+                //
+                changeMatchState("match", {
+                    ...match,
+                    matchDetails: {...match.matchDetails, [payload.team]: matchDetails}
+                })
         }
     }
 
@@ -147,7 +183,12 @@ export default function GameBoardView({
 
     return (
         <>
-            <GameBoardHeader match={match} changeMatchState={changeMatchState} numberOfHalf={numberOfHalf}/>
+            <GameBoardHeader
+                match={match}
+                numberOfHalf={numberOfHalf}
+                changeMatchState={changeMatchState}
+                calculateTeamHalf={_calculateTotalOfTeamHalf}
+            />
 
             {match?.matchDuration.isMatchEnd && (
                 <DefaultModal
@@ -199,31 +240,63 @@ export default function GameBoardView({
                                  })}
                                  className={` ${roster?.action?.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
                                 {roster.number + ' ' + roster.name}
-                                {/*{console.log(roster, "check is active work or not")}*/}
-
                             </div>
                         )) : null}
+
                         <div
-                            className={` ${match?.matchDetails?.isActiveTeamMakeSub ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
+                            onClick={(e) => _handleActions(DETAILS, {name: MAKE_SUB, team: MAIN_TEAM})}
+                            className={` ${match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).isActiveMakeSub ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"} mt-10  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-bold text-secondary-light mb-2`}>
                             Make Sub
                         </div>
 
-                        <div className="flex items-center timeout-buttons-group">
+                        <div className="flex items-center timeout-buttons-group mt-5">
                             <div
-                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-l py-5 text-center text-xl font-sans mb-2">
-                                <ReactSVG src={plus}/>
-                            </div>
-                            <div
-                                className={` bg-light w-full   py-5 text-center text-xl font-sans mb-2`}>
-                                1
-                            </div>
-                            <div
-                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-r  py-5 text-center text-xl font-sans mb-2">
+                                onClick={(e) => _handleActions(DETAILS, {
+                                    name: TIMEOUTS,
+                                    isPlusTimeout: false,
+                                    team: MAIN_TEAM
+                                })}
+                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-l py-3 text-center text-xl font-sans mb-2">
                                 <ReactSVG src={minus}/>
+                            </div>
+                            <div
+                                className={` bg-light w-full   py-3 text-center text-xl font-sans mb-2`}>
+                                {match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).timeouts}
+                            </div>
+                            <div
+                                onClick={(e) => _handleActions(DETAILS, {
+                                    name: TIMEOUTS,
+                                    isPlusTimeout: true,
+                                    team: MAIN_TEAM
+                                })}
+                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-r  py-3 text-center text-xl font-sans mb-2">
+                                <ReactSVG src={plus}/>
                             </div>
                         </div>
                         <div className="text-center text-sm font-bold text-secondary-light">
                             Timeouts
+                        </div>
+                        <div className="flex items-center justify-between my-4">
+                            <p className="text-xl font-bold text-secondary-light">Bonus</p>
+                            <Switch
+                                className="react-switch"
+                                onChange={(e) => _handleActions(DETAILS, {name: BONUS, team: MAIN_TEAM})}
+                                checked={match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).bonus || false}
+                                uncheckedIcon={false}
+                                checkedIcon={false}
+                            />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <p className="text-xl font-bold text-secondary-light">Bonus +</p>
+                            <Switch
+                                className="react-switch"
+                                onChange={(e) => _handleActions(DETAILS, {name: BONUS_PLUS, team: MAIN_TEAM})}
+                                checked={match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).bonusPlus || false}
+                                required
+                                uncheckedIcon={false}
+                                checkedIcon={false}
+                            />
                         </div>
 
 
@@ -384,9 +457,61 @@ export default function GameBoardView({
                             </div>
                         )) : null}
                         <div
-                            className={` ${match?.matchDetails?.isActiveOpponentTeamMakeSub ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
+                            onClick={(e) => _handleActions(DETAILS, {name: MAKE_SUB, team: OPPONENT_TEAM})}
+                            className={` ${match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).isActiveMakeSub ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"} mt-10  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-bold text-secondary-light mb-2`}>
                             Make Sub
                         </div>
+
+                        <div className="flex items-center timeout-buttons-group mt-5">
+                            <div
+                                onClick={(e) => _handleActions(DETAILS, {
+                                    name: TIMEOUTS,
+                                    isPlusTimeout: false,
+                                    team: OPPONENT_TEAM
+                                })}
+                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-l py-3 text-center text-xl font-sans mb-2">
+                                <ReactSVG src={minus}/>
+                            </div>
+                            <div
+                                className={` bg-light w-full   py-3 text-center text-xl font-sans mb-2`}>
+                                {match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).timeouts}
+                            </div>
+                            <div
+                                onClick={(e) => _handleActions(DETAILS, {
+                                    name: TIMEOUTS,
+                                    isPlusTimeout: true,
+                                    team: OPPONENT_TEAM
+                                })}
+                                className=" bg-secondary-light w-32 flex justify-center hover:bg-primary cursor-pointer hover:text-white  rounded-r  py-3 text-center text-xl font-sans mb-2">
+                                <ReactSVG src={plus}/>
+                            </div>
+                        </div>
+                        <div className="text-center text-sm font-bold text-secondary-light">
+                            Timeouts
+                        </div>
+                        <div className="flex items-center justify-between my-4">
+                            <p className="text-xl font-bold text-secondary-light">Bonus</p>
+                            <Switch
+                                className="react-switch"
+                                onChange={(e) => _handleActions(DETAILS, {name: BONUS, team: OPPONENT_TEAM})}
+                                checked={match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).bonus || false}
+                                uncheckedIcon={false}
+                                checkedIcon={false}
+                            />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <p className="text-xl font-bold text-secondary-light">Bonus +</p>
+                            <Switch
+                                className="react-switch"
+                                onChange={(e) => _handleActions(DETAILS, {name: BONUS_PLUS, team: OPPONENT_TEAM})}
+                                checked={match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).bonusPlus || false}
+                                required
+                                uncheckedIcon={false}
+                                checkedIcon={false}
+                            />
+                        </div>
+
                     </div>
                 </div>
             </Wrapper>

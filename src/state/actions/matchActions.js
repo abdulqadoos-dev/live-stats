@@ -1,5 +1,5 @@
 import {requestStart} from "./appActions";
-import {GAMES_BOARD_PATH, TEAMS_PATH} from "../constants/Constans";
+import {GAMES_BOARD_PATH} from "../constants/Constans";
 import {
     CHANGE_MATCH_STATE,
     GETTING_MATCH_FAILED,
@@ -8,7 +8,6 @@ import {
     UPDATING_MATCH_SUCCESS
 } from "../constants/matchConstants";
 import * as matchApi from "../apis/matchApi";
-import {getGameById, getMatchByGameId} from "../apis/matchApi";
 
 
 export const changeMatchState = (key, value) => ({
@@ -53,27 +52,30 @@ export const updateMatchRequest = (formData, navigate) => {
 
     return (dispatch) => {
 
+        // dispatch({type: GETTING_MATCH_SUCCESS, ...result.data})
+        // navigate(GAMES_BOARD_PATH)
+
         dispatch(requestStart());
 
         const promise = matchApi.updateMatch(formData)
 
-        promise.then((result) => {
-
-            dispatch({type: UPDATING_MATCH_SUCCESS, ...result.data})
-            navigate(GAMES_BOARD_PATH)
-
-        }).catch((error) => {
-
-            if (error.status === 400) {
-                dispatch({
-                    type: UPDATING_MATCH_FAILED,
-                    error: Object.values(error.data?.validationResults || {}).join('; ')
-                });
-            } else {
-                dispatch({type: UPDATING_MATCH_FAILED, error: "Request Failed Try again!"});
-            }
-
-        });
+        // promise.then((result) => {
+        //
+        //     dispatch({type: GETTING_MATCH_SUCCESS, ...result.data})
+        //     navigate(GAMES_BOARD_PATH)
+        //
+        // }).catch((error) => {
+        //
+        //     if (error.status === 400) {
+        //         dispatch({
+        //             type: UPDATING_MATCH_FAILED,
+        //             error: Object.values(error.data?.validationResults || {}).join('; ')
+        //         });
+        //     } else {
+        //         dispatch({type: UPDATING_MATCH_FAILED, error: "Request Failed Try again!"});
+        //     }
+        //
+        // });
 
         return promise
 

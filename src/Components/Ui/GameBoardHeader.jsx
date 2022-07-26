@@ -4,9 +4,6 @@ import chevron from "../../Media/icons/chevron-right.svg"
 
 export default function GameBoardHeader({match, changeMatchState, numberOfHalf, calculateTeamHalf}) {
 
-    // console.log(match?.matchPlayers.mainTeamRosters,match?.matchPlayers?.mainTeamTotal,match?.matchPlayers?.opponentTeamTotal,"match")
-    // console.log(match,"match")
-
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
             <div className="container mx-auto">
@@ -58,10 +55,10 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
 
                     <div className="font-default col-span-2">
                         <div className="flex justify-around items-center mb-16">
-                            <h1 className="text-5xl">{match?.matchPlayers.mainTeamTotal}</h1>
-                            <h1 className=" flex flex-col text-center text-4xl"><span>6:02</span> <span
+                            <h1 className="text-5xl">{match?.matchPlayers.mainTeamTotal || 0}</h1>
+                            <h1 className=" flex flex-col text-center text-4xl"><span>{match?.matchDetails?.activeHalfTime}</span> <span
                                 className="text-xl ">{match?.matchDetails?.activeHalf}</span></h1>
-                            <h1 className="text-5xl">{match?.matchPlayers.opponentTeamTotal}</h1>
+                            <h1 className="text-5xl">{match?.matchPlayers.opponentTeamTotal || 0}</h1>
                         </div>
                         <div className="w-full">
                             <div className="grid grid-cols-9 text-center font-bold">

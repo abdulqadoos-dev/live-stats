@@ -36,27 +36,28 @@ export default function GameBoardView({
         promise.then((result) => {
             if (result?.data?.matches[0]) {
                 let arr = {...result.data.matches[0]}
-                arr.matchDuration = {
-                    isMatchStarted: true,
-                    isClockStarted: true,
-                }
-                arr.matchDetails = {
-                    activeHalf: FIRST_HALF,
-                    mainTeam: [...numberOfHalf.map((half, index) => ({
-                        half: half.value,
-                        isActiveMakeSub: false,
-                        timeouts: 0,
-                        bonus: false,
-                        bonusPlus: false
-                    }))],
-                    opponentTeam: [...numberOfHalf.map((half, index) => ({
-                        half: half.value,
-                        isActiveMakeSub: false,
-                        timeouts: 0,
-                        bonus: false,
-                        bonusPlus: false
-                    }))],
-                }
+                // arr.matchDuration = {
+                //     isMatchStarted: true,
+                //     isClockStarted: true,
+                // }
+                // arr.matchDetails = {
+                //     activeHalf: FIRST_HALF,
+                //     activeHalfTime : "8:06",
+                //     mainTeam: [...numberOfHalf.map((half, index) => ({
+                //         half: half.value,
+                //         isActiveMakeSub: false,
+                //         timeouts: 0,
+                //         bonus: false,
+                //         bonusPlus: false
+                //     }))],
+                //     opponentTeam: [...numberOfHalf.map((half, index) => ({
+                //         half: half.value,
+                //         isActiveMakeSub: false,
+                //         timeouts: 0,
+                //         bonus: false,
+                //         bonusPlus: false
+                //     }))],
+                // }
                 arr.game = selectedGame
                 changeMatchState("match", arr)
             } else {
@@ -177,6 +178,7 @@ export default function GameBoardView({
                     matchDetails: {...match.matchDetails, [payload.team]: matchDetails}
                 })
         }
+        updateMatchRequest(match, navigate)
     }
 
     // console.log(match?.matchDetails?.activeHalf)

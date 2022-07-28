@@ -7,7 +7,7 @@ import {
     LOCAL_STORAGE_AUTH_USER,
     GAMES,
     OPPONENTS_TEAM_ROSTERS,
-    TEAM_ROSTERS,
+    TEAM_ROSTERS, FIRST_HALF, SECOND_HALF, MATCH_HALF, THIRD_HALF, FOURTH_HALF,
 } from "../../../state/constants/Constans";
 
 
@@ -33,6 +33,14 @@ export default function StartGame({
         selectedGame && changeGameSate("startGameModal", {...startGameModal, isDisabledButton: false})
     }, [selectedGame])
 
+    const numberOfHalf = [
+        {label: 1, value: FIRST_HALF, time: "10"},
+        {label: 2, value: SECOND_HALF, time: "12"},
+        {label: "H", value: MATCH_HALF, time: "14"},
+        {label: 3, value: THIRD_HALF, time: "15"},
+        {label: 4, value: FOURTH_HALF, time: "16"}
+    ]
+
     const _handleModelClickEvent = (action) => {
         switch (action) {
             case GAMES :
@@ -42,12 +50,46 @@ export default function StartGame({
             case OPPONENTS_TEAM_ROSTERS:
                 let formData = {
                     gameId: selectedGame.id,
-                    matchDuration: {},
-                    matchPlayers: {
-                        mainTeamRosters: selectedTeamRosters,
-                        opponentTeamRosters: selectedOpponentRosters
+                    matchDuration: {
+                        isMatchStarted: true,
+                        isClockStarted: true,
                     },
-                    matchDetails: {}
+                    matchPlayers: {
+                        mainTeamRosters: [...selectedTeamRosters.map(player => ({
+                            ...player,
+                            scores: [...numberOfHalf.map(half => ({half: half.value, total: 0}))],
+                            activities: [...numberOfHalf.map((half, index) => ({
+                                half: half.value,
+                                activity: []
+                            }))]
+                        }))],
+                        opponentTeamRosters: [...selectedOpponentRosters.map(player => ({
+                            ...player,
+                            scores: [...numberOfHalf.map(half => ({half: half.value, total: 0}))],
+                            activities: [...numberOfHalf.map((half, index) => ({
+                                half: half.value,
+                                activity: []
+                            }))]
+                        }))]
+                    },
+                    matchDetails: {
+                        activeHalf: FIRST_HALF,
+                        activeHalfTime: "8:06",
+                        mainTeam: [...numberOfHalf.map((half, index) => ({
+                            half: half.value,
+                            isActiveMakeSub: false,
+                            timeouts: 0,
+                            bonus: false,
+                            bonusPlus: false
+                        }))],
+                        opponentTeam: [...numberOfHalf.map((half, index) => ({
+                            half: half.value,
+                            isActiveMakeSub: false,
+                            timeouts: 0,
+                            bonus: false,
+                            bonusPlus: false
+                        }))],
+                    }
                 }
 
                 changeGameSate("startGameModal", null)
@@ -56,7 +98,8 @@ export default function StartGame({
                 changeGameSate("teamRosters", [])
                 changeGameSate("selectedTeamRosters", [])
                 changeGameSate("selectedOpponentRosters", [])
-                createMatchRequest(formData, navigate)
+                console.log(formData, "check data is ok or not for create match request ..............")
+            createMatchRequest(formData, navigate)
         }
     }
 

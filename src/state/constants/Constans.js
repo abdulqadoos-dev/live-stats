@@ -65,7 +65,19 @@ export const POINT_MISSED = "POINTS_MISSED"
 export const MAKE_SUB = "MAKE_SUB"
 export const TIMEOUTS = "TIMEOUTS"
 export const BONUS = "BONUS"
-export const BONUS_PLUS = "BONUS_plus"
+export const BLOCK = "BLOCK"
+export const BONUS_PLUS = "BONUS_PLUS"
+
+
+export const MISS = "MISS"
+export const ASSIST = "ASSIST"
+export const REBOUND = "REBOUND"
+export const STEAL = "STEAL"
+export const BOCK = "BOCK"
+export const TURNOVER = "TURNOVER"
+export const FOUL = "FOUL"
+export const CHARGE = "CHARGE"
+
 
 export const FIRST_HALF = "1st"
 export const SECOND_HALF = "2nd"

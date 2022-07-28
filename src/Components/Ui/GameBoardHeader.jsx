@@ -64,7 +64,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                             <div className="grid grid-cols-9 text-center font-bold">
                                 <span className="bg-secondary-light h-6 col-span-3"></span>
                                 {numberOfHalf.map(half => (
-                                    <span className="bg-secondary-light h-6">{half.label}</span>
+                                    <span key={half.value} className="bg-secondary-light h-6">{half.label}</span>
                                 ))}
                                 <span className="bg-secondary-light h-6"></span>
                             </div>

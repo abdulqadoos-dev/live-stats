@@ -4,12 +4,12 @@ import Wrapper from "../../Ui/Form/Wrapper";
 import GameBoardHeader from "../../Ui/GameBoardHeader";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
-    ACTIVITY, BONUS, BONUS_PLUS, DETAILS,
-    FIRST_HALF, FOURTH_HALF, MAIN_TEAM, MAKE_SUB, MATCH_HALF, OPPONENT_TEAM,
+    ACTIVITY, ASSIST, BLOCK, BONUS, BONUS_PLUS, CHARGE, DETAILS,
+    FIRST_HALF, FOUL, FOURTH_HALF, MAIN_TEAM, MAKE_SUB, MATCH_HALF, MISS, OPPONENT_TEAM,
     OPPONENTS_TEAM_ROSTERS,
-    POINT_MADE, POINT_MISSED, SECOND_HALF,
+    POINT_MADE, POINT_MISSED, REBOUND, SECOND_HALF, STEAL,
     TEAM_ROSTERS,
-    TEAMS_PATH, THIRD_HALF, TIMEOUTS, UNDO_STATS
+    TEAMS_PATH, THIRD_HALF, TIMEOUTS, TURNOVER, UNDO_STATS
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 import {ReactSVG} from "react-svg";
@@ -36,28 +36,6 @@ export default function GameBoardView({
         promise.then((result) => {
             if (result?.data?.matches[0]) {
                 let arr = {...result.data.matches[0]}
-                // arr.matchDuration = {
-                //     isMatchStarted: true,
-                //     isClockStarted: true,
-                // }
-                // arr.matchDetails = {
-                //     activeHalf: FIRST_HALF,
-                //     activeHalfTime : "8:06",
-                //     mainTeam: [...numberOfHalf.map((half, index) => ({
-                //         half: half.value,
-                //         isActiveMakeSub: false,
-                //         timeouts: 0,
-                //         bonus: false,
-                //         bonusPlus: false
-                //     }))],
-                //     opponentTeam: [...numberOfHalf.map((half, index) => ({
-                //         half: half.value,
-                //         isActiveMakeSub: false,
-                //         timeouts: 0,
-                //         bonus: false,
-                //         bonusPlus: false
-                //     }))],
-                // }
                 arr.game = selectedGame
                 changeMatchState("match", arr)
             } else {
@@ -68,7 +46,7 @@ export default function GameBoardView({
         });
     }, [])
 
-    console.log({match}, "match....")
+    // console.log({match}, "match....")
 
     const numberOfHalf = [
         {label: 1, value: FIRST_HALF, time: "10"},
@@ -94,7 +72,7 @@ export default function GameBoardView({
         let total = 0;
         rosters.filter(roster => {
             if (roster.scores) {
-                roster.scores.map(score =>  total += score.total)
+                roster.scores.map(score => total += score.total)
             }
         })
         return total
@@ -114,52 +92,80 @@ export default function GameBoardView({
         // eslint-disable-next-line default-case
         switch (action) {
             case POINT_MADE:
-                let teamRosters = match.matchPlayers[match.recentAction.actionFor].map(player => player.action.isActive ? {
-                    ...player,
-                    action: {isActive: false, recentMade: true},
-                    scores: player.scores?.length ? player.scores.map(score => score.half === match.matchDetails.activeHalf ? {
-                            ...score,
-                            total: score.total + payload
-                        } : score)
-                        : [...numberOfHalf.map((half, index) => ({half: half.value, total: index === 0 ? payload : 0}))]
-                } : ({
-                    ...player,
-                    action: {...player.action, isActive: false, recentMade: false}
-                }));
+                if (match.matchDetails?.recentAction?.team) {
+                    let teamRosters = match.matchPlayers[match.matchDetails.recentAction.team].map(player => player.action.isActive ? {
+                        ...player,
+                        action: {...player.action, isActive: false},
+                        scores: player.scores?.length ? player.scores.map(score => score.half === match.matchDetails.activeHalf ? {
+                                ...score,
+                                total: parseInt(score.total) + parseInt(payload.points)
+                            } : score)
+                            : [...numberOfHalf.map((half, index) => ({
+                                half: half.value,
+                                total: index === 0 ? payload.points : 0
+                            }))]
+                    } : ({
+                        ...player,
+                        action: {...player.action, isActive: false, isRecent: false}
+                    }));
 
-                console.log(teamRosters, match.recentAction.actionFor)
-                changeMatchState("match", {
-                    ...match,
-                    matchPlayers: {
-                        ...match.matchPlayers,
-                        mainTeamTotal: _calculateTotalOfTeam(teamRosters),
-                        opponentTeamTotal: _calculateTotalOfTeam(teamRosters),
-                        recentAction: {actionFor: action, actionName: POINT_MADE, points: payload},
-                        mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? teamRosters : match.matchPlayers.mainTeamRosters,
-                        opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? teamRosters : match.matchPlayers.opponentTeamRosters
-                    }
-                })
+                    changeMatchState("match", {
+                        ...match,
+                        matchDetails: {
+                            ...match.matchDetails,
+                            recentAction: {
+                                team: match.matchDetails.recentAction.team,
+                                action: POINT_MADE,
+                                points: payload.points,
+                                half: match.matchDetails.activeHalf
+                            }
+                        },
+                        matchPlayers: {
+                            ...match.matchPlayers,
+                            mainTeamTotal: match.matchDetails.recentAction.team === TEAM_ROSTERS ? _calculateTotalOfTeam(teamRosters) : match.matchPlayers.mainTeamTotal,
+                            opponentTeamTotal: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? _calculateTotalOfTeam(teamRosters) : match.matchPlayers.opponentTeamTotal,
+                            mainTeamRosters: match.matchDetails.recentAction.team === TEAM_ROSTERS ? teamRosters : match.matchPlayers.mainTeamRosters,
+                            opponentTeamRosters: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? teamRosters : match.matchPlayers.opponentTeamRosters
+                        }
+                    })
+                }
                 break;
 
             case ACTIVITY :
-                let teamRostersActivity = match.matchPlayers[match.recentAction.actionFor].map(player => player.action.isActive ? {
-                    ...player,
-                    action: {isActive: false, recentAction: true},
-                    activity: payload
-                } : ({
-                    ...player,
-                    action: {...player.action, isActive: false, recentMade: false}
-                }))
-                console.log(teamRostersActivity, "teamRostersActivity")
-                changeMatchState("match", {
-                    ...match,
-                    matchPlayers: {
-                        ...match.matchPlayers,
-                        recentAction: {actionFor: action, actionName: ACTIVITY, points: payload},
-                        mainTeamRosters: match.recentAction.actionFor === TEAM_ROSTERS ? teamRostersActivity : match.matchPlayers.mainTeamRosters,
-                        opponentTeamRosters: match.recentAction.actionFor === OPPONENTS_TEAM_ROSTERS ? teamRostersActivity : match.matchPlayers.opponentTeamRosters
-                    }
-                })
+                if (match.matchDetails?.recentAction?.team) {
+                    let teamRostersActivity = match.matchPlayers[match.matchDetails.recentAction.team].map(player => player.action.isActive ? {
+                        ...player,
+                        action: {isActive: false, isRecent: true},
+                        activities: player.activities?.length ? player.activities.map(activity => activity.half === match.matchDetails.activeHalf ? {
+                                ...activity,
+                                activity: [...activity.activity, {name: payload.name, message: payload.message}]
+                            } : activity)
+                            : [...numberOfHalf.map((half, index) => ({
+                                half: half.value,
+                                activity: [{name: payload.name, message: payload.message}]
+                            }))]
+                    } : ({
+                        ...player,
+                        action: {...player.action, isActive: false, isRecent: false}
+                    }))
+                    // console.log(teamRostersActivity, "teamRostersActivity")
+                    changeMatchState("match", {
+                        ...match,
+                        matchDetails: {
+                            ...match.matchDetails,
+                            recentAction: {
+                                team: match.matchDetails.recentAction.team,
+                                action: ACTIVITY,
+                                half: match.matchDetails.activeHalf
+                            }
+                        },
+                        matchPlayers: {
+                            ...match.matchPlayers,
+                            mainTeamRosters: match.matchDetails.recentAction.team === TEAM_ROSTERS ? teamRostersActivity : match.matchPlayers.mainTeamRosters,
+                            opponentTeamRosters: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? teamRostersActivity : match.matchPlayers.opponentTeamRosters
+                        }
+                    })
+                }
                 break;
 
             case DETAILS :
@@ -171,17 +177,52 @@ export default function GameBoardView({
                     bonusPlus: payload.name === BONUS_PLUS ? !details.bonusPlus : details.bonusPlus,
                 } : details)
 
-                console.log(matchDetails, "updatedMatchDetails")
-                //
+                // console.log(matchDetails, "updatedMatchDetails")
                 changeMatchState("match", {
                     ...match,
                     matchDetails: {...match.matchDetails, [payload.team]: matchDetails}
                 })
+                break
+
+            case UNDO_STATS :
+                if (match?.matchDetails?.recentAction?.action) {
+                    console.log(match?.matchDetails?.recentAction, "undo stats")
+                    const {action} = match.matchDetails.recentAction;
+                    let rosters = []
+                    switch (action) {
+                        case POINT_MADE:
+                            rosters = match.matchPlayers[match.matchDetails.recentAction.team].map(player => player.action.isRecent ? {
+                                ...player,
+                                scores: player.scores.map(score => score.half === match.matchDetails.recentAction.half ? {
+                                    ...score,
+                                    total: parseInt(score.total) - parseInt(match.matchDetails.recentAction.points)
+                                } : score)
+                            } : player)
+                            break
+                        case ACTIVITY:
+                            rosters = match.matchPlayers[match.matchDetails.recentAction.team].map(player => player.action.isRecent ? {
+                                ...player,
+                                activities: player.activities.map(item => item.half === match.matchDetails.recentAction.half ? {
+                                    ...item,
+                                    activity: item.activity.filter((ac, index) => index !== (item.activity.length - 1))
+                                } : item)
+                            } : player)
+                            break
+                    }
+                    changeMatchState("match", {
+                        ...match,
+                        matchDetails: {...match.matchDetails, recentAction: null},
+                        matchPlayers: {
+                            ...match.matchPlayers,
+                            mainTeamRosters: match.matchDetails.recentAction.team === TEAM_ROSTERS ? rosters : match.matchPlayers.mainTeamRosters,
+                            opponentTeamRosters: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? rosters : match.matchPlayers.opponentTeamRosters
+                        }
+                    })
+                }
+                break
         }
         updateMatchRequest(match, navigate)
     }
-
-    // console.log(match?.matchDetails?.activeHalf)
 
     return (
         <>
@@ -231,13 +272,20 @@ export default function GameBoardView({
                             <div key={roster.id}
                                  onClick={() => changeMatchState("match", {
                                      ...match,
-                                     recentAction: {actionFor: TEAM_ROSTERS},
+                                     matchDetails: {...match.matchDetails, recentAction: {team: TEAM_ROSTERS}},
                                      matchPlayers: {
                                          ...match.matchPlayers,
                                          mainTeamRosters: match.matchPlayers.mainTeamRosters.map(player => player.id === roster.id ? ({
                                              ...player,
-                                             action: {...player.action, isActive: true}
-                                         }) : ({...player, action: {...player.action, isActive: false}}))
+                                             action: {isActive: true, isRecent: true}
+                                         }) : ({
+                                             ...player,
+                                             action: {isActive: false, isRecent: false}
+                                         })),
+                                         opponentTeamRosters: match.matchPlayers.opponentTeamRosters.map(player => ({
+                                             ...player,
+                                             action: {isActive: false, isRecent: false}
+                                         }))
                                      }
                                  })}
                                  className={` ${roster?.action?.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>
@@ -309,33 +357,33 @@ export default function GameBoardView({
                         <div className="my-5">
                             <div className="grid grid-cols-6 gap-1">
                                 <div
-                                    onClick={() => _handleActions(POINT_MADE, 2)}
+                                    onClick={() => _handleActions(POINT_MADE, {points: 2})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>2 Points</b>
                                     <span>Made</span>
                                 </div>
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "2 point missed")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: MISS, message: "2 point missed"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>2 Points</b>
                                     <span>Miss</span>
                                 </div>
 
                                 <div
-                                    onClick={() => _handleActions(POINT_MADE, 3)}
+                                    onClick={() => _handleActions(POINT_MADE, {points: 3})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>3 Points</b>
                                     <span>Made</span>
                                 </div>
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "3 point missed")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: MISS, message: "3 point missed"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>3 Points</b>
                                     <span>Miss</span>
                                 </div>
 
                                 <div
-                                    onClick={() => _handleActions(POINT_MADE, 1)}
+                                    onClick={() => _handleActions(POINT_MADE, {points: 1})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>1 Point</b>
                                     <span>Made</span>
@@ -349,54 +397,61 @@ export default function GameBoardView({
                             </div>
                             <div className="grid grid-cols-6 gap-1 my-1">
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Assist")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: ASSIST, message: "Assist"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex items-center justify-center">
                                     <b>Assist</b>
                                 </div>
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Rebound Offense")}
+                                    onClick={() => _handleActions(ACTIVITY, {
+                                        name: REBOUND,
+                                        message: "Rebound Offense"
+                                    })}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Rebound</b>
                                     <span>Offense</span>
                                 </div>
 
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Rebound Defense")}
+                                    onClick={() => _handleActions(ACTIVITY, {
+                                        name: REBOUND,
+                                        message: "Rebound Defense"
+                                    })}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Rebound</b>
                                     <span>Defense</span>
                                 </div>
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Steal")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: STEAL, message: "Steal"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Steal</b>
                                 </div>
                                 <div
+                                    onClick={() => _handleActions(ACTIVITY, {name: BLOCK, message: "Bock"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Block</b>
                                 </div>
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Turnover")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: TURNOVER, message: "Turnover"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Turnover</b>
                                 </div>
                             </div>
                             <div className="grid grid-cols-6 gap-1">
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Foul Offense")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: TURNOVER, message: "Foul Offense"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Foul</b>
                                     <span>Offense</span>
                                 </div>
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Foul Defense")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: FOUL, message: "Foul Defense"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Foul</b>
                                     <span>Defense</span>
                                 </div>
 
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, "Charge")}
+                                    onClick={() => _handleActions(ACTIVITY, {name: CHARGE, message: "Charge"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex justify-center items-center">
                                     <b>Charge</b>
                                 </div>
@@ -445,13 +500,23 @@ export default function GameBoardView({
                             <div key={roster.id}
                                  onClick={() => changeMatchState("match", {
                                      ...match,
-                                     recentAction: {actionFor: OPPONENTS_TEAM_ROSTERS},
+                                     matchDetails: {
+                                         ...match.matchDetails,
+                                         recentAction: {team: OPPONENTS_TEAM_ROSTERS}
+                                     },
                                      matchPlayers: {
                                          ...match.matchPlayers,
+                                         mainTeamRosters: match.matchPlayers.mainTeamRosters.map(player => ({
+                                             ...player,
+                                             action: {isActive: false, isRecent: false}
+                                         })),
                                          opponentTeamRosters: match.matchPlayers.opponentTeamRosters.map(player => player.id === roster.id ? ({
                                              ...player,
-                                             action: {...player.action, isActive: true}
-                                         }) : ({...player, action: {...player.action, isActive: false}}))
+                                             action: {isActive: true, isRecent: true}
+                                         }) : ({
+                                             ...player,
+                                             action: {isActive: false, isRecent: false}
+                                         })),
                                      }
                                  })}
                                  className={` ${roster?.action?.isActive ? "bg-primary hover:bg-secondary text-white" : "bg-light hover:bg-primary"}  cursor-pointer hover:text-white rounded py-5 text-center text-xl font-sans mb-2`}>

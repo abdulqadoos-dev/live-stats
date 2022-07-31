@@ -8,9 +8,10 @@ import {
 
 import * as authApi from '../apis/authApi';
 import {
-     LOCAL_STORAGE_AUTH_USER,
+    FAN_ROLE_ID, FANS_PATH,
+    LOCAL_STORAGE_AUTH_USER,
     LOGIN_PATH, SETUP_PROFILE_PATH,
-    STATUS_CODE_400, TEAMS_PATH,
+    STATUS_CODE_400, TEAM_ROLE_ID, TEAMS_PATH,
 } from "../constants/Constans";
 import {requestStart} from "./appActions";
 
@@ -123,7 +124,14 @@ export const loginRequest = (formData, navigate) => {
             .then((result) => {
                 dispatch(loginSuccess(result.data));
                 window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(result.data));
-                result?.data?.user?.profile ? navigate(TEAMS_PATH) : navigate(SETUP_PROFILE_PATH);
+                if (result?.data?.user?.profile) {
+                    switch (result.data.user.roleId) {
+                        case FAN_ROLE_ID :
+                            return navigate(FANS_PATH)
+                        case TEAM_ROLE_ID :
+                            return navigate(TEAMS_PATH)
+                    }
+                } else navigate(SETUP_PROFILE_PATH);
             })
             .catch((error) => {
                 error.status === STATUS_CODE_400 ? dispatch(loginFailed(error.data)) : dispatch(loginFailed({error: "Invalid credentials"}));

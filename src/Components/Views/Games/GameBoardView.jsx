@@ -153,19 +153,19 @@ export default function GameBoardView({
                         return current.filter(c => c.name === FOUL).length
                     }, 0);
 
-                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? MAIN_TEAM : OPPONENT_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount >= 10 ? {
+                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount >= 10 ? {
                         ...team,
                         bonusPlus: true
                     } : foulsCount >= 7 ? {...team, bonus: true} : team : team);
 
-                    console.log(foulsCount, match.matchDetails.recentAction.team, "bonus check")
+                    // console.log(teamRostersActivity,foulsCount, match.matchDetails.recentAction.team, OPPONENTS_TEAM_ROSTERS,"bonus check")
 
                     changeMatchState("match", {
                         ...match,
                         matchDetails: {
                             ...match.matchDetails,
-                            mainTeam: match.matchDetails.recentAction.team === TEAM_ROSTERS ? bonusCheck : match.matchDetails.mainTeam,
-                            opponentTeam: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? bonusCheck : match.matchDetails.opponentTeam,
+                            mainTeam: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? bonusCheck : match.matchDetails.mainTeam,
+                            opponentTeam: match.matchDetails.recentAction.team === TEAM_ROSTERS ? bonusCheck : match.matchDetails.opponentTeam,
                             recentAction: {
                                 team: match.matchDetails.recentAction.team,
                                 action: ACTIVITY,
@@ -185,7 +185,7 @@ export default function GameBoardView({
                 let matchDetails = match.matchDetails[payload.team].map(details => details.half === match.matchDetails.activeHalf ? {
                     ...details,
                     isActiveMakeSub: payload.name === MAKE_SUB ? !details.isActiveMakeSub : details.isActiveMakeSub,
-                    timeouts: payload.name === TIMEOUTS ? payload.isPlusTimeout ? details.timeouts + 1 : details.timeouts - 1 : details.timeouts,
+                    timeouts: payload.name === TIMEOUTS ? payload.isPlusTimeout ? details.timeouts <= 4 ? details.timeouts + 1 : details.timeouts : details.timeouts > 0 ? details.timeouts - 1 : details.timeouts : details.timeouts,
                     bonus: payload.name === BONUS ? !details.bonus : details.bonus,
                     bonusPlus: payload.name === BONUS_PLUS ? !details.bonusPlus : details.bonusPlus,
                 } : details)
@@ -227,7 +227,7 @@ export default function GameBoardView({
                         return current.filter(c => c.name === FOUL).length
                     }, 0);
 
-                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? MAIN_TEAM : OPPONENT_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount < 7 ? {
+                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount < 7 ? {
                         ...team,
                         bonus: false
                     } : foulsCount < 10 ? {
@@ -240,8 +240,8 @@ export default function GameBoardView({
                         matchDetails: {
                             ...match.matchDetails,
                             recentAction: null,
-                            mainTeam: match.matchDetails.recentAction.team === TEAM_ROSTERS ? bonusCheck : match.matchDetails.mainTeam,
-                            opponentTeam: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? bonusCheck : match.matchDetails.opponentTeam
+                            mainTeam: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? bonusCheck : match.matchDetails.mainTeam,
+                            opponentTeam: match.matchDetails.recentAction.team === TEAM_ROSTERS ? bonusCheck : match.matchDetails.opponentTeam
                         },
                         matchPlayers: {
                             ...match.matchPlayers,
@@ -330,7 +330,9 @@ export default function GameBoardView({
                             Make Sub
                         </div>
 
-                        <div className="flex items-center timeout-buttons-group mt-5">
+                        <div className="flex items-center timeout-buttons-group mt-5 relative z-10">
+                            {match?.matchDuration.isClockStarted && (
+                                <div className="bg-white opacity-30 h-full w-full absolute"/>)}
                             <div
                                 onClick={(e) => _handleActions(DETAILS, {
                                     name: TIMEOUTS,
@@ -560,7 +562,9 @@ export default function GameBoardView({
                             Make Sub
                         </div>
 
-                        <div className="flex items-center timeout-buttons-group mt-5">
+                        <div className="flex items-center timeout-buttons-group mt-5 relative z-10">
+                            {match?.matchDuration.isClockStarted && (
+                                <div className="bg-white opacity-30 h-full w-full absolute"/>)}
                             <div
                                 onClick={(e) => _handleActions(DETAILS, {
                                     name: TIMEOUTS,

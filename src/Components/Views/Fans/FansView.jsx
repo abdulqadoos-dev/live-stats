@@ -16,7 +16,7 @@ const FansView = (props) => {
 						<div className="block p-6 rounded-lg shadow-lg bg-light max-w-sm mx-4">
 							<div className="flex justify-between font-sans font-semibold text-secondary-light ">
 								<p>
-									{capitalizeFirstLetter("girls")} {capitalizeFirstLetter("BBall")}
+									{capitalizeFirstLetter("girls")} {capitalizeFirstLetter("Ball")}
 								</p>
 								<p>FINAL</p>
 							</div>

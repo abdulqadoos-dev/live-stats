@@ -46,7 +46,7 @@ export default function GameBoardView({
         });
     }, [])
 
-    // console.log({match}, "match....")
+    // console.log(match?.matchDetails, "match details....")
 
     const numberOfHalf = [
         {label: 1, value: FIRST_HALF, time: "10"},
@@ -148,11 +148,24 @@ export default function GameBoardView({
                         ...player,
                         action: {...player.action, isActive: false, isRecent: false}
                     }))
-                    // console.log(teamRostersActivity, "teamRostersActivity")
+
+                    let foulsCount = teamRostersActivity.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity).reduce((acc, current) => {
+                        return current.filter(c => c.name === FOUL).length
+                    }, 0);
+
+                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? MAIN_TEAM : OPPONENT_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount >= 10 ? {
+                        ...team,
+                        bonusPlus: true
+                    } : foulsCount >= 7 ? {...team, bonus: true} : team : team);
+
+                    console.log(foulsCount, match.matchDetails.recentAction.team, "bonus check")
+
                     changeMatchState("match", {
                         ...match,
                         matchDetails: {
                             ...match.matchDetails,
+                            mainTeam: match.matchDetails.recentAction.team === TEAM_ROSTERS ? bonusCheck : match.matchDetails.mainTeam,
+                            opponentTeam: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? bonusCheck : match.matchDetails.opponentTeam,
                             recentAction: {
                                 team: match.matchDetails.recentAction.team,
                                 action: ACTIVITY,
@@ -209,9 +222,27 @@ export default function GameBoardView({
                             } : player)
                             break
                     }
+
+                    let foulsCount = rosters.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity).reduce((acc, current) => {
+                        return current.filter(c => c.name === FOUL).length
+                    }, 0);
+
+                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? MAIN_TEAM : OPPONENT_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount < 7 ? {
+                        ...team,
+                        bonus: false
+                    } : foulsCount < 10 ? {
+                        ...team,
+                        bonusPlus: false
+                    } : team : team);
+
                     changeMatchState("match", {
                         ...match,
-                        matchDetails: {...match.matchDetails, recentAction: null},
+                        matchDetails: {
+                            ...match.matchDetails,
+                            recentAction: null,
+                            mainTeam: match.matchDetails.recentAction.team === TEAM_ROSTERS ? bonusCheck : match.matchDetails.mainTeam,
+                            opponentTeam: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? bonusCheck : match.matchDetails.opponentTeam
+                        },
                         matchPlayers: {
                             ...match.matchPlayers,
                             mainTeamRosters: match.matchDetails.recentAction.team === TEAM_ROSTERS ? rosters : match.matchPlayers.mainTeamRosters,
@@ -221,7 +252,7 @@ export default function GameBoardView({
                 }
                 break
         }
-        updateMatchRequest(match, navigate)
+        // updateMatchRequest(match, navigate)
     }
 
     return (
@@ -438,7 +469,7 @@ export default function GameBoardView({
                             </div>
                             <div className="grid grid-cols-6 gap-1">
                                 <div
-                                    onClick={() => _handleActions(ACTIVITY, {name: TURNOVER, message: "Foul Offense"})}
+                                    onClick={() => _handleActions(ACTIVITY, {name: FOUL, message: "Foul Offense"})}
                                     className="bg-secondary-light hover:bg-secondary text-light text-center rounded py-3 cursor-pointer flex flex-col">
                                     <b>Foul</b>
                                     <span>Offense</span>
@@ -565,6 +596,8 @@ export default function GameBoardView({
                                 uncheckedIcon={false}
                                 checkedIcon={false}
                             />
+                            {/*{console.log(match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).bonus, match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).bonusPlus, "check bounces opponent")}*/}
+                            {/*{console.log(match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).bonus, match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).bonusPlus, "check bounces main")}*/}
                         </div>
 
                         <div className="flex items-center justify-between">

@@ -84,6 +84,10 @@
         @apply rotate-180
     }
 
+    .timeout-buttons-group svg{
+        @apply stroke-white w-10 h-7
+    }
+
 }
 
 

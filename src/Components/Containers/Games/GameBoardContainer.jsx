@@ -18,9 +18,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeMatchState: (key,value) => dispatch(changeMatchState(key,value)),
-        getMatchRequest: (formData,navigation) => dispatch(getMatchRequest(formData,navigation)),
-        updateMatchRequest: (formData,navigation) => dispatch(updateMatchRequest(formData,navigation)),
+        changeMatchState: (key, value) => dispatch(changeMatchState(key, value)),
+        getMatchRequest: (id, navigation) => dispatch(getMatchRequest(id, navigation)),
+        updateMatchRequest: (formData, navigation) => dispatch(updateMatchRequest(formData, navigation)),
     }
 }
 

@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {
     GAMES_FORM_PATH,
     ROSTERS_EDIT_PATH,
-    LOCAL_STORAGE_AUTH_USER, GAMES,
+    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH,
 } from "../../../state/constants/Constans";
 
 import Footer from "../../Ui/Footer";
@@ -53,7 +53,12 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
 
                         <div className="w-full col-span-2">
                             {
-                                games?.map((game, i) => <div key={i} className="bg-light rounded-xl p-4 my-2">
+                                games?.map((game, i) => <div key={i}
+                                                             onClick={() => {
+                                                                 changeGameSate("selectedGame", game)
+                                                                 navigate(GAMES_BOARD_PATH)
+                                                             }}
+                                                             className="bg-light rounded-xl p-4 my-2 cursor-pointer hover:shadow transition">
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">
                                             <p>{capitalizeFirstLetter(game?.mainTeam?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
                                             <p>FINAL</p>

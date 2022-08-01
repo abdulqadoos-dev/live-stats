@@ -158,7 +158,6 @@ export default function GameBoardView({
                         bonusPlus: true
                     } : foulsCount >= 7 ? {...team, bonus: true} : team : team);
 
-                    // console.log(teamRostersActivity,foulsCount, match.matchDetails.recentAction.team, OPPONENTS_TEAM_ROSTERS,"bonus check")
 
                     changeMatchState("match", {
                         ...match,
@@ -190,7 +189,6 @@ export default function GameBoardView({
                     bonusPlus: payload.name === BONUS_PLUS ? !details.bonusPlus : details.bonusPlus,
                 } : details)
 
-                // console.log(matchDetails, "updatedMatchDetails")
                 changeMatchState("match", {
                     ...match,
                     matchDetails: {...match.matchDetails, [payload.team]: matchDetails}
@@ -199,7 +197,6 @@ export default function GameBoardView({
 
             case UNDO_STATS :
                 if (match?.matchDetails?.recentAction?.action) {
-                    console.log(match?.matchDetails?.recentAction, "undo stats")
                     const {action} = match.matchDetails.recentAction;
                     let rosters = []
                     switch (action) {
@@ -269,7 +266,8 @@ export default function GameBoardView({
                     title="Do you want to send stats?"
                     className="px-0 py-5 "
                     buttonLabel="Done"
-                    clickEvent={_handelEndGame}
+                    isDisabledButton={!stats?.homeEmail && !stats?.awayEmail}
+                    clickEvent={stats?.homeEmail && stats?.awayEmail ? _handelEndGame : null}
                 >
                     <div className="mt-2">
 

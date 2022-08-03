@@ -16,8 +16,9 @@ export default function HomeView(){
         // CLEAN UP THE EFFECT
         // return () => {socket.disconnect()};
     }, []);
+
     useEffect(() => {
-        // navigate(TEAMS_PATH)
+        navigate(TEAMS_PATH)
     },[])
 
     return(

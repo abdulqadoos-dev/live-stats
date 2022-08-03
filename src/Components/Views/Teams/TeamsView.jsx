@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {
     GAMES_FORM_PATH,
     ROSTERS_EDIT_PATH,
-    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH,
+    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH, FAN_ROLE_ID, FANS_PATH,
 } from "../../../state/constants/Constans";
 
 import Footer from "../../Ui/Footer";
@@ -19,7 +19,7 @@ import StartGameContainer from "../../Containers/Games/StartGameContainer";
 const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => {
 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-
+    console.log(user.roleId, "fadsfsafsdafasd")
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -56,7 +56,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                 games?.map((game, i) => <div key={i}
                                                              onClick={() => {
                                                                  changeGameSate("selectedGame", game)
-                                                                 navigate(GAMES_BOARD_PATH)
+                                                                 user.roleId === FAN_ROLE_ID ? navigate(FANS_PATH) : navigate(GAMES_BOARD_PATH)
                                                              }}
                                                              className="bg-light rounded-xl p-4 my-2 cursor-pointer hover:shadow transition">
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">

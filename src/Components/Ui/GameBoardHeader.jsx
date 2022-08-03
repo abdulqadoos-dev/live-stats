@@ -1,8 +1,10 @@
 import React from "react";
 import {ReactSVG} from "react-svg";
 import chevron from "../../Media/icons/chevron-right.svg"
+import { LOCAL_STORAGE_AUTH_USER, TEAM_ROLE_ID} from "../../state/constants/Constans";
 
 export default function GameBoardHeader({match, changeMatchState, numberOfHalf, calculateTeamHalf}) {
+    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     return (
         <div className="bg-secondary pb-2 lg:p-3 text-white">
@@ -11,6 +13,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                     <div><span className="cursor-pointer flex items-center back-action">
                             <ReactSVG src={chevron}/> Back</span>
                     </div>
+                    {user.roleId === TEAM_ROLE_ID }
                     <div><span className="cursor-pointer flex items-center" onClick={() =>
                         changeMatchState("match", {
                             ...match,

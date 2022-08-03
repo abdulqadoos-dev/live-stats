@@ -249,7 +249,7 @@ export default function GameBoardView({
                 }
                 break
         }
-        // updateMatchRequest(match, navigate)
+        updateMatchRequest(match, navigate)
     }
 
     return (

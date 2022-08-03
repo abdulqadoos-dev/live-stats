@@ -16,6 +16,7 @@ import {ReactSVG} from "react-svg";
 import plus from "../../../Media/icons/plus.svg";
 import minus from "../../../Media/icons/minus.svg";
 import Switch from "react-switch";
+import * as matchApi from "./../../../../src/state/apis/matchApi";
 
 
 export default function GameBoardView({
@@ -57,6 +58,7 @@ export default function GameBoardView({
     ]
 
     const _handelEndGame = () => {
+        matchApi.endMatch(match.id, {homeEmail:stats.homeEmail, awayEmail:stats.awayEmail})
         changeMatchState("match", {
             ...match,
             matchDuration: {

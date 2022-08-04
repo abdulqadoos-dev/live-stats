@@ -11,6 +11,7 @@ import {
     THIRD_HALF
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
+import io from "socket.io-client";
 
 const FansView = ({
                       getMatchRequest,
@@ -24,19 +25,30 @@ const FansView = ({
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!selectedGame?.id) return navigate(TEAMS_PATH);
-        const promise = getMatchRequest(selectedGame.id, navigate)
+        // if (!selectedGame?.id) return navigate(TEAMS_PATH);
+        // const promise = getMatchRequest(selectedGame.id, navigate)
+        const socket = io.connect('http://127.0.0.1:5000');
+        const gameid = 1;
+        const promise = getMatchRequest(gameid, navigate)
         promise.then((result) => {
             if (result?.data?.matches[0]) {
                 let arr = {...result.data.matches[0]}
                 arr.game = selectedGame
                 changeMatchState("match", arr)
+                socket.emit('request_game_data', {gameId:gameid})
+                socket.on("get_game_data", data => {
+                    let arr = {...data.match[0]}
+                    arr.game = selectedGame
+                    changeMatchState("match", arr)
+                });
             } else {
                 navigate(TEAMS_PATH)
             }
         }).catch((error) => {
             navigate(TEAMS_PATH)
         });
+        
+       
     }, [])
 
 

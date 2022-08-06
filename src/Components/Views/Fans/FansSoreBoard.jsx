@@ -3,6 +3,7 @@ import Footer from "../../Ui/Footer";
 import GameBoardHeader from "../../Ui/GameBoardHeader";
 import Wrapper from "../../Ui/Form/Wrapper";
 import {
+    FANS_PATH,
     FIRST_HALF,
     FOURTH_HALF,
     MATCH_HALF,
@@ -42,10 +43,10 @@ const FansSoreBoard = ({
                     changeMatchState("match", arr)
                 });
             } else {
-                navigate(TEAMS_PATH)
+                navigate(FANS_PATH)
             }
         }).catch((error) => {
-            navigate(TEAMS_PATH)
+            navigate(FANS_PATH)
         });
 
 

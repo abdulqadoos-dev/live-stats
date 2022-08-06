@@ -34,16 +34,10 @@ export const getGamesRequest = (profileId, navigate) => {
         dispatch(requestStart());
 
         const promise = gamesApi.getGames(profileId)
-
         promise.then((result) => {
-
             dispatch({type: GETTING_GAMES_SUCCESS, ...result.data})
-
         }).catch((error) => {
-
             dispatch({type: GETTING_GAMES_FAILED, error: "Request Failed Try again!"});
-            // navigate(GAMES_PATH)
-
         });
 
         return promise

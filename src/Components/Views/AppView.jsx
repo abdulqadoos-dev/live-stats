@@ -49,6 +49,7 @@ import GameFormContainer from "../Containers/Games/GameFormContainer";
 import HomeContainer from "../Containers/HomeContainer";
 import GameBoardContainer from "../Containers/Games/GameBoardContainer";
 import FansContainers from "../Containers/Fans/FansContainers";
+import FanScoreBoardContainer from "../Containers/Fans/FanScoreBoardContainer";
 
 
 export default function AppView(props) {
@@ -188,7 +189,7 @@ export default function AppView(props) {
 
                         <Route path={FANS_GAME_BOARD_PATH} element={
                             <FanProtectedRoutes isLoggedIn={isLoggedIn} user={authUser?.user || {}}>
-                                <FansContainers/>
+                                <FanScoreBoardContainer/>
                             </FanProtectedRoutes>
                         }
                         />

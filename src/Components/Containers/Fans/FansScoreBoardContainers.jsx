@@ -1,11 +1,11 @@
 import React from "react";
 import {connect} from "react-redux"
 import {changeMatchState, getMatchRequest, updateMatchRequest} from "../../../state/actions/matchActions";
-import FansView from "../../Views/Fans/FansView";
+import FansSoreBoard from "../../Views/Fans/FansSoreBoard";
 
 const FansContainer = (props) => {
     return (
-        <FansView {...props}/>
+        <FansSoreBoard {...props}/>
     )
 }
 const mapStateToProps = state => {

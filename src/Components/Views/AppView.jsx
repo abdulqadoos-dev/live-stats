@@ -48,7 +48,7 @@ import GameContainer from "../Containers/Games/GamesContainer";
 import GameFormContainer from "../Containers/Games/GameFormContainer";
 import HomeContainer from "../Containers/HomeContainer";
 import GameBoardContainer from "../Containers/Games/GameBoardContainer";
-import FansContainers from "../Containers/Fans/FansContainers";
+import FansContainers from "../Containers/Fans/FansScoreBoardContainers";
 
 
 export default function AppView(props) {

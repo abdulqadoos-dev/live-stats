@@ -13,7 +13,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import io from "socket.io-client";
 
-const FansView = ({
+const FansSoreBoard = ({
                       getMatchRequest,
                       updateMatchRequest,
                       changeMatchState,
@@ -147,4 +147,4 @@ const FansView = ({
     );
 };
 
-export default FansView;
+export default FansSoreBoard;

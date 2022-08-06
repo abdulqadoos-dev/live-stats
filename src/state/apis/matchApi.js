@@ -7,10 +7,6 @@ export const createMatch = (formData) => {
 export const updateMatch = (formData) => {
     return api.post(`/match/update/${formData.id}`, formData)
 }
-//
-// export const getGameById = (id) => {
-//     return api.get(`/matches/game/${id}`)
-// }
 
 export const getMatchByGameId = (id) => {
     return api.get(`/matches/game/${id}`)

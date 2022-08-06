@@ -88,6 +88,18 @@
         @apply stroke-white w-10 h-7
     }
 
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Used For Firefox: */
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
+    /* Used For MS Edge and IE: */
+    .no-scrollbar {
+        -ms-overflow-style: none;
+    }
+
 }
 
 

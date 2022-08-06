@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux"
-import {changeMatchState, getMatchRequest, updateMatchRequest} from "../../../state/actions/matchActions";
+import {changeMatchState, updateMatchRequest} from "../../../state/actions/matchActions";
 import FansView from "../../Views/Fans/FansView";
+import {changeGameState, getGamesRequest} from "../../../state/actions/gameActions";
 
 const FansContainer = (props) => {
     return (
@@ -19,7 +20,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         changeMatchState: (key, value) => dispatch(changeMatchState(key, value)),
-        getMatchRequest: (id, navigation) => dispatch(getMatchRequest(id, navigation)),
+        getGamesRequest: formData => dispatch(getGamesRequest(formData)),
+        changeGameSate : (key,value) => dispatch(changeGameState(key,value)),
         updateMatchRequest: (formData, navigation) => dispatch(updateMatchRequest(formData, navigation)),
     }
 }

@@ -89,15 +89,13 @@ export const getMatchRequest = (id, navigate) => {
 
         dispatch(requestStart());
         const promise = matchApi.getMatchByGameId(id)
-        // promise.then((result) => {
-        //     if (result?.data?.matches[0]) {
-        //         dispatch({type: GETTING_MATCH_SUCCESS, match: {...result.data.matches[0]}})
-        //     } else {
-        //         navigate(TEAMS_PATH)
-        //     }
-        // }).catch((error) => {
-        //     dispatch({type: GETTING_MATCH_FAILED, error: "Request Failed Try again!"});
-        // });
+        promise.then((result) => {
+            if (result?.data?.matches) {
+                dispatch({type: GETTING_MATCH_SUCCESS, matches: result.data.matches})
+            }
+        }).catch((error) => {
+            dispatch({type: GETTING_MATCH_FAILED, error: "Request Failed Try again!"});
+        });
 
         return promise
 

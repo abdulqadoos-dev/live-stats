@@ -56,7 +56,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                 games?.map((game, i) => <div key={i}
                                                              onClick={() => {
                                                                  changeGameSate("selectedGame", game)
-                                                                 user.roleId === FAN_ROLE_ID ? navigate(FANS_PATH) : navigate(GAMES_BOARD_PATH)
+                                                                 navigate(GAMES_BOARD_PATH)
                                                              }}
                                                              className="bg-light rounded-xl p-4 my-2 cursor-pointer hover:shadow transition">
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">

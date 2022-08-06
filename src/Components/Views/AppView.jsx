@@ -23,7 +23,7 @@ import {
     GAMES_PATH,
     GAMES_FORM_PATH,
     GAMES_BOARD_PATH,
-    FANS_PATH
+    FANS_PATH, FANS_GAME_BOARD_PATH
 } from "../../state/constants/Constans";
 
 import AuthRoutes from "../Includes/AuthRoutes";
@@ -55,7 +55,7 @@ export default function AppView(props) {
 
     // console.log({isLoggedIn}, props.auth, "AUTH STATE");
     // console.info(props.profile.formData, "STATE");
-    // console.info(props, "STATE");
+    console.info(props, "STATE");
     // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 
     const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
@@ -83,7 +83,7 @@ export default function AppView(props) {
                         <Route path={ROSTERS_EDIT_PATH} element={
                             <ProtectedRoutes isLoggedIn={isLoggedIn}>
                                 {/*roster edit container*/}
-                                <RosterEditContainer />
+                                <RosterEditContainer/>
                             </ProtectedRoutes>
                         }/>
 
@@ -181,7 +181,14 @@ export default function AppView(props) {
                         {/* Fans Route */}
                         <Route path={FANS_PATH} element={
                             <FanProtectedRoutes isLoggedIn={isLoggedIn} user={authUser?.user || {}}>
-                                <FansContainers />
+                                <FansContainers/>
+                            </FanProtectedRoutes>
+                        }
+                        />
+
+                        <Route path={FANS_GAME_BOARD_PATH} element={
+                            <FanProtectedRoutes isLoggedIn={isLoggedIn} user={authUser?.user || {}}>
+                                <FansContainers/>
                             </FanProtectedRoutes>
                         }
                         />

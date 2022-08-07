@@ -82,3 +82,22 @@ export const verifyScheduleTime = (formData) => {
 export const getTeams = () => {
     return getAllTeams()
 }
+
+export const getGamesBySportRequest = (sportId, navigate) => {
+
+    return (dispatch) => {
+
+        dispatch(requestStart());
+
+        const promise = gamesApi.getGamesBySportId(sportId)
+        promise.then((result) => {
+            dispatch({type: GETTING_GAMES_SUCCESS, ...result.data})
+        }).catch((error) => {
+            dispatch({type: GETTING_GAMES_FAILED, error: "Request Failed Try again!"});
+        });
+
+        return promise
+
+    }
+
+}

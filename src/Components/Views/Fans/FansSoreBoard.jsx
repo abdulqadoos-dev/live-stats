@@ -13,6 +13,7 @@ import {
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 import io from "socket.io-client";
+import { capitalizeFirstLetter } from "../../../Services/Helper";
 
 const FansSoreBoard = ({
                            getMatchRequest,
@@ -26,17 +27,15 @@ const FansSoreBoard = ({
     const navigate = useNavigate();
 
     useEffect(() => {
-        // if (!selectedGame?.id) return navigate(TEAMS_PATH);
-        // const promise = getMatchRequest(selectedGame.id, navigate)
+        if (!selectedGame?.id) return navigate(FANS_PATH);
+        const promise = getMatchRequest(selectedGame.id, navigate)
         const socket = io.connect('http://127.0.0.1:5000');
-        const gameid = 1;
-        const promise = getMatchRequest(gameid, navigate)
         promise.then((result) => {
             if (result?.data?.matches[0]) {
                 let arr = {...result.data.matches[0]}
                 arr.game = selectedGame
                 changeMatchState("match", arr)
-                socket.emit('request_game_data', {gameId:gameid})
+                socket.emit('request_game_data', {gameId:selectedGame.id})
                 socket.on("get_game_data", data => {
                     let arr = {...data.match[0]}
                     arr.game = selectedGame
@@ -49,8 +48,10 @@ const FansSoreBoard = ({
             navigate(FANS_PATH)
         });
 
-
-    }, [])
+        // CLEAN UP THE EFFECT
+        return () => socket.disconnect();
+        //
+    }, [selectedGame])
 
 
     const numberOfHalf = [
@@ -71,6 +72,36 @@ const FansSoreBoard = ({
         return total
     }
 
+    const _showActivitiesOfMatch = () => {
+        let activities = [];
+        if(match?.matchPlayers?.mainTeamRosters && match?.matchPlayers?.opponentTeamRosters){
+            match.matchPlayers.mainTeamRosters.forEach(player => {
+                player.activities.forEach(activity => {
+                    if(activity.activity.reverse()?.[0]?.message){
+                        activities.push({
+                            name: player.name,
+                            half: activity.half,
+                            activity: activity.activity.reverse()?.[0]?.message || ''
+                        })
+                    }
+                })
+            })
+            match.matchPlayers.opponentTeamRosters.forEach(player => {
+                player.activities.forEach(activity => {
+                    if(activity.activity.reverse()?.[0]?.message){
+                        activities.push({
+                            name: player.name,
+                            half: activity.half,
+                            activity: activity.activity.reverse()?.[0]?.message || ''
+                        })
+                    }
+                })
+            })
+            
+        }
+        return activities
+    }
+
     return (
         <>
             <GameBoardHeader
@@ -86,15 +117,20 @@ const FansSoreBoard = ({
 
                         <div className="my-5">
                             <div className="bg-secondary-light text-white font-bold py-1 px-4 rounded">Play by play</div>
-                            <div className="flex items-center gap-4 p-3">
-                                <p className="font-bold text-secondary-light text-lg">6:23 - 1st</p>
-                                <div className="rounded-full h-10 w-10 border"></div>
-                                <p className="font-bold text-secondary-light text-lg"> <i>j smith</i> made 2-pt. shot </p>
-                            </div>
+                            {
+                                _showActivitiesOfMatch().map((activity, index) => (
+                                    <div key={index} className="flex items-center gap-4 p-3">
+                                        <p className="font-bold text-secondary-light text-lg">6:23 - {activity.half}</p>
+                                        <div className="rounded-full h-10 w-10 border"></div>
+                                        <p className="font-bold text-secondary-light text-lg"> <i>{capitalizeFirstLetter(activity.name)}.</i> {activity.activity} </p>
+                                    </div>
+                                ))
+                            }
+                            
                         </div>
 
                         <div className="my-5">
-                            <h1 className="text-2xl uppercase font-bold my-2">team 1 name</h1>
+                            <h1 className="text-2xl uppercase font-bold my-2">{match?.game?.mainTeam?.name || "team 1 name"}</h1>
                             <div className="bg-secondary-light text-white font-bold py-1 px-4 rounded grid grid-cols-9">
                                 <p className="col-span-3">NAME</p>
                                 <p>MIN</p>
@@ -105,27 +141,48 @@ const FansSoreBoard = ({
                                 <p>PTS</p>
                             </div>
 
-                            <div className="bg-light text-secondary-light font-bold py-2 px-4 rounded grid grid-cols-9">
-                                <p className="col-span-3"> <b>12</b> Name here</p>
-                                <p>10</p>
-                                <p>5-7</p>
-                                <p>0-2</p>
-                                <p>3</p>
-                                <p>2</p>
-                                <p>10</p>
+                            {
+                                match?.matchPlayers?.mainTeamRosters && 
+                                match.matchPlayers.mainTeamRosters.map((player, index) => (
+                                    <div key={index} className="bg-light text-secondary-light font-bold py-2 px-4 rounded grid grid-cols-9">
+                                        <p className="col-span-3"> <b>{player.number}</b> {player.name}</p>
+                                        <p>10</p>
+                                        <p>5-7</p>
+                                        <p>0-2</p>
+                                        <p>3</p>
+                                        <p>2</p>
+                                        <p>10</p>
+                                    </div>
+                                ))
+                            }
+                        </div>
+
+                        <div className="my-5">
+                            <h1 className="text-2xl uppercase font-bold my-2">{match?.game?.opponentTeam?.name || "team 2 name"}</h1>
+                            <div className="bg-secondary-light text-white font-bold py-1 px-4 rounded grid grid-cols-9">
+                                <p className="col-span-3">NAME</p>
+                                <p>MIN</p>
+                                <p>FG</p>
+                                <p>3-PT</p>
+                                <p>REB</p>
+                                <p>AST</p>
+                                <p>PTS</p>
                             </div>
 
-                            <div className="bg-white text-secondary-light font-bold py-1 px-4 rounded grid grid-cols-9">
-                                <p className="col-span-3"> <b>12</b> Name here</p>
-                                <p>10</p>
-                                <p>5-7</p>
-                                <p>0-2</p>
-                                <p>3</p>
-                                <p>2</p>
-                                <p>10</p>
-                            </div>
-
-
+                            {
+                                match?.matchPlayers?.opponentTeamRosters && 
+                                match.matchPlayers.opponentTeamRosters.map((player, index) => (
+                                    <div key={index} className="bg-light text-secondary-light font-bold py-2 px-4 rounded grid grid-cols-9">
+                                        <p className="col-span-3"> <b>{player.number}</b> {player.name}</p>
+                                        <p>10</p>
+                                        <p>5-7</p>
+                                        <p>0-2</p>
+                                        <p>3</p>
+                                        <p>2</p>
+                                        <p>10</p>
+                                    </div>
+                                ))
+                            }
                         </div>
 
                     </div>

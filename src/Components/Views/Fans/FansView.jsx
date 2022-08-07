@@ -12,14 +12,13 @@ import {
     THIRD_HALF
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
-import io from "socket.io-client";
 import {data} from "autoprefixer";
 
-const FansView = ({getGamesRequest, games, changeGameSate}) => {
+const FansView = ({getGamesBySportRequest, games, changeGameSate}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getGamesRequest(1 || null, navigate)
+        getGamesBySportRequest(1 || null, navigate)
     }, [])
 
     return (

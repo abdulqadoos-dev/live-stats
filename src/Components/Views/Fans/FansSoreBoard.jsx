@@ -29,7 +29,7 @@ const FansSoreBoard = ({
     useEffect(() => {
         if (!selectedGame?.id) return navigate(FANS_PATH);
         const promise = getMatchRequest(selectedGame.id, navigate)
-        const socket = io.connect('http://127.0.0.1:5000');
+        const socket = io.connect(process.env.REACT_APP_SERVER_PATH);
         promise.then((result) => {
             if (result?.data?.matches[0]) {
                 let arr = {...result.data.matches[0]}

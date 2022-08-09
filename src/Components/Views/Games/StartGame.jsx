@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 
 import {useNavigate} from "react-router-dom";
-import {capitalizeFirstLetter} from "../../../Services/Helper";
+import {capitalizeFirstLetter, numberOfHalf} from "../../../Services/Helper";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
     LOCAL_STORAGE_AUTH_USER,
@@ -33,13 +33,7 @@ export default function StartGame({
         selectedGame && changeGameSate("startGameModal", {...startGameModal, isDisabledButton: false})
     }, [selectedGame])
 
-    const numberOfHalf = [
-        {label: 1, value: FIRST_HALF, time: "10"},
-        {label: 2, value: SECOND_HALF, time: "12"},
-        {label: "H", value: MATCH_HALF, time: "14"},
-        {label: 3, value: THIRD_HALF, time: "15"},
-        {label: 4, value: FOURTH_HALF, time: "16"}
-    ]
+    const time = new Date();
 
     const _handleModelClickEvent = (action) => {
         switch (action) {
@@ -51,8 +45,8 @@ export default function StartGame({
                 let formData = {
                     gameId: selectedGame.id,
                     matchDuration: {
-                        isMatchStarted: true,
-                        isClockStarted: true,
+                        isMatchStarted: false,
+                        isClockStarted: false,
                     },
                     matchPlayers: {
                         mainTeamRosters: [...selectedTeamRosters.map(player => ({
@@ -74,7 +68,7 @@ export default function StartGame({
                     },
                     matchDetails: {
                         activeHalf: FIRST_HALF,
-                        activeHalfTime: "8:06",
+                        activeHalfTime: time.setSeconds(time.getSeconds() + 500),
                         mainTeam: [...numberOfHalf.map((half, index) => ({
                             half: half.value,
                             isActiveMakeSub: false,
@@ -94,12 +88,10 @@ export default function StartGame({
 
                 changeGameSate("startGameModal", null)
                 changeGameSate("dragEventObject", null)
-
                 changeGameSate("teamRosters", [])
                 changeGameSate("selectedTeamRosters", [])
                 changeGameSate("selectedOpponentRosters", [])
-                console.log(formData, "check data is ok or not for create match request ..............")
-            createMatchRequest(formData, navigate)
+                createMatchRequest(formData, navigate)
         }
     }
 

@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     isLoading: false,
 
     match: null,
-    matches: null,
+    matches: [],
     matchForm: null,
 
     error: null,
@@ -29,7 +29,7 @@ const matches = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
-                match: action.match,
+                matches: action.match,
                 error: null
             }
 

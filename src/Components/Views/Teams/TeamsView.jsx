@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {
     GAMES_FORM_PATH,
     ROSTERS_EDIT_PATH,
-    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH,
+    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH, FAN_ROLE_ID, FANS_PATH,
 } from "../../../state/constants/Constans";
 
 import Footer from "../../Ui/Footer";
@@ -19,7 +19,6 @@ import StartGameContainer from "../../Containers/Games/StartGameContainer";
 const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => {
 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-
     const navigate = useNavigate();
 
     useEffect(() => {

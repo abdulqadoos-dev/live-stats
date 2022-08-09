@@ -77,7 +77,7 @@
     }
 
     .game-board-actions svg {
-        @apply h-12 w-10 stroke-white
+        @apply h-10 w-8 stroke-white
     }
 
     .game-board-actions .back-action svg{
@@ -86,6 +86,18 @@
 
     .timeout-buttons-group svg{
         @apply stroke-white w-10 h-7
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Used For Firefox: */
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
+    /* Used For MS Edge and IE: */
+    .no-scrollbar {
+        -ms-overflow-style: none;
     }
 
 }

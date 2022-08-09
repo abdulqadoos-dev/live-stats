@@ -16,3 +16,7 @@ export const verifyGameScheduleTime = (formData) => {
 export const getAllTeams = () => {
     return api.get('/teams');
 }
+
+export const getGamesBySportId = (sportId) => {
+    return api.get('/games/sport/'+sportId);
+}

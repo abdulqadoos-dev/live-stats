@@ -1,139 +1,73 @@
-import React from "react";
-import FanHome from "../../../Media/FanHome.png";
-import { capitalizeFirstLetter } from "../../../Services/Helper";
+import React, {useEffect} from "react";
 import Footer from "../../Ui/Footer";
+import GameBoardHeader from "../../Ui/GameBoardHeader";
+import Wrapper from "../../Ui/Form/Wrapper";
+import {
+    FANS_GAME_BOARD_PATH,
+    FIRST_HALF,
+    FOURTH_HALF, GAMES_BOARD_PATH,
+    MATCH_HALF,
+    SECOND_HALF,
+    TEAMS_PATH,
+    THIRD_HALF
+} from "../../../state/constants/Constans";
+import {useNavigate} from "react-router-dom";
+import {data} from "autoprefixer";
 
-const FansView = (props) => {
-	return (
-		<>
-			<div className="container mx-auto w-screen font-default  mb-28">
-				<img src={FanHome} style={{ height: "400px", width: "100%" }} alt="Fan" />
+const FansView = ({getGamesBySportRequest, games, changeGameSate}) => {
+    const navigate = useNavigate();
 
-				{/* Matches div */}
-				<div className="my-5">
-					<div className="flex">
-						{/* Matches */}
-						<div className="block p-6 rounded-lg shadow-lg bg-light max-w-sm mx-4">
-							<div className="flex justify-between font-sans font-semibold text-secondary-light ">
-								<p>
-									{capitalizeFirstLetter("girls")} {capitalizeFirstLetter("Ball")}
-								</p>
-								<p>FINAL</p>
-							</div>
+    useEffect(() => {
+        getGamesBySportRequest(1 || null, navigate)
+    }, [])
 
-							<div className="flex justify-between items-center my-2">
-								<div className="flex items-center gap-2 lg:gap-5">
-									<div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-									<p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter("Team1")}</p>
-								</div>
-								<p className="font-bold text-secondary-light text-sm lg:text-2xl ml-20">64</p>
-							</div>
+    return (
+        <>
+            <img className="object-none object-right h-80 w-full"
+                 src="/images/urn_aaid_sc_US_072a63f2-096f-4735-b158-e9655ccc2692.png" alt=""/>
 
-							<div className="flex justify-between items-center">
-								<div className="flex items-center gap-2 lg:gap-5">
-									<div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-									<p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter("Team2")}</p>
-								</div>
-								<p className="font-bold text-secondary-light text-sm lg:text-2xl">41</p>
-							</div>
-						</div>
+            <div className="flex  gap-10 mx-10 my-5 overflow-x-scroll no-scrollbar">
 
-						<div className="block p-6 rounded-lg shadow-lg bg-light max-w-sm mx-4">
-							<div className="flex justify-between font-sans font-semibold text-secondary-light ">
-								<p>
-									{capitalizeFirstLetter("girls")} {capitalizeFirstLetter("BBall")}
-								</p>
-								<p>FINAL</p>
-							</div>
+                {/* match box */}
+                {games?.length ? games.map(game => (
+                    <div
+                        className="rounded bg-light p-3 text-secondary  cursor-pointer hover:shadow transition min-w-[250px]"
+                        key={game.id}
+                        onClick={() => {
+                            changeGameSate("selectedGame", game)
+                            navigate(FANS_GAME_BOARD_PATH)
+                        }}
+                    >
+                        <div className="flex justify-between  mb-5 font-bold ">
+                            <p>{game.sport.name}</p>
+                            <p>FINAL</p>
+                        </div>
 
-							<div className="flex justify-between items-center my-2">
-								<div className="flex items-center gap-2 lg:gap-5">
-									<div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-									<p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter("Team1")}</p>
-								</div>
-								<p className="font-bold text-secondary-light text-sm lg:text-2xl ml-20">64</p>
-							</div>
+                        <div className="flex justify-between items-center mb-3">
+                            <div className="flex items-center gap-2">
+                                <div className="h-10 w-10 rounded-full bg-white"></div>
+                                <p className="w-[150px] text-sm">{game.mainTeam.name}</p>
+                            </div>
+                            <p className="font-bold">63</p>
+                        </div>
 
-							<div className="flex justify-between items-center">
-								<div className="flex items-center gap-2 lg:gap-5">
-									<div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-									<p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter("Team2")}</p>
-								</div>
-								<p className="font-bold text-secondary-light text-sm lg:text-2xl">41</p>
-							</div>
-						</div>
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <div className="h-10 w-10 rounded-full bg-white"></div>
+                                <p className="w-[150px] text-sm">{game.opponentTeam.name}</p>
+                            </div>
+                            <p className="font-bold">63</p>
+                        </div>
+                    </div>
+                )) : null}
 
-						<div className="block p-6 rounded-lg shadow-lg bg-light max-w-sm mx-4">
-							<div className="flex justify-between font-sans font-semibold text-secondary-light ">
-								<p>
-									{capitalizeFirstLetter("girls")} {capitalizeFirstLetter("BBall")}
-								</p>
-								<p>FINAL</p>
-							</div>
+            </div>
 
-							<div className="flex justify-between items-center my-2">
-								<div className="flex items-center gap-2 lg:gap-5">
-									<div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-									<p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter("Team1")}</p>
-								</div>
-								<p className="font-bold text-secondary-light text-sm lg:text-2xl ml-20">64</p>
-							</div>
-
-							<div className="flex justify-between items-center">
-								<div className="flex items-center gap-2 lg:gap-5">
-									<div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
-									<p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter("Team2")}</p>
-								</div>
-								<p className="font-bold text-secondary-light text-sm lg:text-2xl">41</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				{/* News Div */}
-				<div className="flex justify-center">
-					<div className="w-4/6">
-						<h1 className="ml-5" style={{fontSize:'40px', fontWeight:'900'}}>NEWS</h1>
-						<div>
-							<div className="flex gap-2 my-2">
-								<div className="1/5">
-									<div className="bg-light" style={{ width: "100px", height: "100px" }}></div>
-								</div>
-								<div className="4/5">
-									<h1 style={{fontSize:'30px'}}>Article # 1</h1>
-									<p>Date</p>
-									<p>Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet.</p>
-								</div>
-							</div>
-
-                            <div className="flex gap-2 my-2">
-								<div className="1/5">
-									<div className="bg-light" style={{ width: "100px", height: "100px" }}></div>
-								</div>
-								<div className="4/5">
-									<h1 style={{fontSize:'30px'}}>Article # 2</h1>
-									<p>Date</p>
-									<p>Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet.</p>
-								</div>
-							</div>
-
-                            <div className="flex gap-2 my-2">
-								<div className="1/5">
-									<div className="bg-light" style={{ width: "100px", height: "100px" }}></div>
-								</div>
-								<div className="4/5">
-									<h1 style={{fontSize:'30px'}}>Article # 3</h1>
-									<p>Date</p>
-									<p>Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet. Lorem ipsem dolar imet.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<Footer />
-		</>
-	);
+            <Wrapper>
+            </Wrapper>
+            <Footer/>
+        </>
+    );
 };
 
 export default FansView;

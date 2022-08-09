@@ -1,23 +1,14 @@
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {LOGOUT_PATH, TEAMS_PATH} from "../../state/constants/Constans";
-import io from "socket.io-client";
+import {FAN_ROLE_ID, FANS_PATH, LOCAL_STORAGE_AUTH_USER, LOGOUT_PATH, TEAMS_PATH} from "../../state/constants/Constans";
 
 export default function HomeView(){
 
     const navigate = useNavigate();
-    const socket = io.connect('http://127.0.0.1:5000');
+    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     useEffect(() => {
-        socket.emit('request_game_data', {gameId:1})
-        socket.on("get_game_data", data => {
-            console.log('data',data);
-        });
-        // CLEAN UP THE EFFECT
-        // return () => {socket.disconnect()};
-    }, []);
-    useEffect(() => {
-        // navigate(TEAMS_PATH)
+        navigate(user.roleId === FAN_ROLE_ID ? FANS_PATH : TEAMS_PATH)
     },[])
 
     return(

@@ -23,7 +23,6 @@ export default function LoginView({isLoading, validations, error, loginRequest})
         loginRequest(formData, navigate);
     }
 
-    // console.log({error},{validations}, "error");
 
     return (
         <BackgroundImage backgroundImage={AuthBackgroundImage}>

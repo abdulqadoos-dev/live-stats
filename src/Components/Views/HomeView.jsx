@@ -8,7 +8,8 @@ export default function HomeView(){
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
 
     useEffect(() => {
-        navigate(user.roleId === FAN_ROLE_ID ? FANS_PATH : TEAMS_PATH)
+        if(!user.roleId) return navigate(LOGOUT_PATH)
+        return navigate(user.roleId === FAN_ROLE_ID ? FANS_PATH : TEAMS_PATH)
     },[])
 
     return(

@@ -9,7 +9,7 @@ import bowlingball from "../../../Media/icons/bowlingball.svg";
 import football from "../../../Media/icons/football.svg";
 import tennisball from "../../../Media/icons/tennisball.svg";
 import vollyball from "../../../Media/icons/vollyball.svg";
-import {FAN_ROLE_ID, SETUP_PROFILE_PATH} from "../../../state/constants/Constans";
+import {CREATING_FEED_PATH, FAN_ROLE_ID, SETUP_PROFILE_PATH} from "../../../state/constants/Constans";
 
 export default function SelectSportView({formData, setProfileForm, createFanProfileRequest}) {
 
@@ -82,6 +82,7 @@ export default function SelectSportView({formData, setProfileForm, createFanProf
                         label="Next"
                         className="font-medium w-64 md:text-lg"
                         clickEvent={() => createFanProfileRequest(formData, navigate)}
+                        // clickEvent={() => navigate(CREATING_FEED_PATH)}
                     />
 
                 </main>

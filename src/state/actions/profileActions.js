@@ -2,7 +2,8 @@ import * as profileApi from "../apis/profileApi";
 
 import {requestStart, validationResults} from "./appActions";
 import {
-    CREATING_FEED_PATH, LOCAL_STORAGE_AUTH_USER,
+    BASE_PATH,
+    CREATING_FEED_PATH, FAN_ROLE_ID, FANS_PATH, LOCAL_STORAGE_AUTH_USER,
     LOCATION_DETAILS_PATH,
     SCHOOL_AND_SPORT_PATH,
     SETUP_PROFILE_PATH,
@@ -78,17 +79,16 @@ export const createTeamProfileRequest = (formData, navigate) => {
 
     }
 }
-export const getProfileRequest = (navigate) => {
+export const getProfileRequest = (navigate, roleId = null) => {
     return (dispatch) => {
         dispatch(requestStart());
-
         const promise = profileApi.getProfile()
 
         promise.then((result) => {
             const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
             authUser.user.profile = result.data.profile
             window.localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(authUser));
-            setTimeout(() => navigate(TEAMS_PATH), 1000)
+            setTimeout(() => roleId && roleId === FAN_ROLE_ID ? navigate(FANS_PATH) :navigate(TEAMS_PATH), 1000)
         }).catch((error) => {
             navigate(SETUP_PROFILE_PATH)
         });

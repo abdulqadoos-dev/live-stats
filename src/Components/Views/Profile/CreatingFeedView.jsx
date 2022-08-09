@@ -8,12 +8,12 @@ import creatingFeed from "../../../Media/icons/creating-feed.svg";
 import ProfileSetupWrapper from "../../Ui/ProfileSetupWrapper";
 import {getProfileRequest} from "../../../state/actions/profileActions";
 
-const CreatingFeedView = ({getProfileRequest}) => {
+const CreatingFeedView = ({getProfileRequest,formData}) => {
 
     const navigate = useNavigate();
 
     useEffect(() => {
-         getProfileRequest(navigate)
+         getProfileRequest(navigate,formData?.roleId)
     }, [])
 
 
@@ -43,7 +43,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProfileRequest: navigate => dispatch(getProfileRequest(navigate)),
+        getProfileRequest: (navigate,roleId) => dispatch(getProfileRequest(navigate,roleId)),
     }
 }
 

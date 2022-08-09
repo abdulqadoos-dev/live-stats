@@ -1,18 +1,10 @@
 import React, {useEffect} from "react";
 import Footer from "../../Ui/Footer";
-import GameBoardHeader from "../../Ui/GameBoardHeader";
 import Wrapper from "../../Ui/Form/Wrapper";
 import {
     FANS_GAME_BOARD_PATH,
-    FIRST_HALF,
-    FOURTH_HALF, GAMES_BOARD_PATH,
-    MATCH_HALF,
-    SECOND_HALF,
-    TEAMS_PATH,
-    THIRD_HALF
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
-import {data} from "autoprefixer";
 
 const FansView = ({getGamesBySportRequest, games, changeGameSate}) => {
     const navigate = useNavigate();

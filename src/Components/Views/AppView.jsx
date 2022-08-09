@@ -54,7 +54,7 @@ import FanScoreBoardContainer from "../Containers/Fans/FanScoreBoardContainer";
 
 export default function AppView(props) {
 
-    console.info(props, "STATE");
+    // console.info(props, "STATE");
 
     const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
     const isLoggedIn = !!authUser?.user;

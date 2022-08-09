@@ -145,15 +145,13 @@ export default function GameBoardView({
                         action: {...player.action, isActive: false, isRecent: false}
                     }))
 
-                    let foulsCount = teamRostersActivity.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity).reduce((acc, current) => {
-                        return current.filter(c => c.name === FOUL).length
-                    }, 0);
+                    let fouls = []
+                     teamRostersActivity.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity.filter(a => a.name === FOUL ? fouls.push(a) : null))
 
-                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount >= 10 ? {
+                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? fouls.length >= 10 ? {
                         ...team,
                         bonusPlus: true
-                    } : foulsCount >= 7 ? {...team, bonus: true} : team : team);
-
+                    } : fouls.length >= 7 ? {...team, bonus: true} : team : team);
 
                     changeMatchState("match", {
                         ...match,
@@ -216,14 +214,13 @@ export default function GameBoardView({
                             break
                     }
 
-                    let foulsCount = rosters.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity).reduce((acc, current) => {
-                        return current.filter(c => c.name === FOUL).length
-                    }, 0);
+                    let fouls = []
+                    rosters.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity.filter(a => a.name === FOUL ? fouls.push(a) : null))
 
-                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? foulsCount < 7 ? {
+                    let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? fouls.length < 7 ? {
                         ...team,
                         bonus: false
-                    } : foulsCount < 10 ? {
+                    } : fouls.length < 10 ? {
                         ...team,
                         bonusPlus: false
                     } : team : team);

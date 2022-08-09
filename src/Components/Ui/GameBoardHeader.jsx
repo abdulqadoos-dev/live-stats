@@ -1,56 +1,39 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {ReactSVG} from "react-svg";
 import chevron from "../../Media/icons/chevron-right.svg"
 import {LOCAL_STORAGE_AUTH_USER, TEAM_ROLE_ID} from "../../state/constants/Constans";
-import {useTimer} from "react-timer-hook";
 import Timer from "./Timer";
 
 export default function GameBoardHeader({match, changeMatchState, numberOfHalf, calculateTeamHalf}) {
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-
-    const time = new Date();
-    const {
-        seconds,
-        minutes,
-        start,
-        pause,
-        resume
-    } = useTimer({
-        expiryTimestamp: match?.matchDetails?.activeHalfTime ? match.matchDetails.activeHalfTime : time.setSeconds(time.getSeconds() + 600),
-        autoStart: false,
-        onExpire: () => console.log('onExpire called')
-    });
-
-    useEffect(() => {
-        match?.matchDuration.isClockStarted ? start() : pause()
-        // resume()
-    }, [match?.matchDuration])
-
     return (
         <div className="bg-secondary  text-white">
-            <div className="container mx-auto">
-                <div className="flex justify-between game-board-actions">
-                    <div><span className="cursor-pointer flex items-center back-action text-sm">
+            {user.roleId === TEAM_ROLE_ID ?(
+                <div className="container mx-auto">
+                    <div className="flex justify-between game-board-actions">
+                        <div><span className="cursor-pointer flex items-center back-action text-sm">
                             <ReactSVG src={chevron}/> Back</span>
-                    </div>
-                    {user.roleId === TEAM_ROLE_ID}
-                    <div><span className="cursor-pointer flex items-center text-sm" onClick={() =>
-                        changeMatchState("match", {
-                            ...match,
-                            matchDuration: {
-                                ...match.matchDuration,
-                                isMatchStarted: !match.matchDuration.isMatchStarted,
-                                isMatchEnd: match.matchDuration.isMatchStarted
-                            }
-                        })
-                    }>
+                        </div>
+
+                        <div><span className="cursor-pointer flex items-center text-sm" onClick={() =>
+                            changeMatchState("match", {
+                                ...match,
+                                matchDuration: {
+                                    ...match.matchDuration,
+                                    isMatchStarted: !match.matchDuration.isMatchStarted,
+                                    isMatchEnd: match.matchDuration.isMatchStarted
+                                }
+                            })
+                        }>
                           {!match?.matchDuration.isMatchStarted ? "Start Game" : "End Game"}
-                        <ReactSVG src={chevron}/>
+                            <ReactSVG src={chevron}/>
                         </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="container mx-auto pb-5">
+            ):null}
+
+            <div className="container mx-auto pb-5 pt-2">
                 <div className="grid grid-cols-4 gap-5 items-end">
 
                     <div className="text-center">

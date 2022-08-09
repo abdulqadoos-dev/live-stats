@@ -40,7 +40,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                         <h1 className="md:text-2xl font-default font-light">{match?.game?.mainTeam?.name || ""} <span
                             className="text-sm">8-8</span></h1>
                         <div className="w-24 h-24 bg-white rounded-full my-2 overflow-hidden mx-auto ">
-                            <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>
+                            <img src={process.env.REACT_APP_SERVER_PATH + "/uploadedImage"} className="w-56 lg:w-64"/>
                         </div>
                         <div className="my-3 gap-3 flex justify-center">
                             <span
@@ -110,7 +110,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                         <h1 className="md:text-2xl font-default font-light"><span
                             className="text-sm">12-8</span> {match?.game?.opponentTeam?.name || ""} </h1>
                         <div className="w-24 h-24  bg-white rounded-full my-2 overflow-hidden mx-auto ">
-                            <img src={process.env.REACT_APP_SERVER_PATH + "uploadedImage"} className="w-56 lg:w-64"/>
+                            <img src={process.env.REACT_APP_SERVER_PATH + "/uploadedImage"} className="w-56 lg:w-64"/>
                         </div>
                         <div className="my-3 gap-3 flex justify-center">
                             <span

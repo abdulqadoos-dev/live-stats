@@ -19,7 +19,6 @@ import StartGameContainer from "../../Containers/Games/StartGameContainer";
 const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => {
 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-    console.log(user.roleId, "fadsfsafsdafasd")
     const navigate = useNavigate();
 
     useEffect(() => {

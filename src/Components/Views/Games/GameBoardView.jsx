@@ -5,11 +5,11 @@ import GameBoardHeader from "../../Ui/GameBoardHeader";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
 import {
     ACTIVITY, ASSIST, BLOCK, BONUS, BONUS_PLUS, CHARGE, DETAILS,
-    FIRST_HALF, FOUL, FOURTH_HALF, MAIN_TEAM, MAKE_SUB, MATCH_HALF, MISS, OPPONENT_TEAM,
+    FOUL, MAIN_TEAM, MAKE_SUB, MISS, OPPONENT_TEAM,
     OPPONENTS_TEAM_ROSTERS,
-    POINT_MADE, POINT_MISSED, REBOUND, SECOND_HALF, STEAL,
+    POINT_MADE, REBOUND, STEAL,
     TEAM_ROSTERS,
-    TEAMS_PATH, THIRD_HALF, TIMEOUTS, TURNOVER, UNDO_STATS
+    TEAMS_PATH, TIMEOUTS, TURNOVER, UNDO_STATS
 } from "../../../state/constants/Constans";
 import {useNavigate} from "react-router-dom";
 import {ReactSVG} from "react-svg";
@@ -17,6 +17,7 @@ import plus from "../../../Media/icons/plus.svg";
 import minus from "../../../Media/icons/minus.svg";
 import Switch from "react-switch";
 import * as matchApi from "./../../../../src/state/apis/matchApi";
+import {numberOfHalf} from "../../../Services/Helper";
 
 
 export default function GameBoardView({
@@ -29,7 +30,6 @@ export default function GameBoardView({
                                       }) {
 
     const navigate = useNavigate();
-
 
     useEffect(() => {
         if (!selectedGame?.id) return navigate(TEAMS_PATH);
@@ -47,18 +47,12 @@ export default function GameBoardView({
         });
     }, [])
 
-    // console.log(match?.matchDetails, "match details....")
-
-    const numberOfHalf = [
-        {label: 1, value: FIRST_HALF, time: "10"},
-        {label: 2, value: SECOND_HALF, time: "12"},
-        {label: "H", value: MATCH_HALF, time: "14"},
-        {label: 3, value: THIRD_HALF, time: "15"},
-        {label: 4, value: FOURTH_HALF, time: "16"}
-    ]
+    useEffect(() => {
+        match?.id && updateMatchRequest(match, navigate)
+    }, [match])
 
     const _handelEndGame = () => {
-        matchApi.endMatch(match.id, {homeEmail:stats.homeEmail, awayEmail:stats.awayEmail})
+        matchApi.endMatch(match.id, {homeEmail: stats.homeEmail, awayEmail: stats.awayEmail})
         changeMatchState("match", {
             ...match,
             matchDuration: {
@@ -244,6 +238,8 @@ export default function GameBoardView({
                         },
                         matchPlayers: {
                             ...match.matchPlayers,
+                            mainTeamTotal: match.matchDetails.recentAction.team === TEAM_ROSTERS ? _calculateTotalOfTeam(rosters) : match.matchPlayers.mainTeamTotal,
+                            opponentTeamTotal: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? _calculateTotalOfTeam(rosters) : match.matchPlayers.opponentTeamTotal,
                             mainTeamRosters: match.matchDetails.recentAction.team === TEAM_ROSTERS ? rosters : match.matchPlayers.mainTeamRosters,
                             opponentTeamRosters: match.matchDetails.recentAction.team === OPPONENTS_TEAM_ROSTERS ? rosters : match.matchPlayers.opponentTeamRosters
                         }
@@ -251,7 +247,6 @@ export default function GameBoardView({
                 }
                 break
         }
-        updateMatchRequest(match, navigate)
     }
 
     return (
@@ -516,10 +511,17 @@ export default function GameBoardView({
                                     {numberOfHalf.map((half, key) => (
                                         <div
                                             key={key}
-                                            onClick={() => changeMatchState("match", {
-                                                ...match,
-                                                matchDetails: {...match.matchDetails, activeHalf: half.value}
-                                            })}
+                                            onClick={() => {
+                                                changeMatchState("match", {
+                                                    ...match,
+                                                    matchDetails: {
+                                                        ...match.matchDetails,
+                                                        activeHalf: half.value,
+                                                        activeHalfTime: half.time
+                                                    }
+                                                })
+                                            }
+                                            }
                                             className={` ${half.value === match?.matchDetails?.activeHalf ? "bg-primary" : "bg-secondary-light"}  hover:bg-secondary cursor-pointer text-center text-white rounded`}> {half.label}
                                         </div>
                                     ))}
@@ -575,7 +577,7 @@ export default function GameBoardView({
                                 <ReactSVG src={minus}/>
                             </div>
                             <div
-                                className={` bg-light w-full   py-3 text-center text-xl font-sans mb-2`}>
+                                className={` bg-light w-full py-3 text-center text-xl font-sans mb-2`}>
                                 {match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).timeouts}
                             </div>
                             <div
@@ -600,8 +602,6 @@ export default function GameBoardView({
                                 uncheckedIcon={false}
                                 checkedIcon={false}
                             />
-                            {/*{console.log(match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).bonus, match?.matchDetails.opponentTeam.find(d => d.half === match.matchDetails.activeHalf).bonusPlus, "check bounces opponent")}*/}
-                            {/*{console.log(match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).bonus, match?.matchDetails.mainTeam.find(d => d.half === match.matchDetails.activeHalf).bonusPlus, "check bounces main")}*/}
                         </div>
 
                         <div className="flex items-center justify-between">

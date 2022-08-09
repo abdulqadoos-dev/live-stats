@@ -11,7 +11,6 @@ import PageHeader from "../../Ui/PageHeader";
 const GamesView = ({getGamesRequest, games}) => {
 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-console.log(user)
     const navigate = useNavigate();
 
     useEffect(() => {

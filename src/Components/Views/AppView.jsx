@@ -54,10 +54,7 @@ import FanScoreBoardContainer from "../Containers/Fans/FanScoreBoardContainer";
 
 export default function AppView(props) {
 
-    // console.log({isLoggedIn}, props.auth, "AUTH STATE");
-    // console.info(props.profile.formData, "STATE");
     console.info(props, "STATE");
-    // console.info(localStorage.getItem(LOCAL_STORAGE_AUTH_USER), "Local Storage Object..");
 
     const authUser = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
     const isLoggedIn = !!authUser?.user;

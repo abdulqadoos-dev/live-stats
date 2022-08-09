@@ -47,8 +47,6 @@ export default function SignupView(
         verificationRequest(payload, navigate);
     }
 
-    // console.log({validations}, {error},"form view");
-
     return (
         <BackgroundImage backgroundImage={AuthBackGroundImage}>
             <section

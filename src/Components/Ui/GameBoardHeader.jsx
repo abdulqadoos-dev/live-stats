@@ -8,7 +8,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
     return (
         <div className="bg-secondary  text-white">
-            {user.roleId === TEAM_ROLE_ID ?(
+            {user.roleId === TEAM_ROLE_ID ? (
                 <div className="container mx-auto">
                     <div className="flex justify-between game-board-actions">
                         <div><span className="cursor-pointer flex items-center back-action text-sm">
@@ -31,18 +31,21 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                         </div>
                     </div>
                 </div>
-            ):null}
+            ) : null}
 
             <div className="container mx-auto pb-5 pt-2">
                 <div className="grid grid-cols-4 gap-5 items-end">
+                    <div className="lg:text-center col-span-1">
 
-                    <div className="text-center">
-                        <h1 className="md:text-2xl font-default font-light">{match?.game?.mainTeam?.name || ""} <span
-                            className="text-sm">8-8</span></h1>
-                        <div className="w-24 h-24 bg-white rounded-full my-2 overflow-hidden mx-auto ">
+                        <h1 className="md:text-2xl font-default font-light">
+                            {match?.game?.mainTeam?.name || ""} <span className="text-sm">8-8</span>
+                        </h1>
+
+                        <div className="w-24 h-24 bg-white rounded-full my-2 overflow-hidden lg:mx-auto ">
                             <img src={process.env.REACT_APP_SERVER_PATH + "/uploadedImage"} className="w-56 lg:w-64"/>
                         </div>
-                        <div className="my-3 gap-3 flex justify-center">
+
+                        <div className="my-3 gap-3 flex lg:justify-center">
                             <span
                                 className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 1 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                             <span
@@ -54,9 +57,11 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                             <span
                                 className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 5 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                         </div>
+
                         <div className="font-default">
                             {match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonusPlus ? "Bonus +" : match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonus && "Bounce"}
                         </div>
+
                     </div>
 
                     <div className="font-default col-span-2">

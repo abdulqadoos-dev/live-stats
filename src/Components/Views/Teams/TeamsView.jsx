@@ -65,7 +65,8 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
 
                                         <div className="flex justify-between items-center my-2">
                                             <div className="flex items-center gap-2 lg:gap-5">
-                                                <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
+                                                <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"><img
+                                                    src="" alt=""/></div>
                                                 <p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter(game?.mainTeam?.name || '')}</p>
                                             </div>
                                             <p className="font-bold text-secondary-light text-sm lg:text-2xl">64</p>

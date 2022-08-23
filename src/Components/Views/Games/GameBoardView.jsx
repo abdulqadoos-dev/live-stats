@@ -129,6 +129,7 @@ export default function GameBoardView({
 
             case ACTIVITY :
                 if (match.matchDetails?.recentAction?.team) {
+
                     let teamRostersActivity = match.matchPlayers[match.matchDetails.recentAction.team].map(player => player.action.isActive ? {
                         ...player,
                         action: {isActive: false, isRecent: true},
@@ -146,12 +147,25 @@ export default function GameBoardView({
                     }))
 
                     let fouls = []
-                     teamRostersActivity.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity.filter(a => a.name === FOUL ? fouls.push(a) : null))
+                    teamRostersActivity.map(roster => roster.activities.find(ac => ac.half === match.matchDetails.activeHalf).activity.filter(a => a.name === FOUL ? fouls.push(a) : null))
 
                     let bonusCheck = match.matchDetails[match.matchDetails.recentAction.team === TEAM_ROSTERS ? OPPONENT_TEAM : MAIN_TEAM].map(team => team.half === match.matchDetails.activeHalf ? fouls.length >= 10 ? {
                         ...team,
                         bonusPlus: true
                     } : fouls.length >= 7 ? {...team, bonus: true} : team : team);
+
+                    let activePlayer = match.matchPlayers[match.matchDetails.recentAction.team].find(player => player.action.isActive)
+                    let recentActivity = activePlayer ? match?.matchDetails?.recentActivities ? [...match.matchDetails.recentActivities, {
+                        time: "10:00",
+                        half: match.matchDetails.activeHalf,
+                        message: payload.message,
+                        player: activePlayer
+                    }] : [{
+                        time: "10:00",
+                        half: match.matchDetails.activeHalf,
+                        message: payload.message,
+                        player: activePlayer
+                    }] : match.matchDetails.recentActivities || []
 
                     changeMatchState("match", {
                         ...match,
@@ -163,7 +177,8 @@ export default function GameBoardView({
                                 team: match.matchDetails.recentAction.team,
                                 action: ACTIVITY,
                                 half: match.matchDetails.activeHalf
-                            }
+                            },
+                            recentActivities: recentActivity
                         },
                         matchPlayers: {
                             ...match.matchPlayers,
@@ -245,6 +260,8 @@ export default function GameBoardView({
                 break
         }
     }
+
+    console.log(match?.matchDetails?.recentActivities)
 
     return (
         <>

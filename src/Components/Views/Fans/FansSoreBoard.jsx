@@ -35,9 +35,8 @@ const FansSoreBoard = ({
                 let arr = {...result.data.matches[0]}
                 arr.game = selectedGame
                 changeMatchState("match", arr)
-                socket.emit('request_game_data', {gameId:selectedGame.id})
-                socket.on("get_game_data", data => {
-                    let arr = {...data.match[0]}
+                socket.on("broadcast_game_match_"+arr.id, data => {
+                    let arr = {...data.match}
                     arr.game = selectedGame
                     changeMatchState("match", arr)
                 });

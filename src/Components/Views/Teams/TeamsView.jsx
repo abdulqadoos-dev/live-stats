@@ -24,7 +24,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
     useEffect(() => {
         getGamesRequest(user?.profile?.id || null, navigate)
     }, [])
-
+    console.log(games)
     return (
         <>
             <PageHeader
@@ -54,13 +54,15 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                             {
                                 games?.map((game, i) => <div key={i}
                                                              onClick={() => {
-                                                                 changeGameSate("selectedGame", game)
-                                                                 navigate(GAMES_BOARD_PATH)
+                                                                 if (game.details) {
+                                                                     changeGameSate("selectedGame", game)
+                                                                     navigate(GAMES_BOARD_PATH)
+                                                                 }
                                                              }}
-                                                             className="bg-light rounded-xl p-4 my-2 cursor-pointer hover:shadow transition">
+                                                             className={`bg-light rounded-xl p-4 my-2 ${game.default ? "cursor-pointer hover:shadow" : ""}  transition`}>
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">
                                             <p>{capitalizeFirstLetter(game?.mainTeam?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
-                                            <p>FINAL</p>
+                                            {game.details && (<p>FINAL</p>)}
                                         </div>
 
                                         <div className="flex justify-between items-center my-2">
@@ -69,7 +71,9 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                                     src="" alt=""/></div>
                                                 <p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter(game?.mainTeam?.name || '')}</p>
                                             </div>
-                                            <p className="font-bold text-secondary-light text-sm lg:text-2xl">64</p>
+                                            <p className="font-bold text-secondary-light text-sm lg:text-2xl">
+                                                {game.details ? ("64") : 0}
+                                            </p>
                                         </div>
 
                                         <div className="flex justify-between items-center">
@@ -77,7 +81,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                                 <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
                                                 <p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter(game?.opponentTeam?.name || '')}</p>
                                             </div>
-                                            <p className="font-bold text-secondary-light text-sm lg:text-2xl">41</p>
+                                            <p className="font-bold text-secondary-light text-sm lg:text-2xl"> {game.details ? ("64") : 0}</p>
                                         </div>
                                     </div>
                                 )}

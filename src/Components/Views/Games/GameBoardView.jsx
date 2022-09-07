@@ -261,7 +261,7 @@ export default function GameBoardView({
         }
     }
 
-    console.log(match?.matchDetails?.recentActivities)
+    // console.log(match?.matchDetails?.recentActivities)
 
     return (
         <>

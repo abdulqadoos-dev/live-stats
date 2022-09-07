@@ -1,21 +1,17 @@
 import React, {useEffect} from "react";
-
 import {useNavigate} from "react-router-dom";
-import {capitalizeFirstLetter, numberOfHalf} from "../../../Services/Helper";
 import DefaultModal from "../../Ui/Modals/DefaultModal";
+import {capitalizeFirstLetter, numberOfHalf} from "../../../Services/Helper";
 import {
-    LOCAL_STORAGE_AUTH_USER,
     GAMES,
     OPPONENTS_TEAM_ROSTERS,
-    TEAM_ROSTERS, FIRST_HALF, SECOND_HALF, MATCH_HALF, THIRD_HALF, FOURTH_HALF,
+    TEAM_ROSTERS, FIRST_HALF,
 } from "../../../state/constants/Constans";
-
 
 export default function StartGame({
                                       getRostersRequest,
                                       changeGameSate,
                                       games,
-                                      rosters,
                                       startGameModal,
                                       selectedGame,
                                       teamRosters,
@@ -24,9 +20,6 @@ export default function StartGame({
                                       selectedTeamRosters,
                                       selectedOpponentRosters
                                   }) {
-
-    const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -91,7 +84,9 @@ export default function StartGame({
                 changeGameSate("teamRosters", [])
                 changeGameSate("selectedTeamRosters", [])
                 changeGameSate("selectedOpponentRosters", [])
-                createMatchRequest(formData, navigate)
+
+                console.log(formData, "form data")
+                // createMatchRequest(formData, navigate)
         }
     }
 
@@ -160,7 +155,7 @@ export default function StartGame({
             isDisabledButton={startGameModal.isDisabledButton}
             clickEvent={() => _handleModelClickEvent(startGameModal.content)}>
             <div className="my-3">
-                {startGameModal.content === GAMES ? _renderGames(games, changeGameSate, selectedGame) : _renderPlayers(teamRosters, startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters, {
+                {startGameModal.content === GAMES ? _renderGames(games.filter(game => !game.detail), changeGameSate, selectedGame) : _renderPlayers(teamRosters, startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters, {
                     rosterDragStart,
                     rosterDragEnd
                 })}

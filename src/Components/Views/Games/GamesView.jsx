@@ -39,25 +39,27 @@ const GamesView = ({getGamesRequest, games}) => {
                     <PageMainNavigation
                         heading="Games"
                     />
-
-
-                    <main className="grid grid-cols-1 lg:grid-cols-3 my-5 gap-y-5 lg:gap-10">
-
+                    <main className="grid grid-cols-3 gap-x-3 mt-2">
+                        <div className="md:col-span-2 col-span-3">
                         {games?.length ? games.map((game, i) => (
-                            <section className="w-full col-span-2 gap-3 lg:gap-8 flex items-center" key={i}>
+                            <section className="w-full col-span-2 gap-3 lg:gap-8 flex items-center bg-light rounded p-4 mb-3" key={i}>
                                 <div
                                     className="lg:text-xl lg:w-14 font-bold text-secondary-light">{new Date(game.dateTime).getMonth() + 1}/{new Date(game.dateTime).getDate()}</div>
                                 <div className="text-lg w-full flex items-center gap-2 lg:gap-5">
-                                    <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-light"/>
+                                    <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"/>
                                     <h4 className="lg:text-2xl font-semibold text-secondary">{game.opponentTeam.name}</h4>
                                 </div>
                                 <div
-                                    className="lg:text-lg w-30 lg:w-52 font-bold text-right text-secondary-light">Preview
+                                    className="lg:text-lg w-30 lg:w-52 font-bold text-right text-secondary-light">
+                                    {game?.details?.matchDuration?.isMatchEnd && (<p>FINAL</p>)}
+                                    {game?.details?.matchDuration?.isMatchStarted && (<p className="text-green-700 font-extrabold">LIVE</p>)}
+                                    {game?.details && !game?.details?.matchDuration?.isMatchEnd && !game?.details?.matchDuration?.isMatchStarted && (<p>PREVIEW</p>)}
                                 </div>
                             </section>
                         )) : null}
+                        </div>
 
-                        <div className="">
+                        <div className="md:col-span-1 col-span-3">
                             <DarkButton
                                 label="Add Game"
                                 className="w-full lg:text-2xl lg:py-5"

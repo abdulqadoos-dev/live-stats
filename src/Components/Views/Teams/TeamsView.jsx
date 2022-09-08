@@ -35,20 +35,15 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
 
             <Wrapper>
                 {startGameModal?.isOpen && (<StartGameContainer/>)}
-
                 <div className="mx-2">
-
                     <Breadcrumbs
                         currentPage="Teams"
                     />
-
                     <PageMainNavigation
                         heading="Teams"
                     />
-
-                    <div className="grid lg:grid-cols-3 my-5 gap-10">
-
-                        <div className="w-full col-span-2">
+                    <div className="grid grid-cols-3 gap-x-3 mt-2">
+                        <div className="md:col-span-2 col-span-3">
                             {
                                 games?.map((game, i) => <div key={i}
                                                              onClick={() => {
@@ -57,7 +52,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                                                      navigate(GAMES_BOARD_PATH)
                                                                  }
                                                              }}
-                                                             className={`bg-light rounded-xl p-4 my-2 ${game.details ? "cursor-pointer hover:shadow" : ""}  transition`}>
+                                                             className={`bg-light rounded-xl p-4 mb-3 ${game.details ? "cursor-pointer hover:shadow" : ""}  transition`}>
 
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">
                                             <p>{capitalizeFirstLetter(game?.mainTeam?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
@@ -89,12 +84,11 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                     </div>
                                 )}
                         </div>
-
-                        <div>
+                        <div className="md:col-span-1 col-span-3">
                             {games?.length && !games.find(game => game.details?.matchDuration?.isMatchStarted) && (
                                 <DarkButton
                                     label="Start Game"
-                                    className="w-full lg:text-2xl lg:py-5"
+                                    className="w-full lg:text-2xl lg:py-5 mb-1"
                                     clickEvent={() => {
                                         return changeGameSate("startGameModal", {
                                                 isOpen: true,
@@ -107,12 +101,12 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                             )}
                             <DarkButton
                                 label="Add Game"
-                                className="w-full lg:text-2xl my-2 lg:py-5"
+                                className="w-full lg:text-2xl lg:py-5 mb-1"
                                 clickEvent={() => navigate(GAMES_FORM_PATH)}
                             />
                             <DarkButton
                                 label="Add Roster"
-                                className="w-full lg:text-2xl lg:py-5"
+                                className="w-full lg:text-2xl lg:py-5 mb-1"
                                 clickEvent={() => navigate(ROSTERS_EDIT_PATH)}
                             />
                         </div>

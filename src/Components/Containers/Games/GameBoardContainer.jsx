@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import GameBoardView from "../../Views/Games/GameBoardView";
 import {changeMatchState, getMatchRequest, updateMatchRequest} from "../../../state/actions/matchActions";
 import io from "socket.io-client";
+import {updateGameDetailsRequest} from "../../../state/actions/gameActions";
 
 const GameBoardContainer = (props) => {
     React.useEffect(()=>{
@@ -28,6 +29,7 @@ const mapDispatchToProps = dispatch => {
         changeMatchState: (key, value) => dispatch(changeMatchState(key, value)),
         getMatchRequest: (id, navigation) => dispatch(getMatchRequest(id, navigation)),
         updateMatchRequest: (formData, navigation) => dispatch(updateMatchRequest(formData, navigation)),
+        updateGameDetailsRequest: (formData, navigate) => dispatch(updateGameDetailsRequest(formData, navigate)),
     }
 }
 

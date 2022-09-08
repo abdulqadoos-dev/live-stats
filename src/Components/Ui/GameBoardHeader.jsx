@@ -4,7 +4,7 @@ import chevron from "../../Media/icons/chevron-right.svg"
 import {LOCAL_STORAGE_AUTH_USER, TEAM_ROLE_ID} from "../../state/constants/Constans";
 import Timer from "./Timer";
 
-export default function GameBoardHeader({match, changeMatchState, numberOfHalf, calculateTeamHalf}) {
+export default function GameBoardHeader({match, game,changeMatchState, numberOfHalf, calculateTeamHalf}) {
     const {user} = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
     return (
         <div className="bg-secondary text-white">
@@ -40,7 +40,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                     {/* main team */}
                     <div className="text-center col-span-2 lg:col-span-1">
                         <h1 className="font-default font-light lg:text-xl">
-                            {match?.game?.mainTeam?.name || ""} <span className="text-sm hidden sm:inline-block">8-8</span>
+                            {game?.mainTeam?.name || ""} <span className="text-sm hidden sm:inline-block">8-8</span>
                         </h1>
                         <div className="w-16 h-16 lg:w-24 lg:h-24 bg-white rounded-full my-2 overflow-hidden mx-auto ">
                             <img src={process.env.REACT_APP_SERVER_PATH + "/image.jpg"} />
@@ -88,7 +88,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
 
                             <div className="grid grid-cols-9 gap-0.5 text-secondary">
                                 <span
-                                    className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.mainTeam?.name || ""}</span>
+                                    className="bg-white h-9 leading-9 px-2 col-span-3">{game?.mainTeam?.name || ""}</span>
                                 {numberOfHalf.map(half => (
                                     <span
                                         key={half.value}
@@ -99,7 +99,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
 
                             <div className="grid grid-cols-9 gap-0.5 mt-0.5 text-secondary">
                                 <span
-                                    className="bg-white h-9 leading-9 px-2 col-span-3">{match?.game?.opponentTeam?.name || ""}</span>
+                                    className="bg-white h-9 leading-9 px-2 col-span-3">{game?.opponentTeam?.name || ""}</span>
                                 {numberOfHalf.map(half => (
                                     <span
                                         key={half.value}
@@ -113,7 +113,7 @@ export default function GameBoardHeader({match, changeMatchState, numberOfHalf, 
                     <div className="text-center col-span-2 lg:col-span-1">
 
                         <h1 className="font-default font-light lg:text-xl">
-                            <span className="text-sm hidden sm:inline-block">12-8</span> {match?.game?.opponentTeam?.name || ""}
+                            <span className="text-sm hidden sm:inline-block">12-8</span> {game?.opponentTeam?.name || ""}
                         </h1>
 
                         <div className="w-16 h-16 lg:w-24 lg:h-24 bg-white rounded-full my-2 overflow-hidden mx-auto ">

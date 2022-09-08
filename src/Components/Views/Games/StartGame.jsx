@@ -17,6 +17,7 @@ export default function StartGame({
                                       teamRosters,
                                       dragEventObject,
                                       createMatchRequest,
+                                      updateGameDetailsRequest,
                                       selectedTeamRosters,
                                       selectedOpponentRosters
                                   }) {
@@ -38,8 +39,9 @@ export default function StartGame({
                 let formData = {
                     gameId: selectedGame.id,
                     matchDuration: {
+                        isMatchEnd: false,
                         isMatchStarted: false,
-                        isClockStarted: false,
+                        isClockStarted: false
                     },
                     matchPlayers: {
                         mainTeamRosters: [...selectedTeamRosters.map(player => ({
@@ -79,15 +81,18 @@ export default function StartGame({
                     }
                 }
 
-                changeGameSate("startGameModal", null)
-                changeGameSate("dragEventObject", null)
-                changeGameSate("teamRosters", [])
-                changeGameSate("selectedTeamRosters", [])
-                changeGameSate("selectedOpponentRosters", [])
-
-                console.log(formData, "form data")
-                // createMatchRequest(formData, navigate)
+              _clearModal()
+                updateGameDetailsRequest({details: formData}, navigate)
         }
+    }
+
+    const _clearModal = () => {
+        changeGameSate("selectedGame", null)
+        changeGameSate("startGameModal", null)
+        changeGameSate("dragEventObject", null)
+        changeGameSate("teamRosters", [])
+        changeGameSate("selectedTeamRosters", [])
+        changeGameSate("selectedOpponentRosters", [])
     }
 
 
@@ -151,11 +156,13 @@ export default function StartGame({
 
     return (
         <DefaultModal
+            closeEvent={() => _clearModal()}
             title={startGameModal.title}
             isDisabledButton={startGameModal.isDisabledButton}
             clickEvent={() => _handleModelClickEvent(startGameModal.content)}>
+
             <div className="my-3">
-                {startGameModal.content === GAMES ? _renderGames(games.filter(game => !game.detail), changeGameSate, selectedGame) : _renderPlayers(teamRosters, startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters, {
+                {startGameModal.content === GAMES ? _renderGames(games.filter(game => !game.details), changeGameSate, selectedGame) : _renderPlayers(teamRosters, startGameModal.content === TEAM_ROSTERS ? selectedTeamRosters : selectedOpponentRosters, {
                     rosterDragStart,
                     rosterDragEnd
                 })}

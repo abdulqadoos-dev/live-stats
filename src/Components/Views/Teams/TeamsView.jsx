@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {
     GAMES_FORM_PATH,
     ROSTERS_EDIT_PATH,
-    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH, FAN_ROLE_ID, FANS_PATH,
+    LOCAL_STORAGE_AUTH_USER, GAMES, GAMES_BOARD_PATH,
 } from "../../../state/constants/Constans";
 
 import Footer from "../../Ui/Footer";
@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 import Breadcrumbs from "../../Ui/Breadcrumbs";
 import DarkButton from "../../Ui/Buttons/DarkButton";
 import PageMainNavigation from "../../Ui/PageMainNavigation";
-import {capitalizeFirstLetter} from "../../../Services/Helper";
+import {_calculateTotalOfTeam, capitalizeFirstLetter} from "../../../Services/Helper";
 import StartGameContainer from "../../Containers/Games/StartGameContainer";
 
 const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => {
@@ -24,7 +24,6 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
     useEffect(() => {
         getGamesRequest(user?.profile?.id || null, navigate)
     }, [])
-    console.log(games)
     return (
         <>
             <PageHeader
@@ -47,7 +46,6 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                         heading="Teams"
                     />
 
-
                     <div className="grid lg:grid-cols-3 my-5 gap-10">
 
                         <div className="w-full col-span-2">
@@ -59,10 +57,13 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                                                      navigate(GAMES_BOARD_PATH)
                                                                  }
                                                              }}
-                                                             className={`bg-light rounded-xl p-4 my-2 ${game.default ? "cursor-pointer hover:shadow" : ""}  transition`}>
+                                                             className={`bg-light rounded-xl p-4 my-2 ${game.details ? "cursor-pointer hover:shadow" : ""}  transition`}>
+
                                         <div className="flex justify-between font-sans font-semibold text-secondary-light ">
                                             <p>{capitalizeFirstLetter(game?.mainTeam?.gender || '')} {capitalizeFirstLetter(game?.sport?.name || '')}</p>
-                                            {game.details && (<p>FINAL</p>)}
+                                            {game?.details?.matchDuration?.isMatchEnd && (<p>FINAL</p>)}
+                                            {game?.details?.matchDuration?.isMatchStarted && (<p className="text-green-700 font-extrabold">LIVE</p>)}
+                                            {game?.details && !game?.details?.matchDuration?.isMatchEnd && !game?.details?.matchDuration?.isMatchStarted && (<p>PREVIEW</p>)}
                                         </div>
 
                                         <div className="flex justify-between items-center my-2">
@@ -72,7 +73,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                                 <p className="text-sm lg:text-2xl font-bold text-secondary-light">{capitalizeFirstLetter(game?.mainTeam?.name || '')}</p>
                                             </div>
                                             <p className="font-bold text-secondary-light text-sm lg:text-2xl">
-                                                {game.details ? ("64") : 0}
+                                                {game?.details?.matchDuration?.isMatchEnd || game?.details?.matchDuration?.isMatchStarted ? _calculateTotalOfTeam(game.details.matchPlayers.mainTeamRosters) : 0}
                                             </p>
                                         </div>
 
@@ -81,23 +82,29 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                                 <div className="rounded-full h-10 w-10 lg:h-20 lg:w-20 bg-white"></div>
                                                 <p className="text-sm lg:text-2xl text-secondary-light">{capitalizeFirstLetter(game?.opponentTeam?.name || '')}</p>
                                             </div>
-                                            <p className="font-bold text-secondary-light text-sm lg:text-2xl"> {game.details ? ("64") : 0}</p>
+                                            <p className="font-bold text-secondary-light text-sm lg:text-2xl">
+                                                {game?.details?.matchDuration?.isMatchEnd || game?.details?.matchDuration?.isMatchStarted  ? _calculateTotalOfTeam(game.details.matchPlayers.opponentTeamRosters) : 0}
+                                            </p>
                                         </div>
                                     </div>
                                 )}
                         </div>
 
                         <div>
-                            <DarkButton
-                                label="Start Game"
-                                className="w-full lg:text-2xl lg:py-5"
-                                clickEvent={() => changeGameSate("startGameModal", {
-                                    isOpen: true,
-                                    title: "Select Games",
-                                    content: GAMES,
-                                    isDisabledButton: true
-                                })}
-                            />
+                            {games?.length && !games.find(game => game.details?.matchDuration?.isMatchStarted) && (
+                                <DarkButton
+                                    label="Start Game"
+                                    className="w-full lg:text-2xl lg:py-5"
+                                    clickEvent={() => {
+                                        return changeGameSate("startGameModal", {
+                                                isOpen: true,
+                                                title: "Select Games",
+                                                content: GAMES,
+                                                isDisabledButton: true
+                                            })
+                                    }}
+                                />
+                            )}
                             <DarkButton
                                 label="Add Game"
                                 className="w-full lg:text-2xl my-2 lg:py-5"

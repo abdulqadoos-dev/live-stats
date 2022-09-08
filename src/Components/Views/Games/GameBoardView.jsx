@@ -17,12 +17,13 @@ import plus from "../../../Media/icons/plus.svg";
 import minus from "../../../Media/icons/minus.svg";
 import Switch from "react-switch";
 import * as matchApi from "./../../../../src/state/apis/matchApi";
-import {numberOfHalf} from "../../../Services/Helper";
+import {_calculateTotalOfTeam, numberOfHalf} from "../../../Services/Helper";
 
 
 export default function GameBoardView({
                                           getMatchRequest,
                                           updateMatchRequest,
+                                          updateGameDetailsRequest,
                                           changeMatchState,
                                           match,
                                           stats,
@@ -33,26 +34,15 @@ export default function GameBoardView({
 
     useEffect(() => {
         if (!selectedGame?.id) return navigate(TEAMS_PATH);
-        const promise = getMatchRequest(selectedGame.id, navigate)
-        promise.then((result) => {
-            if (result?.data?.matches[0]) {
-                let arr = {...result.data.matches[0]}
-                arr.game = selectedGame
-                changeMatchState("match", arr)
-            } else {
-                navigate(TEAMS_PATH)
-            }
-        }).catch((error) => {
-            navigate(TEAMS_PATH)
-        });
+        changeMatchState("match", selectedGame.details)
     }, [])
 
     useEffect(() => {
-        match?.id && updateMatchRequest(match, navigate)
+        match?.gameId && updateGameDetailsRequest({details: match})
     }, [match])
 
-    const _handelEndGame = () => {
-        matchApi.endMatch(match.id, {homeEmail: stats.homeEmail, awayEmail: stats.awayEmail})
+    const _handelEndGame = (isClose = null) => {
+        !isClose && matchApi.endMatch(match.gameId, {homeEmail: stats.homeEmail, awayEmail: stats.awayEmail})
         changeMatchState("match", {
             ...match,
             matchDuration: {
@@ -64,15 +54,6 @@ export default function GameBoardView({
         })
     }
 
-    const _calculateTotalOfTeam = (rosters) => {
-        let total = 0;
-        rosters.filter(roster => {
-            if (roster.scores) {
-                roster.scores.map(score => total += score.total)
-            }
-        })
-        return total
-    }
 
     const _calculateTotalOfTeamHalf = (rosters, half) => {
         let total = 0;
@@ -267,10 +248,12 @@ export default function GameBoardView({
         <>
             <GameBoardHeader
                 match={match}
+                game={selectedGame}
                 numberOfHalf={numberOfHalf}
                 changeMatchState={changeMatchState}
                 calculateTeamHalf={_calculateTotalOfTeamHalf}
             />
+
 
             {match?.matchDuration.isMatchEnd && (
                 <DefaultModal
@@ -279,6 +262,7 @@ export default function GameBoardView({
                     buttonLabel="Done"
                     isDisabledButton={!stats?.homeEmail && !stats?.awayEmail}
                     clickEvent={stats?.homeEmail && stats?.awayEmail ? _handelEndGame : null}
+                    closeEvent={() => _handelEndGame(true)}
                 >
                     <div className="mt-2">
 

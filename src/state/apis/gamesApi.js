@@ -9,6 +9,14 @@ export const createGame = (formData) => {
     return api.post('/game/create', formData)
 }
 
+export const updateGame = (formData) => {
+    return api.put(`/game/update/${formData.id}`, formData)
+}
+
+export const updateGameDetails = (formData) => {
+    return api.put(`/game/update/${formData.details.gameId}/details`, formData)
+}
+
 export const verifyGameScheduleTime = (formData) => {
     return api.post('/games/verify-schedule-time', formData)
 }

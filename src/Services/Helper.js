@@ -16,3 +16,13 @@ export const numberOfHalf = [
     {label: 4, value: FOURTH_HALF, time: time.setSeconds(timeInSec)}
 ]
 
+export const _calculateTotalOfTeam = (rosters) => {
+    let total = 0;
+    rosters.filter(roster => {
+        if (roster.scores) {
+            roster.scores.map(score => total += score.total)
+        }
+    })
+    return total
+}
+

@@ -75,6 +75,27 @@ export const createGameRequest = (formData, navigate) => {
     }
 }
 
+
+
+export const updateGameDetailsRequest = (formData, navigate = null) => {
+
+    return (dispatch) => {
+        dispatch(requestStart());
+        const promise = gamesApi.updateGameDetails(formData)
+        promise.then((result) => {
+            dispatch({type: GETTING_GAMES_SUCCESS, ...result.data})
+            navigate && navigate(GAMES_PATH)
+        }).catch((error) => {
+            if(error.status === 400){
+                dispatch({type: GETTING_GAMES_FAILED, error: Object.values(error.data?.validationResults || {}).join('; ')});
+            }else {
+                dispatch({type: GETTING_GAMES_FAILED, error: "Request Failed Try again!"});
+            }
+        });
+        return promise
+    }
+}
+
 export const verifyScheduleTime = (formData) => {
     return gamesApi.verifyGameScheduleTime(formData)
 }

@@ -79,13 +79,13 @@ const GameForm = ({createGamesRequest, formData, error}) => {
 
             <Wrapper>
                 <div className="mx-2">
-                    <Breadcrumbs/>
+                    <Breadcrumbs currentPage="Create Game"/>
                     <PageMainNavigation
                         heading="Create Games"
                     />
-                    <main className="grid grid-cols-1 lg:grid-cols-1 w-full my-5 gap-10 justify-items-center">
-                        <div className="w-full max-w-2xl">
-                            <div className="md:flex md:items-center mb-6">
+                    <main className="grid grid-cols-3 gap-x-3 mt-2">
+                        <div className="md:col-span-2 col-span-3">
+                            <div className="md:flex md:items-center mb-2">
                                 <div className="md:w-full">
                                     <select
                                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -101,7 +101,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     </select>
                                 </div>
                             </div>
-                            <div className="md:flex md:items-center mb-6">
+                            <div className="md:flex md:items-center mb-2">
                                 <div className="md:w-9/12 mr-1 my-1">
                                     <input
                                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -118,7 +118,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                         className="bg-gray-200 border-2 border-gray-200 rounded w-full text-gray-700 leading-tight">
                                         <div
                                             // Set the inline style because class css is not working
-                                            className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
+                                            className={`border-2 rounded w-6/12 py-2 text-center text-gray-700 inline-block`}
                                             onClick={() => _setPlayGround(playGroundsHome)}
                                             style={{
                                                 backgroundColor: formState.mainTeamPlayGround === playGroundsHome ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
@@ -129,7 +129,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                         </div>
                                         <div
                                             // Set the inline style because class css is not working
-                                            className={`border-2 rounded w-6/12 py-2 px-4 text-gray-700 inline-block`}
+                                            className={`border-2 rounded w-6/12 py-2 text-center text-gray-700 inline-block`}
                                             onClick={() => _setPlayGround(playGroundsAway)}
                                             style={{
                                                 backgroundColor: formState.mainTeamPlayGround === playGroundsAway ? 'rgb(243 244 246)' : 'rgb(229 231 235)',
@@ -141,7 +141,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="md:flex md:items-center mb-6">
+                            <div className="md:flex md:items-center mb-2">
                                 <div className="md:w-full">
                                     <input
                                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -157,7 +157,7 @@ const GameForm = ({createGamesRequest, formData, error}) => {
                                     />
                                 </div>
                             </div>
-                            <div className="md:flex md:items-center mb-6">
+                            <div className="md:flex md:items-center mb-2">
                                 <div className="md:w-full">
                                     <PrimaryButton
                                         label="Done"

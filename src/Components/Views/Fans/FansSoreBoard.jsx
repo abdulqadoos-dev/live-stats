@@ -105,6 +105,7 @@ const FansSoreBoard = ({
         <>
             <GameBoardHeader
                 match={match}
+                game={selectedGame}
                 numberOfHalf={numberOfHalf}
                 changeMatchState={changeMatchState}
                 calculateTeamHalf={_calculateTotalOfTeamHalf}

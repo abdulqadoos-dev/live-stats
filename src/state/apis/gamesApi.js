@@ -14,7 +14,7 @@ export const updateGame = (formData) => {
 }
 
 export const updateGameDetails = (formData) => {
-    return api.put(`/game/update/${formData.id}/details`, {details:formData.details})
+    return api.put(`/game/update/${formData.id || formData.details.gameId}/details`, {details:formData.details})
 }
 
 export const verifyGameScheduleTime = (formData) => {

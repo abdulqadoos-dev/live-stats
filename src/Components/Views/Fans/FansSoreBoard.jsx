@@ -31,8 +31,8 @@ const FansSoreBoard = ({
         const promise = getMatchRequest(selectedGame.id, navigate)
         const socket = io.connect(process.env.REACT_APP_SERVER_PATH);
         promise.then((result) => {
-            if (result?.data?.matches[0]) {
-                let arr = {...result.data.matches[0]}
+            if (result?.data?.game) {
+                let arr = {...result.data.game.details}
                 arr.game = selectedGame
                 changeMatchState("match", arr)
                 socket.on("broadcast_game_"+selectedGame.id, data => {

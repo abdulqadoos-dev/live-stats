@@ -28,3 +28,7 @@ export const getAllTeams = () => {
 export const getGamesBySportId = (sportId) => {
     return api.get('/games/sport/'+sportId);
 }
+
+export const getGameById = (id) => {
+    return api.get('/game/'+id);
+}

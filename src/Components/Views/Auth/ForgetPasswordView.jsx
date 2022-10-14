@@ -136,17 +136,33 @@ export default function ForgetPasswordView(
                 {activeView === RESET_PASSWORD_VIEW && (
                     <>
                         <div className="flex flex-col gap-1 lg:gap-0.5 w-64">
-                            <input
-                                className={`px-4 py-3 outline-0 rounded-t-md ${validations && 'bg-rose-200 placeholder:text-rose-500'}`}
-                                type="password" name="password" placeholder="New Password"
-                                onChange={_handelInputChange}/>
 
                             <input
-                                className={`px-4 py-3 outline-0 rounded-b-md ${!passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`}
-                                type="password" name={CONFIRM_PASSWORD} placeholder="Confirm Password"
-                                onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)}/>
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                onChange={_handelInputChange}
+                                className={`px-4 py-3 outline-0 rounded-t-md ${validations?.password && ('')}`}
+                            />
 
-                            <DarkButton label="Change Password" disabled={!passwordMatched} isLoading={isLoading}
+                            <ValidationMessage
+                                message={validations?.password}
+                            />
+
+
+                            <input
+                                type="password"
+                                name={CONFIRM_PASSWORD}
+                                placeholder="Confirm Password"
+                                className={`px-4 py-3 outline-0 rounded-b-md ${passwordMatched && ''}`}
+                                onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)}
+                            />
+
+                            <ValidationMessage
+                                message={passwordMatched && "Password dose's matched"}
+                            />
+
+                            <DarkButton label="Change Password" disabled={passwordMatched} isLoading={isLoading}
                                         clickEvent={_handelChangePasswordSubmit} className="my-2"/>
                         </div>
 

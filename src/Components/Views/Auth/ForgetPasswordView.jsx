@@ -54,6 +54,7 @@ export default function ForgetPasswordView(
         changePasswordRequest(payload, navigate);
     }
 
+    console.log(signature)
 
     return (
         <BackgroundImage backgroundImage={AuthBackgroundImage}>

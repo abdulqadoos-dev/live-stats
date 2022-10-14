@@ -85,7 +85,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                 )}
                         </div>
                         <div className="md:col-span-1 col-span-3">
-                            {games?.length && !games.find(game => game.details?.matchDuration?.isMatchStarted) && (
+                            {games?.length ? !games.find(game => game.details?.matchDuration?.isMatchStarted) && (
                                 <DarkButton
                                     label="Start Game"
                                     className="w-full lg:text-2xl lg:py-5 mb-1"
@@ -98,7 +98,7 @@ const TeamsView = ({getGamesRequest, games, startGameModal, changeGameSate}) => 
                                             })
                                     }}
                                 />
-                            )}
+                            ) : null}
                             <DarkButton
                                 label="Add Game"
                                 className="w-full lg:text-2xl lg:py-5 mb-1"

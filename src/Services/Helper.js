@@ -1,6 +1,6 @@
 import {FIRST_HALF, FOURTH_HALF, MATCH_HALF, SECOND_HALF, THIRD_HALF} from "../state/constants/Constans";
 
-export const _matchPasswords = (password, confirmPassword, setState) => (password === confirmPassword ? setState(false) : setState(true));
+export const _matchPasswords = (password, confirmPassword, setState) => (password === confirmPassword ? setState(true) : setState(false));
 
 export const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);

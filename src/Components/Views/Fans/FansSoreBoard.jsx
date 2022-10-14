@@ -3,10 +3,12 @@ import Footer from "../../Ui/Footer";
 import GameBoardHeader from "../../Ui/GameBoardHeader";
 import Wrapper from "../../Ui/Form/Wrapper";
 import {
+    ASSIST,
     FANS_PATH,
     FIRST_HALF,
     FOURTH_HALF,
     MATCH_HALF,
+    REBOUND,
     SECOND_HALF,
     TEAMS_PATH,
     THIRD_HALF
@@ -31,8 +33,8 @@ const FansSoreBoard = ({
         const promise = getMatchRequest(selectedGame.id, navigate)
         const socket = io.connect(process.env.REACT_APP_SERVER_PATH);
         promise.then((result) => {
-            if (result?.data?.matches[0]) {
-                let arr = {...result.data.matches[0]}
+            if (result?.data?.game) {
+                let arr = {...result.data.game.details}
                 arr.game = selectedGame
                 changeMatchState("match", arr)
                 socket.on("broadcast_game_"+selectedGame.id, data => {
@@ -101,10 +103,14 @@ const FansSoreBoard = ({
         return activities
     }
 
+    const findActivitiCountofPlayer = (activities, key) => {
+        return activities.reduce((result, halfActivity) => result+halfActivity.activity.reduce((result2, activity) => (activity.name == key ? result2+1 : result2),0), 0)
+    }
     return (
         <>
             <GameBoardHeader
                 match={match}
+                game={selectedGame}
                 numberOfHalf={numberOfHalf}
                 changeMatchState={changeMatchState}
                 calculateTeamHalf={_calculateTotalOfTeamHalf}
@@ -155,9 +161,9 @@ const FansSoreBoard = ({
                                         <p>10</p>
                                         <p>5-7</p>
                                         <p>0-2</p>
-                                        <p>3</p>
-                                        <p>2</p>
-                                        <p>10</p>
+                                        <p>{findActivitiCountofPlayer(player.activities, REBOUND )}</p>
+                                        <p>{findActivitiCountofPlayer(player.activities, ASSIST )}</p>
+                                        <p>{player.scores.reduce((result, score) => result+score.total , 0)}</p>
                                     </div>
                                 ))
                             }
@@ -183,9 +189,9 @@ const FansSoreBoard = ({
                                         <p>10</p>
                                         <p>5-7</p>
                                         <p>0-2</p>
-                                        <p>3</p>
-                                        <p>2</p>
-                                        <p>10</p>
+                                        <p>{findActivitiCountofPlayer(player.activities, REBOUND )}</p>
+                                        <p>{findActivitiCountofPlayer(player.activities, ASSIST )}</p>
+                                        <p>{player.scores.reduce((result, score) => result+score.total , 0)}</p>
                                     </div>
                                 ))
                             }

@@ -51,7 +51,7 @@ export default function ForgetPasswordView(
 
     const _handelChangePasswordSubmit = () => {
         let payload = {...formData, signature: signature};
-        // changePasswordRequest(payload, navigate);
+        changePasswordRequest(payload, navigate);
     }
 
 
@@ -142,11 +142,11 @@ export default function ForgetPasswordView(
                                 onChange={_handelInputChange}/>
 
                             <input
-                                className={`px-4 py-3 outline-0 rounded-b-md ${passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`}
+                                className={`px-4 py-3 outline-0 rounded-b-md ${!passwordMatched && 'bg-rose-200 placeholder:text-rose-500'}`}
                                 type="password" name={CONFIRM_PASSWORD} placeholder="Confirm Password"
                                 onChange={(e) => _matchPasswords(formData.password, e.target.value, setPasswordMatched)}/>
 
-                            <DarkButton label="Change Password" disabled={passwordMatched} isLoading={isLoading}
+                            <DarkButton label="Change Password" disabled={!passwordMatched} isLoading={isLoading}
                                         clickEvent={_handelChangePasswordSubmit} className="my-2"/>
                         </div>
 

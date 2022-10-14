@@ -17,6 +17,7 @@ import plus from "../../../Media/icons/plus.svg";
 import minus from "../../../Media/icons/minus.svg";
 import Switch from "react-switch";
 import * as matchApi from "./../../../../src/state/apis/matchApi";
+import * as gameApi from "./../../../../src/state/apis/gamesApi";
 import {_calculateTotalOfTeam, numberOfHalf} from "../../../Services/Helper";
 
 
@@ -38,11 +39,11 @@ export default function GameBoardView({
     }, [])
 
     useEffect(() => {
-        match?.gameId && updateGameDetailsRequest({details: match})
+        selectedGame?.id && updateGameDetailsRequest({...selectedGame, details: match})
     }, [match])
 
     const _handelEndGame = (isClose = null) => {
-        !isClose && matchApi.endMatch(match.gameId, {homeEmail: stats.homeEmail, awayEmail: stats.awayEmail})
+        !isClose && gameApi.endGame(selectedGame.id, {homeEmail: stats.homeEmail, awayEmail: stats.awayEmail})
         changeMatchState("match", {
             ...match,
             matchDuration: {

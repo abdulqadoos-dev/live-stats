@@ -8,6 +8,7 @@ import {
     UPDATING_MATCH_SUCCESS
 } from "../constants/matchConstants";
 import * as matchApi from "../apis/matchApi";
+import * as gamesApi from "../apis/gamesApi";
 
 
 export const changeMatchState = (key, value) => ({
@@ -88,7 +89,8 @@ export const getMatchRequest = (id, navigate) => {
     return (dispatch) => {
 
         dispatch(requestStart());
-        const promise = matchApi.getMatchByGameId(id)
+        // const promise = matchApi.getMatchByGameId(id)
+        const promise = gamesApi.getGameById(id)
         promise.then((result) => {
             if (result?.data?.matches) {
                 dispatch({type: GETTING_MATCH_SUCCESS, matches: result.data.matches})

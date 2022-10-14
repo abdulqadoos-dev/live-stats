@@ -93,7 +93,7 @@ export const getMatchRequest = (id, navigate) => {
         const promise = gamesApi.getGameById(id)
         promise.then((result) => {
             if (result?.data?.matches) {
-                dispatch({type: GETTING_MATCH_SUCCESS, matches: result.data.matches})
+                dispatch({type: GETTING_MATCH_SUCCESS, matches: result.data.game.details})
             }
         }).catch((error) => {
             dispatch({type: GETTING_MATCH_FAILED, error: "Request Failed Try again!"});

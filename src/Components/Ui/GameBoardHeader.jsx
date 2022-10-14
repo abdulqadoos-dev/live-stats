@@ -47,18 +47,18 @@ export default function GameBoardHeader({match, game,changeMatchState, numberOfH
                         </div>
                         <div className="my-1 lg:my-3 gap-3 flex justify-center">
                             <span
-                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 1 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                                className={`p-1.5  ${match?.matchDetails?.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 1 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                             <span
-                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 2 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                                className={`p-1.5  ${match?.matchDetails?.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 2 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                             <span
-                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 3 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                                className={`p-1.5  ${match?.matchDetails?.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 3 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                             <span
-                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 4 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                                className={`p-1.5  ${match?.matchDetails?.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 4 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                             <span
-                                className={`p-1.5  ${match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 5 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
+                                className={`p-1.5  ${match?.matchDetails?.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).timeouts >= 5 ? "bg-yellow-300" : "bg-light"}  rounded-full`}/>
                         </div>
                         <div className="font-default">
-                            {match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonusPlus ? "Bonus +" : match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonus && "Bounce"}
+                            {match?.matchDetails?.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonusPlus ? "Bonus +" : match?.matchDetails.mainTeam.find(timeout => timeout.half === match.matchDetails.activeHalf).bonus && "Bounce"}
                         </div>
                     </div>
 
